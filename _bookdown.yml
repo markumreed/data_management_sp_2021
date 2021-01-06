@@ -1,0 +1,6 @@
+book_filename: "data_management"
+delete_merged_file: true
+language:
+  ui:
+    chapter_name: "Section "
+rmd_subdir: ['sql_notes']

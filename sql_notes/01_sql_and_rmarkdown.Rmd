@@ -1,0 +1,20 @@
+# Using SQL in R Markdown
+
+```{r setup}
+library(DBI)
+db = dbConnect(RSQLite::SQLite(), dbname ="oreilly_getting_started_with_sql/rexon_metals.db")
+knitr::opts_chunk$set(connection = "db")
+```
+
+First let's use the command line and git to grab the necessary data. We will be following @nield2016getting the data for this section can be found [here](https://github.com/thomasnield/oreilly_getting_started_with_sql.git). 
+
+
+```{bash}
+# git clone https://github.com/thomasnield/oreilly_getting_started_with_sql.git
+```
+
+```{sql connection=db}
+SELECT * FROM CUSTOMER;
+```
+
+
