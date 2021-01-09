@@ -1,0 +1,1768 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Section 34 Groupby | Data Management</title>
+  <meta name="description" content="You’ll learn how to get data, get it into the most useful structure, transform it, visualize it and model it. In this course, you will find a practicum of skills for data science. You’ll learn how to clean data and draw plots—and many other things besides. These are the skills that allow data science to happen, and here you will find the best practices for doing each of these things. You’ll learn how to use the grammar of graphics, literate programming, and reproducible research to save time. You’ll also learn how to manage cognitive resources to facilitate discoveries when wrangling, visualizing and exploring data. This is a three-credit hour course." />
+  <meta name="generator" content="bookdown 0.21.6 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Section 34 Groupby | Data Management" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="You’ll learn how to get data, get it into the most useful structure, transform it, visualize it and model it. In this course, you will find a practicum of skills for data science. You’ll learn how to clean data and draw plots—and many other things besides. These are the skills that allow data science to happen, and here you will find the best practices for doing each of these things. You’ll learn how to use the grammar of graphics, literate programming, and reproducible research to save time. You’ll also learn how to manage cognitive resources to facilitate discoveries when wrangling, visualizing and exploring data. This is a three-credit hour course." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Section 34 Groupby | Data Management" />
+  
+  <meta name="twitter:description" content="You’ll learn how to get data, get it into the most useful structure, transform it, visualize it and model it. In this course, you will find a practicum of skills for data science. You’ll learn how to clean data and draw plots—and many other things besides. These are the skills that allow data science to happen, and here you will find the best practices for doing each of these things. You’ll learn how to use the grammar of graphics, literate programming, and reproducible research to save time. You’ll also learn how to manage cognitive resources to facilitate discoveries when wrangling, visualizing and exploring data. This is a three-credit hour course." />
+  
+
+<meta name="author" content="Markum Reed" />
+
+
+<meta name="date" content="2021-01-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="grouping.html"/>
+<link rel="next" href="done-2.html"/>
+<script src="libs/header-attrs-2.6.4/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+yes
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Management</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="groupby" class="section level1" number="34">
+<h1><span class="header-section-number">Section 34</span> Groupby</h1>
+<ul>
+<li><code>.groupby</code> method allow syou to group rows of data together and call aggregate functions</li>
+</ul>
+<div class="sourceCode" id="cb833"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb833-1"><a href="groupby.html#cb833-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb833-2"><a href="groupby.html#cb833-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code></pre></div>
+<div class="sourceCode" id="cb834"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb834-1"><a href="groupby.html#cb834-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {<span class="st">&#39;school&#39;</span>: [<span class="st">&#39;HSU&#39;</span>, <span class="st">&#39;HSU&#39;</span>,<span class="st">&#39;HSU&#39;</span>, <span class="st">&#39;OBU&#39;</span>,<span class="st">&#39;OBU&#39;</span>,</span>
+<span id="cb834-2"><a href="groupby.html#cb834-2" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&#39;SIU&#39;</span>,<span class="st">&#39;SIU&#39;</span>, <span class="st">&#39;SEU&#39;</span>, <span class="st">&#39;SEU&#39;</span>],</span>
+<span id="cb834-3"><a href="groupby.html#cb834-3" aria-hidden="true" tabindex="-1"></a>       <span class="st">&#39;professor&#39;</span>: [<span class="st">&#39;Bob&#39;</span>,<span class="st">&#39;Jeff&#39;</span>,<span class="st">&#39;Angela&#39;</span>,<span class="st">&#39;Susan&#39;</span>,</span>
+<span id="cb834-4"><a href="groupby.html#cb834-4" aria-hidden="true" tabindex="-1"></a>                     <span class="st">&#39;Albert&#39;</span>,<span class="st">&#39;Zelda&#39;</span>,<span class="st">&#39;Alexa&#39;</span>,</span>
+<span id="cb834-5"><a href="groupby.html#cb834-5" aria-hidden="true" tabindex="-1"></a>                     <span class="st">&#39;Heather&#39;</span>,<span class="st">&#39;Rebecca&#39;</span>],</span>
+<span id="cb834-6"><a href="groupby.html#cb834-6" aria-hidden="true" tabindex="-1"></a>       <span class="st">&#39;publication&#39;</span>: [<span class="dv">10</span>,<span class="dv">2</span>,<span class="dv">30</span>,<span class="dv">25</span>,<span class="dv">0</span>,<span class="dv">80</span>,<span class="dv">4</span>,<span class="dv">30</span>,<span class="dv">15</span>]}</span>
+<span id="cb834-7"><a href="groupby.html#cb834-7" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data)</span></code></pre></div>
+<div class="sourceCode" id="cb835"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb835-1"><a href="groupby.html#cb835-1" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+school
+</th>
+<th>
+professor
+</th>
+<th>
+publication
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+HSU
+</td>
+<td>
+Bob
+</td>
+<td>
+10
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+HSU
+</td>
+<td>
+Jeff
+</td>
+<td>
+2
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+HSU
+</td>
+<td>
+Angela
+</td>
+<td>
+30
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<td>
+OBU
+</td>
+<td>
+Susan
+</td>
+<td>
+25
+</td>
+</tr>
+<tr>
+<th>
+4
+</th>
+<td>
+OBU
+</td>
+<td>
+Albert
+</td>
+<td>
+0
+</td>
+</tr>
+<tr>
+<th>
+5
+</th>
+<td>
+SIU
+</td>
+<td>
+Zelda
+</td>
+<td>
+80
+</td>
+</tr>
+<tr>
+<th>
+6
+</th>
+<td>
+SIU
+</td>
+<td>
+Alexa
+</td>
+<td>
+4
+</td>
+</tr>
+<tr>
+<th>
+7
+</th>
+<td>
+SEU
+</td>
+<td>
+Heather
+</td>
+<td>
+30
+</td>
+</tr>
+<tr>
+<th>
+8
+</th>
+<td>
+SEU
+</td>
+<td>
+Rebecca
+</td>
+<td>
+15
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="groupby-1" class="section level2" number="34.1">
+<h2><span class="header-section-number">34.1</span> groupby()</h2>
+<ul>
+<li>use the .groupby() method to group rows together based off of a column name</li>
+<li>Create a group based off of school</li>
+</ul>
+<div class="sourceCode" id="cb836"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb836-1"><a href="groupby.html#cb836-1" aria-hidden="true" tabindex="-1"></a>df.groupby(<span class="st">&#39;school&#39;</span>) <span class="co">#creates a DataFrameGroupBy object</span></span></code></pre></div>
+<pre><code>&lt;pandas.core.groupby.groupby.DataFrameGroupBy object at 0x119d4db00&gt;</code></pre>
+<div class="sourceCode" id="cb838"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb838-1"><a href="groupby.html#cb838-1" aria-hidden="true" tabindex="-1"></a>by_school <span class="op">=</span> df.groupby(<span class="st">&#39;school&#39;</span>)</span></code></pre></div>
+</div>
+<div id="groupby-and-aggregation-methods" class="section level2" number="34.2">
+<h2><span class="header-section-number">34.2</span> Groupby and Aggregation Methods</h2>
+<ul>
+<li>Use the aggregation methods on the grouped object</li>
+</ul>
+<div class="sourceCode" id="cb839"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb839-1"><a href="groupby.html#cb839-1" aria-hidden="true" tabindex="-1"></a>by_school.mean()</span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+publication
+</th>
+</tr>
+<tr>
+<th>
+school
+</th>
+<th>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+HSU
+</th>
+<td>
+14.0
+</td>
+</tr>
+<tr>
+<th>
+OBU
+</th>
+<td>
+12.5
+</td>
+</tr>
+<tr>
+<th>
+SEU
+</th>
+<td>
+22.5
+</td>
+</tr>
+<tr>
+<th>
+SIU
+</th>
+<td>
+42.0
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb840"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb840-1"><a href="groupby.html#cb840-1" aria-hidden="true" tabindex="-1"></a>df.groupby(<span class="st">&#39;school&#39;</span>).mean()</span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+publication
+</th>
+</tr>
+<tr>
+<th>
+school
+</th>
+<th>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+HSU
+</th>
+<td>
+14.0
+</td>
+</tr>
+<tr>
+<th>
+OBU
+</th>
+<td>
+12.5
+</td>
+</tr>
+<tr>
+<th>
+SEU
+</th>
+<td>
+22.5
+</td>
+</tr>
+<tr>
+<th>
+SIU
+</th>
+<td>
+42.0
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb841"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb841-1"><a href="groupby.html#cb841-1" aria-hidden="true" tabindex="-1"></a>by_school.std() <span class="co"># standard deviation</span></span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+publication
+</th>
+</tr>
+<tr>
+<th>
+school
+</th>
+<th>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+HSU
+</th>
+<td>
+14.422205
+</td>
+</tr>
+<tr>
+<th>
+OBU
+</th>
+<td>
+17.677670
+</td>
+</tr>
+<tr>
+<th>
+SEU
+</th>
+<td>
+10.606602
+</td>
+</tr>
+<tr>
+<th>
+SIU
+</th>
+<td>
+53.740115
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb842"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb842-1"><a href="groupby.html#cb842-1" aria-hidden="true" tabindex="-1"></a>by_school.<span class="bu">min</span>()</span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+professor
+</th>
+<th>
+publication
+</th>
+</tr>
+<tr>
+<th>
+school
+</th>
+<th>
+</th>
+<th>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+HSU
+</th>
+<td>
+Angela
+</td>
+<td>
+2
+</td>
+</tr>
+<tr>
+<th>
+OBU
+</th>
+<td>
+Albert
+</td>
+<td>
+0
+</td>
+</tr>
+<tr>
+<th>
+SEU
+</th>
+<td>
+Heather
+</td>
+<td>
+15
+</td>
+</tr>
+<tr>
+<th>
+SIU
+</th>
+<td>
+Alexa
+</td>
+<td>
+4
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb843"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb843-1"><a href="groupby.html#cb843-1" aria-hidden="true" tabindex="-1"></a>by_school.<span class="bu">max</span>()</span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+professor
+</th>
+<th>
+publication
+</th>
+</tr>
+<tr>
+<th>
+school
+</th>
+<th>
+</th>
+<th>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+HSU
+</th>
+<td>
+Jeff
+</td>
+<td>
+30
+</td>
+</tr>
+<tr>
+<th>
+OBU
+</th>
+<td>
+Susan
+</td>
+<td>
+25
+</td>
+</tr>
+<tr>
+<th>
+SEU
+</th>
+<td>
+Rebecca
+</td>
+<td>
+30
+</td>
+</tr>
+<tr>
+<th>
+SIU
+</th>
+<td>
+Zelda
+</td>
+<td>
+80
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb844"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb844-1"><a href="groupby.html#cb844-1" aria-hidden="true" tabindex="-1"></a>by_school.count()</span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+professor
+</th>
+<th>
+publication
+</th>
+</tr>
+<tr>
+<th>
+school
+</th>
+<th>
+</th>
+<th>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+HSU
+</th>
+<td>
+3
+</td>
+<td>
+3
+</td>
+</tr>
+<tr>
+<th>
+OBU
+</th>
+<td>
+2
+</td>
+<td>
+2
+</td>
+</tr>
+<tr>
+<th>
+SEU
+</th>
+<td>
+2
+</td>
+<td>
+2
+</td>
+</tr>
+<tr>
+<th>
+SIU
+</th>
+<td>
+2
+</td>
+<td>
+2
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="groupby-describe-method" class="section level2" number="34.3">
+<h2><span class="header-section-number">34.3</span> Groupby + describe method</h2>
+<div class="sourceCode" id="cb845"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb845-1"><a href="groupby.html#cb845-1" aria-hidden="true" tabindex="-1"></a>by_school.describe()</span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+
+    .dataframe thead tr:last-of-type th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr>
+<th>
+</th>
+<th colspan="8" halign="left">
+publication
+</th>
+</tr>
+<tr>
+<th>
+</th>
+<th>
+count
+</th>
+<th>
+mean
+</th>
+<th>
+std
+</th>
+<th>
+min
+</th>
+<th>
+25%
+</th>
+<th>
+50%
+</th>
+<th>
+75%
+</th>
+<th>
+max
+</th>
+</tr>
+<tr>
+<th>
+school
+</th>
+<th>
+</th>
+<th>
+</th>
+<th>
+</th>
+<th>
+</th>
+<th>
+</th>
+<th>
+</th>
+<th>
+</th>
+<th>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+HSU
+</th>
+<td>
+3.0
+</td>
+<td>
+14.0
+</td>
+<td>
+14.422205
+</td>
+<td>
+2.0
+</td>
+<td>
+6.00
+</td>
+<td>
+10.0
+</td>
+<td>
+20.00
+</td>
+<td>
+30.0
+</td>
+</tr>
+<tr>
+<th>
+OBU
+</th>
+<td>
+2.0
+</td>
+<td>
+12.5
+</td>
+<td>
+17.677670
+</td>
+<td>
+0.0
+</td>
+<td>
+6.25
+</td>
+<td>
+12.5
+</td>
+<td>
+18.75
+</td>
+<td>
+25.0
+</td>
+</tr>
+<tr>
+<th>
+SEU
+</th>
+<td>
+2.0
+</td>
+<td>
+22.5
+</td>
+<td>
+10.606602
+</td>
+<td>
+15.0
+</td>
+<td>
+18.75
+</td>
+<td>
+22.5
+</td>
+<td>
+26.25
+</td>
+<td>
+30.0
+</td>
+</tr>
+<tr>
+<th>
+SIU
+</th>
+<td>
+2.0
+</td>
+<td>
+42.0
+</td>
+<td>
+53.740115
+</td>
+<td>
+4.0
+</td>
+<td>
+23.00
+</td>
+<td>
+42.0
+</td>
+<td>
+61.00
+</td>
+<td>
+80.0
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="groupby-describe-method-1" class="section level2" number="34.4">
+<h2><span class="header-section-number">34.4</span> Groupby + describe method</h2>
+<div class="sourceCode" id="cb846"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb846-1"><a href="groupby.html#cb846-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(by_school.describe().transpose())</span></code></pre></div>
+<pre><code>pandas.core.frame.DataFrame</code></pre>
+</div>
+<div id="groupby-describe-method-multiple-numeric-values" class="section level2" number="34.5">
+<h2><span class="header-section-number">34.5</span> Groupby + describe method (multiple numeric values)</h2>
+<div class="sourceCode" id="cb848"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb848-1"><a href="groupby.html#cb848-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {<span class="st">&#39;school&#39;</span>: [<span class="st">&#39;HSU&#39;</span>, <span class="st">&#39;HSU&#39;</span>,<span class="st">&#39;HSU&#39;</span>, <span class="st">&#39;OBU&#39;</span>,<span class="st">&#39;OBU&#39;</span>,<span class="st">&#39;SIU&#39;</span>,<span class="st">&#39;SIU&#39;</span>, <span class="st">&#39;SEU&#39;</span>, <span class="st">&#39;SEU&#39;</span>],</span>
+<span id="cb848-2"><a href="groupby.html#cb848-2" aria-hidden="true" tabindex="-1"></a>       <span class="st">&#39;professor&#39;</span>: [<span class="st">&#39;Bob&#39;</span>,<span class="st">&#39;Jeff&#39;</span>,<span class="st">&#39;Angela&#39;</span>,<span class="st">&#39;Susan&#39;</span>,<span class="st">&#39;Albert&#39;</span>,<span class="st">&#39;Zelda&#39;</span>,<span class="st">&#39;Alexa&#39;</span>,<span class="st">&#39;Heather&#39;</span>,<span class="st">&#39;Rebecca&#39;</span>],</span>
+<span id="cb848-3"><a href="groupby.html#cb848-3" aria-hidden="true" tabindex="-1"></a>       <span class="st">&#39;publication&#39;</span>: [<span class="dv">10</span>,<span class="dv">2</span>,<span class="dv">30</span>,<span class="dv">25</span>,<span class="dv">0</span>,<span class="dv">80</span>,<span class="dv">4</span>,<span class="dv">30</span>,<span class="dv">15</span>],</span>
+<span id="cb848-4"><a href="groupby.html#cb848-4" aria-hidden="true" tabindex="-1"></a>       <span class="st">&#39;years&#39;</span>:[<span class="dv">2</span>,<span class="dv">8</span>,<span class="dv">14</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">25</span>,<span class="dv">7</span>,<span class="dv">2</span>,<span class="dv">5</span>]}</span>
+<span id="cb848-5"><a href="groupby.html#cb848-5" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data)</span></code></pre></div>
+<div class="sourceCode" id="cb849"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb849-1"><a href="groupby.html#cb849-1" aria-hidden="true" tabindex="-1"></a>df.groupby(<span class="st">&#39;school&#39;</span>).describe()</span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+
+    .dataframe thead tr:last-of-type th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr>
+<th>
+</th>
+<th colspan="8" halign="left">
+publication
+</th>
+<th colspan="8" halign="left">
+years
+</th>
+</tr>
+<tr>
+<th>
+</th>
+<th>
+count
+</th>
+<th>
+mean
+</th>
+<th>
+std
+</th>
+<th>
+min
+</th>
+<th>
+25%
+</th>
+<th>
+50%
+</th>
+<th>
+75%
+</th>
+<th>
+max
+</th>
+<th>
+count
+</th>
+<th>
+mean
+</th>
+<th>
+std
+</th>
+<th>
+min
+</th>
+<th>
+25%
+</th>
+<th>
+50%
+</th>
+<th>
+75%
+</th>
+<th>
+max
+</th>
+</tr>
+<tr>
+<th>
+school
+</th>
+<th>
+</th>
+<th>
+</th>
+<th>
+</th>
+<th>
+</th>
+<th>
+</th>
+<th>
+</th>
+<th>
+</th>
+<th>
+</th>
+<th>
+</th>
+<th>
+</th>
+<th>
+</th>
+<th>
+</th>
+<th>
+</th>
+<th>
+</th>
+<th>
+</th>
+<th>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+HSU
+</th>
+<td>
+3.0
+</td>
+<td>
+14.0
+</td>
+<td>
+14.422205
+</td>
+<td>
+2.0
+</td>
+<td>
+6.00
+</td>
+<td>
+10.0
+</td>
+<td>
+20.00
+</td>
+<td>
+30.0
+</td>
+<td>
+3.0
+</td>
+<td>
+8.0
+</td>
+<td>
+6.000000
+</td>
+<td>
+2.0
+</td>
+<td>
+5.00
+</td>
+<td>
+8.0
+</td>
+<td>
+11.00
+</td>
+<td>
+14.0
+</td>
+</tr>
+<tr>
+<th>
+OBU
+</th>
+<td>
+2.0
+</td>
+<td>
+12.5
+</td>
+<td>
+17.677670
+</td>
+<td>
+0.0
+</td>
+<td>
+6.25
+</td>
+<td>
+12.5
+</td>
+<td>
+18.75
+</td>
+<td>
+25.0
+</td>
+<td>
+2.0
+</td>
+<td>
+3.5
+</td>
+<td>
+0.707107
+</td>
+<td>
+3.0
+</td>
+<td>
+3.25
+</td>
+<td>
+3.5
+</td>
+<td>
+3.75
+</td>
+<td>
+4.0
+</td>
+</tr>
+<tr>
+<th>
+SEU
+</th>
+<td>
+2.0
+</td>
+<td>
+22.5
+</td>
+<td>
+10.606602
+</td>
+<td>
+15.0
+</td>
+<td>
+18.75
+</td>
+<td>
+22.5
+</td>
+<td>
+26.25
+</td>
+<td>
+30.0
+</td>
+<td>
+2.0
+</td>
+<td>
+3.5
+</td>
+<td>
+2.121320
+</td>
+<td>
+2.0
+</td>
+<td>
+2.75
+</td>
+<td>
+3.5
+</td>
+<td>
+4.25
+</td>
+<td>
+5.0
+</td>
+</tr>
+<tr>
+<th>
+SIU
+</th>
+<td>
+2.0
+</td>
+<td>
+42.0
+</td>
+<td>
+53.740115
+</td>
+<td>
+4.0
+</td>
+<td>
+23.00
+</td>
+<td>
+42.0
+</td>
+<td>
+61.00
+</td>
+<td>
+80.0
+</td>
+<td>
+2.0
+</td>
+<td>
+16.0
+</td>
+<td>
+12.727922
+</td>
+<td>
+7.0
+</td>
+<td>
+11.50
+</td>
+<td>
+16.0
+</td>
+<td>
+20.50
+</td>
+<td>
+25.0
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb850"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb850-1"><a href="groupby.html#cb850-1" aria-hidden="true" tabindex="-1"></a>df.groupby(<span class="st">&#39;school&#39;</span>).describe().transpose()</span></code></pre></div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+school
+</th>
+<th>
+HSU
+</th>
+<th>
+OBU
+</th>
+<th>
+SEU
+</th>
+<th>
+SIU
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th rowspan="8" valign="top">
+publication
+</th>
+<th>
+count
+</th>
+<td>
+3.000000
+</td>
+<td>
+2.000000
+</td>
+<td>
+2.000000
+</td>
+<td>
+2.000000
+</td>
+</tr>
+<tr>
+<th>
+mean
+</th>
+<td>
+14.000000
+</td>
+<td>
+12.500000
+</td>
+<td>
+22.500000
+</td>
+<td>
+42.000000
+</td>
+</tr>
+<tr>
+<th>
+std
+</th>
+<td>
+14.422205
+</td>
+<td>
+17.677670
+</td>
+<td>
+10.606602
+</td>
+<td>
+53.740115
+</td>
+</tr>
+<tr>
+<th>
+min
+</th>
+<td>
+2.000000
+</td>
+<td>
+0.000000
+</td>
+<td>
+15.000000
+</td>
+<td>
+4.000000
+</td>
+</tr>
+<tr>
+<th>
+25%
+</th>
+<td>
+6.000000
+</td>
+<td>
+6.250000
+</td>
+<td>
+18.750000
+</td>
+<td>
+23.000000
+</td>
+</tr>
+<tr>
+<th>
+50%
+</th>
+<td>
+10.000000
+</td>
+<td>
+12.500000
+</td>
+<td>
+22.500000
+</td>
+<td>
+42.000000
+</td>
+</tr>
+<tr>
+<th>
+75%
+</th>
+<td>
+20.000000
+</td>
+<td>
+18.750000
+</td>
+<td>
+26.250000
+</td>
+<td>
+61.000000
+</td>
+</tr>
+<tr>
+<th>
+max
+</th>
+<td>
+30.000000
+</td>
+<td>
+25.000000
+</td>
+<td>
+30.000000
+</td>
+<td>
+80.000000
+</td>
+</tr>
+<tr>
+<th rowspan="8" valign="top">
+years
+</th>
+<th>
+count
+</th>
+<td>
+3.000000
+</td>
+<td>
+2.000000
+</td>
+<td>
+2.000000
+</td>
+<td>
+2.000000
+</td>
+</tr>
+<tr>
+<th>
+mean
+</th>
+<td>
+8.000000
+</td>
+<td>
+3.500000
+</td>
+<td>
+3.500000
+</td>
+<td>
+16.000000
+</td>
+</tr>
+<tr>
+<th>
+std
+</th>
+<td>
+6.000000
+</td>
+<td>
+0.707107
+</td>
+<td>
+2.121320
+</td>
+<td>
+12.727922
+</td>
+</tr>
+<tr>
+<th>
+min
+</th>
+<td>
+2.000000
+</td>
+<td>
+3.000000
+</td>
+<td>
+2.000000
+</td>
+<td>
+7.000000
+</td>
+</tr>
+<tr>
+<th>
+25%
+</th>
+<td>
+5.000000
+</td>
+<td>
+3.250000
+</td>
+<td>
+2.750000
+</td>
+<td>
+11.500000
+</td>
+</tr>
+<tr>
+<th>
+50%
+</th>
+<td>
+8.000000
+</td>
+<td>
+3.500000
+</td>
+<td>
+3.500000
+</td>
+<td>
+16.000000
+</td>
+</tr>
+<tr>
+<th>
+75%
+</th>
+<td>
+11.000000
+</td>
+<td>
+3.750000
+</td>
+<td>
+4.250000
+</td>
+<td>
+20.500000
+</td>
+</tr>
+<tr>
+<th>
+max
+</th>
+<td>
+14.000000
+</td>
+<td>
+4.000000
+</td>
+<td>
+5.000000
+</td>
+<td>
+25.000000
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="grouping.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="done-2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["data_management.pdf", "data_management.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

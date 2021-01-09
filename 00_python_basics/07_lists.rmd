@@ -1,0 +1,1021 @@
+<a href="https://colab.research.google.com/github/SoIllEconomist/ds4b/blob/master/python_ds4b/python_basics/course_restart/lists.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+
+# Lists
+## List == Sequence
+
+- **list:** sequence of values
+- Values inside of lists are **elements** or **items**
+- There are several ways to create a new list;
+    - the simplest is to enclose the elements in square brackets `[]`
+
+
+```python
+[10,20,30,40] # list of 4 integers
+```
+
+
+
+
+    [10, 20, 30, 40]
+
+
+
+
+```python
+['Eli','Xu','Markum'] # list of 3 strings
+```
+
+
+
+
+    ['Eli', 'Xu', 'Markum']
+
+
+
+- Elements of a list do NOT have to be the same type:
+
+
+```python
+['string',2.0,5,[10,20], True] # list of string, float, integer, another list
+```
+
+
+
+
+    ['string', 2.0, 5, [10, 20], True]
+
+
+
+- A list within another list is **nested**
+
+A list that contains no items is an **empty list**
+
+
+```python
+[]
+```
+
+
+
+
+    []
+
+
+
+- You can assign values to variables
+
+
+```python
+people = ['Eli','Xu','Markum']
+numbers = [3,6,9]
+empty = []
+print(people, numbers, empty)
+```
+
+    ['Eli', 'Xu', 'Markum'] [3, 6, 9] []
+
+
+## Lists are Mutable
+- Syntax for accessing the elements of a list is the same as for accessing the characters of a string—the bracket operator.
+- The expression inside the brackets specifies the index. Remember that the indices start at 0:
+
+
+```python
+people[0]
+```
+
+
+
+
+    'Eli'
+
+
+
+
+```python
+pep = ['e','x','m',[0,'target']]
+```
+
+
+```python
+pep[3][1]
+```
+
+
+
+
+    'target'
+
+
+
+- Unlike strings, lists are mutable. When the bracket operator appears on the left side of an assignment, it identifies the element of the list that will be assigned.
+
+
+```python
+numbers = [10,20,30]
+```
+
+
+```python
+numbers[1] = 21
+```
+
+
+```python
+numbers
+```
+
+
+
+
+    [10, 21, 30]
+
+
+
+List indices work the same way as string indices:
+
+- Any integer expression can be used as an index.
+- If you try to read or write an element that does not exist, you get an `IndexError`.
+- If an index has a negative value, it counts backward from the end of the list.
+
+The `in` operator also works on lists:
+
+
+```python
+'Xu' in people
+```
+
+
+
+
+    True
+
+
+
+
+```python
+'Bob' in people
+```
+
+
+
+
+    False
+
+
+
+## Traversing a list
+
+The most common way to traverse the elements of a list is with a `for` loop. The syntax is the same as for strings:
+
+
+```python
+for p in people:
+    print('Hello, ', p)
+```
+
+    Hello,  Eli
+    Hello,  Xu
+    Hello,  Markum
+
+
+
+```python
+people
+```
+
+
+
+
+    ['Eli', 'Xu', 'Markum']
+
+
+
+
+```python
+for num in [1,2,3]:
+    num2 = num * 2
+    print(num2)
+```
+
+    2
+    4
+    6
+
+
+- This works well if you only need to read the elements of the list. 
+- But if you want to write or update the elements, you need the indices. 
+- A common way to do that is to combine the built-in functions `range` and `len`:
+
+
+```python
+numbers = [10, 20, 30]
+for i in range(len(numbers)):
+    numbers[i] = numbers[i] * 2
+```
+
+
+```python
+numbers
+```
+
+
+
+
+    [20, 40, 60]
+
+
+
+***How would we translate the above code into a function?***
+
+Call the function `double_it` that takes a list, `t`.
+
+
+```python
+def double_it(t):
+    """
+    double_it takes a list and doubles the
+    values inside.
+    
+    t: list
+    """
+    for i in range(len(t)):
+        t[i] = t[i] * 2
+    return t
+```
+
+
+```python
+double_it([1,2,3])
+```
+
+
+
+
+    [2, 4, 6]
+
+
+
+## List operations
+
+The `+` operator **concatenates** lists:
+
+
+```python
+a = [1,2,3]
+b = [4,5,6]
+c = a + b
+c
+```
+
+
+
+
+    [1, 2, 3, 4, 5, 6]
+
+
+
+The `*` operator **repeats** a list a given number of times:
+
+
+```python
+[0] * 6
+```
+
+
+
+
+    [0, 0, 0, 0, 0, 0]
+
+
+
+
+```python
+[1, 2, 3] * 3 # Waltz sequence
+```
+
+
+
+
+    [1, 2, 3, 1, 2, 3, 1, 2, 3]
+
+
+
+## List slices
+
+
+```python
+t = ['a', 'b', 'c', 'd', 'e', 'f']
+```
+
+
+```python
+t[1:3]
+```
+
+
+
+
+    ['b', 'c']
+
+
+
+
+```python
+t[:4]
+```
+
+
+
+
+    ['a', 'b', 'c', 'd']
+
+
+
+
+```python
+t[2:]
+```
+
+
+
+
+    ['c', 'd', 'e', 'f']
+
+
+
+
+```python
+t[:]
+```
+
+
+
+
+    ['a', 'b', 'c', 'd', 'e', 'f']
+
+
+
+A slice operator on the left side of an assignment can update multiple elements:
+
+
+```python
+t[1:3] = ['Change', 'This']
+```
+
+
+```python
+t
+```
+
+
+
+
+    [3, 'Change', 'This', 'test', 'test', 'test']
+
+
+
+## List methods
+Python provides methods that operate on lists. 
+- `append` adds a new element to the end of a list:
+
+
+```python
+t = ['a','b','c']
+t.append('d')
+```
+
+
+```python
+t
+```
+
+
+
+
+    ['a', 'b', 'c', 'd']
+
+
+
+`extend` takes a list as an argument and appends all of the elements:
+
+
+```python
+t1 = ['a','b','c']
+t2 = ['d','e']
+t1.extend(t2)
+```
+
+
+```python
+t1
+```
+
+
+
+
+    ['a', 'b', 'c', 'd', 'e']
+
+
+
+## Map, filter, reduce
+### Reduce
+An operation that combines a sequence of elements into a single value is called **reduce**.
+
+To add up all the number in a list, you can use a loop:
+
+
+```python
+def add_all(t):
+    total = 0
+    for x in t:
+        total += x
+    return total
+```
+
+
+```python
+add_all([1,2,3])
+```
+
+
+
+
+    6
+
+
+
+- total is initialized to 0. 
+- Each time through the loop, x gets one element from the list. 
+- The += operator provides a short way to update a variable. 
+
+```python
+    total += x
+```
+is equivalent to
+
+```python
+    total = total + x
+```
+
+Adding up the elements of a list is such a common operation that Python provides it as a built-in function, `sum`:
+
+
+```python
+t = [1,2,3]
+sum(t)
+```
+
+
+
+
+    6
+
+
+
+### Map
+
+Sometimes you want to traverse one list while building another. For example, the following function takes a list of strings and returns a new list that contains capitalized strings:
+
+
+```python
+def capitalize_all(t):
+    res = []
+    for s in t:
+        res.append(s.capitalize())
+    return res
+```
+
+
+```python
+capitalize_all(['this','is','neat'])
+```
+
+
+
+
+    ['This', 'Is', 'Neat']
+
+
+
+- res is initialized with an empty list; each time through the loop, we append the next element. 
+- An operation like capitalize_all is called a **map** because it “maps” a function onto each of the elements in a sequence.
+
+### Filter
+
+An operation to select some of the elements from a list and return a sublist. For example, the following function takes a list of strings and returns a list that contains only the uppercase strings:
+
+
+```python
+def only_upper(t):
+    res = []
+    for s in t:
+        if s.isupper():
+            res.append(s)
+    return res
+```
+
+
+```python
+only_upper(['A','b','C'])
+```
+
+
+
+
+    ['A', 'C']
+
+
+
+- `isupper` is a string method that returns `True` if the string contains only upper case letters.
+
+- An operation like only_upper is called a **filter** because it selects some of the elements and filters out the others.
+
+## Deleting Elements
+There are several ways to delete elements from a list. If you know the index of the element you want, you can use `pop`:
+
+
+```python
+t = ['a','b','c']
+x = t.pop(1)
+```
+
+
+```python
+t
+```
+
+
+
+
+    ['a', 'c']
+
+
+
+
+```python
+x
+```
+
+
+
+
+    'b'
+
+
+
+- `pop` modifies the list and returns the element that was removed. 
+- If you don’t provide an index, it deletes and returns the last element.
+
+If you don’t need the removed value, you can use the `del` operator:
+
+
+```python
+t = ['a','b','c']
+del t[1]
+```
+
+
+```python
+t
+```
+
+
+
+
+    ['a', 'c']
+
+
+
+If you know the element you want to remove (but not the index), you can use `remove`:
+
+
+```python
+t = ['a', 'b', 'c']
+t.remove('b')
+```
+
+
+```python
+t
+```
+
+
+
+
+    ['a', 'c']
+
+
+
+To remove more than one element, you can use `del` with a slice index:
+
+
+```python
+t = ['a', 'b', 'c', 'd', 'e', 'f']
+del t[1:5]
+```
+
+
+```python
+t
+```
+
+
+
+
+    ['a', 'f']
+
+
+
+## Lists and strings
+A string is a sequence of characters and a list is a sequence of values, but a list of characters is not the same as a string. To convert from a string to a list of characters, you can use `list`:
+
+
+
+
+```python
+test = 'test'
+t = list(test)
+```
+
+
+```python
+t
+```
+
+
+
+
+    ['t', 'e', 's', 't']
+
+
+
+- The `list` function breaks a string into individual letters. 
+- If you want to break a string into words, you can use the `split` method:
+
+
+```python
+test = 'this is a test'
+t = test.split()
+```
+
+
+```python
+t
+```
+
+
+
+
+    ['this', 'is', 'a', 'test']
+
+
+
+An optional argument called a **delimiter** specifies which characters to use as word boundaries. The following example uses a hyphen as a delimiter:
+
+
+```python
+hyp = 'H-E-L-L-O'
+t = hyp.split("-")
+```
+
+
+```python
+t
+```
+
+
+
+
+    ['H', 'E', 'L', 'L', 'O']
+
+
+
+- `join` is the inverse of `split`. 
+- It takes a list of strings and concatenates the elements. 
+- `join` is a string method, so you have to invoke it on the delimiter and pass the list as a parameter:
+
+
+```python
+t = ['H', 'E', 'L', 'L', 'O']
+'-'.join(t)
+```
+
+
+
+
+    'H-E-L-L-O'
+
+
+
+
+```python
+'&'.join(t)
+```
+
+
+
+
+    'H&E&L&L&O'
+
+
+
+
+```python
+' '.join(t)
+```
+
+
+
+
+    'H E L L O'
+
+
+
+## List arguments
+When you pass a list to a function, the function gets a reference to the list. If the function modifies the list, the caller sees the change. For example, delete_head removes the first element from a list:
+
+
+```python
+def delete_head(t):
+    del t[0]
+```
+
+The parameter t and the variable letters are aliases for the same object. 
+
+
+```python
+letters = list('abcd')
+letters
+```
+
+
+
+
+    ['a', 'b', 'c', 'd']
+
+
+
+
+```python
+delete_head(letters)
+```
+
+
+```python
+letters
+```
+
+
+
+
+    ['b', 'c', 'd']
+
+
+
+It is important to distinguish between operations that modify lists and operations that create new lists. For example, the append method modifies a list, but the + operator creates a new list.
+
+
+```python
+t1 = [1, 2]
+t1.append(3)
+```
+
+
+```python
+t1
+```
+
+
+
+
+    [1, 2, 3]
+
+
+
+
+```python
+t2 # Returns None
+```
+
+The return value from append is `None`.
+
+
+```python
+t3 = t1 + [4]
+t1
+```
+
+
+
+
+    [1, 2, 3]
+
+
+
+
+```python
+t3
+```
+
+
+
+
+    [1, 2, 3, 4]
+
+
+
+- The result of the operator is a new list, and the original list is unchanged.
+
+- This difference is important when you write functions that are supposed to modify lists. For example, this function does not delete the head of a list:
+
+
+```python
+def bad_delete_head(t):
+    t = t[1:]              # WRONG!
+```
+
+The slice operator creates a new list and the assignment makes t refer to it, but that doesn’t affect the caller.
+
+
+```python
+t4 = [1, 2, 3]
+bad_delete_head(t4)
+```
+
+
+```python
+t4
+```
+
+
+
+
+    [1, 2, 3]
+
+
+
+- At the beginning of bad_delete_head, t and t4 refer to the same list. At the end, t refers to a new list, but t4 still refers to the original, unmodified list.
+
+- An alternative is to write a function that creates and returns a new list. For example, tail returns all but the first element of a list:
+
+
+
+
+```python
+def tail(t):
+    return t[1:]
+```
+
+This function leaves the original list unmodified. Here’s how it is used:
+
+
+```python
+letters = ['a', 'b', 'c']
+rest = tail(letters)
+rest
+```
+
+
+
+
+    ['b', 'c']
+
+
+
+
+```python
+letters = list('abcdefghi')
+letters[::-1]
+```
+
+
+
+
+    ['i', 'h', 'g', 'f', 'e', 'd', 'c', 'b', 'a']
+
+
+
+
+```python
+x = [1,2,3]
+x[::-1]
+```
+
+
+
+
+    [3, 2, 1]
+
+
+
+## Debugging
+Careless use of lists can lead to long hours of debugging. 
+
+### Most list methods modify the argument and return `None`
+
+- This is the opposite of the string methods, which return a new string and leave the original alone.
+- If you are used to writing string code like this:
+
+```python
+word = word.strip()
+```
+It is tempting to write list code like this:
+
+```python
+t = t.sort()           # WRONG!
+```
+- Sort returns `None`, the next operation you perform with t is likely to fail.
+
+### Pick an idiom and stick with it
+
+Part of the problem with lists is that there are too many ways to do things. For example, to remove an element from a list, you can use `pop`, `remove`, `del`, or `slice`
+
+To add an element, you can use the append method or the `+` operator. Assuming that t is a list and x is a list element, 
+
+**These are correct:**
+
+```python
+t.append(x)
+t = t + [x]
+t += [x]
+```
+
+**And these are wrong:**
+
+```python
+t.append([x])          # WRONG!
+t = t.append(x)        # WRONG!
+t + [x]                # WRONG!
+t = t + x              # WRONG!
+```
+
+- Try out each of these examples to make sure you understand what they do. 
+
+- Notice that only the last one causes a runtime error; the other three are legal, but they do the wrong thing.
+
+### Make copies to avoid aliasing.
+
+If you want to use a method like sort that modifies the argument, but you need to keep the original list as well, you can make a copy.
+
+
+```python
+t = [3, 1, 2]
+t2 = t[:]
+t2.sort()
+```
+
+
+```python
+t
+```
+
+
+
+
+    [3, 1, 2]
+
+
+
+
+```python
+t2
+```
+
+
+
+
+    [1, 2, 3]
+
+
+
+In this example you could also use the built-in function sorted, which returns a new, sorted list and leaves the original alone.
+
+
+```python
+t2 = sorted(t)
+```
+
+
+```python
+t
+```
+
+
+
+
+    [3, 1, 2]
+
+
+
+
+```python
+t2
+```
+
+
+
+
+    [1, 2, 3]
+
+

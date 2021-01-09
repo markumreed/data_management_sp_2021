@@ -1,0 +1,54 @@
+# Introduction to the Shell
+In this section you’ll learn:
+
+- A practical definition of data science
+- What the command line is exactly and how you can use it
+- Why the command line is a wonderful environment for doing data science
+
+# Why Data Science at the Command Line?
+
+The command line has many great advantages that can really make you a more efficient and productive data scientist. Roughly grouping the advantages, the command line is: agile, augmenting, scalable, extensible, and ubiquitous.
+
+Define data science according to the following five steps: (1) obtaining data, (2) scrubbing data, (3) exploring data, (4) modeling data, and (5) interpreting data. Together, these steps form the OSEMN model (which is pronounced as awesome). 
+
+## Obtaining Data
+
+Without any data, there is little data science you can do. So the first step is the obtain data. Unless you are fortunate enough to already possess data, you may need to do one or more of the following:
+
+- Download data from another location (e.g., a webpage or server)
+- Query data from a database or API (e.g., MySQL or Twitter)
+- Extract data from another file (e.g., an HTML file or spreadsheet)
+- Generate data yourself (e.g., reading sensors or taking surveys)
+
+# Scrubbing Data
+
+It is not uncommon that the obtained data has missing values, inconsistencies, errors, weird characters, or uninteresting columns. In that case, you have to scrub, or clean, the data before you can do anything interesting with it. Common scrubbing operations include:
+
+- Filtering lines
+- Extracting certain columns
+- Replacing values
+- Extracting words
+- Handling missing values
+- Converting data from one format to another
+
+# Exploring Data
+
+Once you have scrubbed your data, you are ready to explore it. This is where it gets interesting because here you will get really into your data. You'll see how the command line can be used to:
+
+- Look at your data
+- Derive statistics from your data
+- Create interesting visualizations
+
+# Modeling Data
+
+If you want to explain the data or predict what will happen, you probably want to create a statistical model of your data. Techniques to create a model include clustering, classification, regression, and dimensionality reduction. The command line is not suitable for implementing a new model from scratch. It is, however, very useful to be able to build a model from the command line. 
+
+#  Interpreting Data
+
+The final and perhaps most important step in the OSEMN model is interpreting data. This step involves:
+
+- Drawing conclusions from your data
+- Evaluating what your results mean
+- Communicating your result
+
+To be honest, the computer is of little use here, and the command line does not really come into play at this stage. Once you have reached this step, it is up to you.

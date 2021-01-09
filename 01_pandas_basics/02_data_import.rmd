@@ -1,0 +1,383 @@
+<a href="https://colab.research.google.com/github/SoIllEconomist/ds4b/blob/master/python_ds4b/02_wrangle/02_data_import.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+
+# Data Import
+## Obtaining Data 
+
+Without any data, there is little data science you can do. So the first step is the obtain data. Unless you are fortunate enough to already possess data, you may need to do one or more of the following:
+
+- Download data from another location (e.g., a webpage or server)
+- Query data from a database or API (e.g., MySQL or Twitter)
+- Extract data from another file (e.g., an HTML file or spreadsheet)
+- Generate data yourself (e.g., reading sensors or taking surveys)
+
+## Importing Data with pandas
+Working with data provided by Python packages is a great way to learn the tools of data science, but at some point you want to stop learning and start working with your own data. In this chapter, you’ll learn how to read plain-text rectangular files into Python. Here, we’ll only scratch the surface of data import, but many of the principles will translate to other forms of data. We’ll finish with a few pointers to packages that are useful for other types of data.
+
+Importing data is one of the most essential and very first steps in any data related problem. The ability to import the data correctly is a must-have skill for every aspiring data scientist.
+
+Data exists in many different forms, and not only should you know how to import various data formats but also how to analyze and manipulate the data to gain useful insights.
+
+`pandas` is an open source Python library which is easy-to-use, provides high-performance, and a data analysis tool for various data formats.
+
+It gives you the capability to read various types of data formats like CSV, JSON, Excel, Pickle, etc. It allows you to represent your data in a row and column tabular fashion, which makes the data readable and presentable.
+
+`pandas` represent the data in a DataFrame form and provide you with extensive usage for data analysis and data manipulation. Once you start making sense out of the data using the various functionalities in pandas, you can then use this data for analyzing, forecasting, classifying, and more.
+
+`pandas` has an input and output API which has a set of top-level `reader` and `writer` functions. The reader function is accessed with `pandas.read_json()` that returns a pandas object, and the writer function is accessed with `pandas.to_json()` which is an object method.
+
+DataFrame has a `Reader` and a `Writer` function. The `Reader` function allows you to read the different data formats, while the `Writer` function enables you to save the data in a particular format.
+
+To get other types of data into Python, keep following the `pd.read_` syntax. Below are data formats that DataFrame supports, which means if your data is in any of the below forms, you can use pandas to load that data format and even write into a particular format.
+
+| Format Type | Data Description     | Reader         | Writer       |
+|-------------|----------------------|----------------|--------------|
+| text        | CSV                  | read_csv       | to_csv       |
+| text        | JSON                 | read_json      | to_json      |
+| text        | HTML                 | read_html      | to_html      |
+| text        | Local clipboard      | read_clipboard | to_clipboard |
+| binary      | MS Excel             | read_excel     | to_excel     |
+| binary      | OpenDocument         | read_excel     |              |
+| binary      | HDF5 Format          | read_hdf       | to_hdf       |
+| binary      | Feather Format       | read_feather   | to_feather   |
+| binary      | Parquet Format       | read_parquet   | to_parquet   |
+| binary      | Msgpack              | read_msgpack   | to_msgpack   |
+| binary      | Stata                | read_stata     | to_stata     |
+| binary      | SAS                  | read_sas       |              |
+| binary      | Python Pickle Format | read_pickle    | to_pickle    |
+| SQL         | SQL                  | read_sql       | to_sql       |
+| SQL         | Google Big Query     | read_gbq       | to_gbq       |
+
+### Prerequisites
+In this chapter, you’ll learn how to load flat files in Python with the `pandas` package.
+
+
+
+```
+import pandas as pd
+```
+
+## Getting started
+
+Most of `pandas.read_` functions are concerned with turning files into dataframes. These functions all have similar syntax: once you’ve mastered one, you can use the others with ease. For the rest of this chapter we’ll focus on `pandas.read_csv()`. Not only are csv files one of the most common forms of data storage, but once you understand `pandas.read_csv()`, you can easily apply your knowledge to all the other functions
+
+- `pd.read_csv()` reads comma delimited files, by changes the `sep` argument it also reads semicolon separated files (common in countries where `,` is used as the decimal place), reads tab delimited files, and reads in files with any delimiter.
+
+The first argument to read_csv() is the most important: it’s the path to the file to read.
+
+
+```
+df = pd.read_csv("heights.csv",)
+```
+
+
+```
+df.head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>earn</th>
+      <th>height</th>
+      <th>sex</th>
+      <th>ed</th>
+      <th>age</th>
+      <th>race</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>50000.0</td>
+      <td>74.424439</td>
+      <td>male</td>
+      <td>16</td>
+      <td>45</td>
+      <td>white</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>60000.0</td>
+      <td>65.537543</td>
+      <td>female</td>
+      <td>16</td>
+      <td>58</td>
+      <td>white</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>30000.0</td>
+      <td>63.629198</td>
+      <td>female</td>
+      <td>16</td>
+      <td>29</td>
+      <td>white</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>50000.0</td>
+      <td>63.108562</td>
+      <td>female</td>
+      <td>16</td>
+      <td>91</td>
+      <td>other</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>51000.0</td>
+      <td>63.402484</td>
+      <td>female</td>
+      <td>17</td>
+      <td>39</td>
+      <td>white</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+`read_csv()` uses the first line of the data for the column names, which is a very common convention. There are two cases where you might want to tweak this behaviour:
+
+1. Sometimes there are a few lines of metadata at the top of the file. You can use `skiprows = n` to skip the first `n` lines; or use `comment = "#"` to drop all lines that start with (e.g.) `#`
+
+1. The data might not have column names. You can use `header = None` to tell `read_csv()` not to treat the first row as headings, and instead label them sequentially from 0 to n:
+
+
+```
+pd.read_csv("heights.csv", header=None)
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>earn</td>
+      <td>height</td>
+      <td>sex</td>
+      <td>ed</td>
+      <td>age</td>
+      <td>race</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>50000.0</td>
+      <td>74.4244387818035</td>
+      <td>male</td>
+      <td>16</td>
+      <td>45</td>
+      <td>white</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>60000.0</td>
+      <td>65.5375428255647</td>
+      <td>female</td>
+      <td>16</td>
+      <td>58</td>
+      <td>white</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>30000.0</td>
+      <td>63.6291977374349</td>
+      <td>female</td>
+      <td>16</td>
+      <td>29</td>
+      <td>white</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>50000.0</td>
+      <td>63.108561675297096</td>
+      <td>female</td>
+      <td>16</td>
+      <td>91</td>
+      <td>other</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1188</th>
+      <td>19000.0</td>
+      <td>72.1657330563758</td>
+      <td>male</td>
+      <td>12</td>
+      <td>29</td>
+      <td>white</td>
+    </tr>
+    <tr>
+      <th>1189</th>
+      <td>15000.0</td>
+      <td>61.135799531126395</td>
+      <td>female</td>
+      <td>18</td>
+      <td>82</td>
+      <td>white</td>
+    </tr>
+    <tr>
+      <th>1190</th>
+      <td>8000.0</td>
+      <td>63.6641635315027</td>
+      <td>female</td>
+      <td>12</td>
+      <td>33</td>
+      <td>white</td>
+    </tr>
+    <tr>
+      <th>1191</th>
+      <td>60000.0</td>
+      <td>71.9258358024526</td>
+      <td>male</td>
+      <td>12</td>
+      <td>50</td>
+      <td>white</td>
+    </tr>
+    <tr>
+      <th>1192</th>
+      <td>6000.0</td>
+      <td>68.3684862144291</td>
+      <td>male</td>
+      <td>12</td>
+      <td>27</td>
+      <td>white</td>
+    </tr>
+  </tbody>
+</table>
+<p>1193 rows × 6 columns</p>
+</div>
+
+
+
+You can pass `names` a list of strings which will be used as the column names:
+
+
+```
+
+```
+
+Another option that commonly needs tweaking is `na_values`: this specifies the value (or values) that are used to represent missing values in your file:
+
+
+```
+pd.read_csv()
+```
+
+### Exercises
+1. What function would you use to read a file where fields were separated with
+“|”?
+1. Apart from those mentioned in this chapter, what other arguments does `read_csv()` have?
+1. Import the following files using the correct `pd.read_` syntax.
+  1. 
+  1. 
+  1. 
+  1. 
+  1. 
+  
+
+## Parsing a list
+
+
+```
+
+```
+
+## Numbers
+
+
+```
+
+```
+
+## Strings
+
+
+```
+
+```
+
+## Categoricals in Pandas
+
+
+```
+
+```
+
+## Dates, date-times, and times
+
+
+```
+
+```
+
+### Exercises
+
+## Parsing a file
+
+### Strategy
+
+
+```
+
+```
+
+### Problems
+
+### Other Strategies
+
+## Writing to a file
+
+## Other types of data

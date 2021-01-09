@@ -1,0 +1,734 @@
+<a href="https://colab.research.google.com/github/SoIllEconomist/ds4b/blob/master/python_ds4b/02_wrangle/01_dataframes.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+
+# DataFrames
+## Introduction
+Throughout this book we work with DataFrames. A DataFrame is a two-dimensional data structure, i.e., data is aligned in a tabular fashion in rows and columns. Pandas DataFrame consists of three principal components, the data, rows, and columns.
+
+![DataFrame Anatomy](https://github.com/SoIllEconomist/ds4b/blob/master/python_ds4b/02_wrangle/dataframe_anatomy.png?raw=1)
+
+We will get a brief insight on all these basic operation which can be performed on Pandas DataFrame :
+
+1. Creating a DataFrame
+1. Dealing with Rows and Columns
+1. Indexing and Selecting Data
+1. Working with Missing Data
+1. Iterating over rows and columns
+
+In the real world, a Pandas DataFrame will be created by loading the datasets from existing storage, storage can be SQL Database, CSV file, and Excel file. Pandas DataFrame can be created from the lists, dictionary, and from a list of dictionary etc. Dataframe can be created in different ways here are some ways by which we create a dataframe:
+
+## Creating a dataframe using List:
+DataFrame can be created using a single list or a list of lists.
+
+
+```
+import pandas as pd
+```
+
+Create a list of strings
+
+
+```
+#@title Introducing Lists { display-mode: "form" }
+#@markdown This 4-minute video gives an overview of the key features of Booleans:
+from IPython.display import YouTubeVideo
+YouTubeVideo('BCN4PRoQnI4', width=600, height=400)
+```
+
+
+
+
+
+<iframe
+    width="600"
+    height="400"
+    src="https://www.youtube.com/embed/BCN4PRoQnI4"
+    frameborder="0"
+    allowfullscreen
+></iframe>
+
+
+
+
+
+```
+state_lst = ['California','Texas','New York','Florida','Illinois']
+```
+
+Call the DataFrame constructor on the list.
+
+
+```
+df = pd.DataFrame(state_lst)
+```
+
+
+```
+df
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>California</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Texas</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>New York</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Florida</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Illinois</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+## Creating DataFrame from dict of ndarray/lists: 
+To create DataFrame from dict of narray/list, all the narray must be of same length. If index is passed then the length index should be equal to the length of arrays. If no index is passed, then by default, index will be range(n) where n is the array length.
+
+Intialise dictionary of lists.
+
+
+```
+data = {'state':['California','Texas','New York','Florida','Illinois'],
+        'pop':[3833252,26448193,19651127,19552860,12882135],
+        'area': [423967,695662,141297,170312,149995]}
+```
+
+
+```
+#@title Introducing Dictionaries { display-mode: "form" }
+#@markdown This 3-minute video gives an overview of the key features of Booleans:
+from IPython.display import YouTubeVideo
+YouTubeVideo('1LRepvqzXzM', width=600, height=400)
+```
+
+
+
+
+
+<iframe
+    width="600"
+    height="400"
+    src="https://www.youtube.com/embed/1LRepvqzXzM"
+    frameborder="0"
+    allowfullscreen
+></iframe>
+
+
+
+
+
+```
+df = pd.DataFrame(data)
+```
+
+
+```
+df.set_index(keys='state', inplace=True)
+```
+
+
+```
+df
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pop</th>
+      <th>area</th>
+    </tr>
+    <tr>
+      <th>state</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>California</th>
+      <td>3833252</td>
+      <td>423967</td>
+    </tr>
+    <tr>
+      <th>Texas</th>
+      <td>26448193</td>
+      <td>695662</td>
+    </tr>
+    <tr>
+      <th>New York</th>
+      <td>19651127</td>
+      <td>141297</td>
+    </tr>
+    <tr>
+      <th>Florida</th>
+      <td>19552860</td>
+      <td>170312</td>
+    </tr>
+    <tr>
+      <th>Illinois</th>
+      <td>12882135</td>
+      <td>149995</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+## Dealing with Rows and Columns
+
+A Data frame is a two-dimensional data structure, i.e., data is aligned in a tabular fashion in rows and columns. We can perform basic operations on rows/columns like selecting, deleting, adding, and renaming.
+
+### Column Selection:
+The individual Series that make up the columns of the DataFrame can be accessed via dictionary-style indexing of the column name:
+
+
+```
+df['area']
+```
+
+
+
+
+    state_name
+    California    423967
+    Texas         695662
+    New York      141297
+    Florida       170312
+    Illinois      149995
+    Name: area, dtype: int64
+
+
+
+Equivalently, we can use attribute-style access with column names that are strings:
+
+
+```
+df.area
+```
+
+
+
+
+    state_name
+    California    423967
+    Texas         695662
+    New York      141297
+    Florida       170312
+    Illinois      149995
+    Name: area, dtype: int64
+
+
+
+Though this is a useful shorthand, keep in mind that it does not work for all cases! For example, if the column names are not strings, or if the column names conflict with methods of the DataFrame, this attribute-style access is not possible. For example, the DataFrame has a `pop()` method, so `data.pop` will point to this rather than the "pop" column:
+
+
+```
+df.pop is df['pop']
+```
+
+
+
+
+    False
+
+
+
+In particular, you should avoid the temptation to try column assignment via attribute (i.e., use `data['pop'] = z` rather than `data.pop = z`).
+
+Like with the Series objects discussed earlier, this dictionary-style syntax can also be used to modify the object, in this case adding a new column:
+
+
+```
+df['density'] = df['pop'] / df['area']
+```
+
+
+```
+df
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pop</th>
+      <th>area</th>
+      <th>density</th>
+    </tr>
+    <tr>
+      <th>state</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>California</th>
+      <td>3833252</td>
+      <td>423967</td>
+      <td>9.041392</td>
+    </tr>
+    <tr>
+      <th>Texas</th>
+      <td>26448193</td>
+      <td>695662</td>
+      <td>38.018740</td>
+    </tr>
+    <tr>
+      <th>New York</th>
+      <td>19651127</td>
+      <td>141297</td>
+      <td>139.076746</td>
+    </tr>
+    <tr>
+      <th>Florida</th>
+      <td>19552860</td>
+      <td>170312</td>
+      <td>114.806121</td>
+    </tr>
+    <tr>
+      <th>Illinois</th>
+      <td>12882135</td>
+      <td>149995</td>
+      <td>85.883763</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+## Select Multiple Columns
+
+
+
+
+```
+df[['density','area']]
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>density</th>
+      <th>area</th>
+    </tr>
+    <tr>
+      <th>state</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>California</th>
+      <td>9.041392</td>
+      <td>423967</td>
+    </tr>
+    <tr>
+      <th>Texas</th>
+      <td>38.018740</td>
+      <td>695662</td>
+    </tr>
+    <tr>
+      <th>New York</th>
+      <td>139.076746</td>
+      <td>141297</td>
+    </tr>
+    <tr>
+      <th>Florida</th>
+      <td>114.806121</td>
+      <td>170312</td>
+    </tr>
+    <tr>
+      <th>Illinois</th>
+      <td>85.883763</td>
+      <td>149995</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+## Row Selection: 
+Pandas provide a unique method to retrieve rows from a Data frame. `DataFrame.loc[]` method is used to retrieve rows from Pandas DataFrame. Rows can also be selected by passing integer location to an `iloc[]` function.
+
+
+```
+df.loc["California"]
+```
+
+
+
+
+    pop        3.833252e+06
+    area       4.239670e+05
+    density    9.041392e+00
+    Name: California, dtype: float64
+
+
+
+
+```
+df.loc["Texas"]
+```
+
+
+
+
+    pop        2.644819e+07
+    area       6.956620e+05
+    density    3.801874e+01
+    Name: Texas, dtype: float64
+
+
+
+## Indexing and Selecting Data
+
+Indexing in pandas means simply selecting particular rows and columns of data from a DataFrame. Indexing could mean selecting all the rows and some of the columns, some of the rows and all of the columns, or some of each of the rows and columns. Indexing can also be known as Subset Selection.
+
+### Indexing a Dataframe using indexing operator [] :
+Indexing operator is used to refer to the square brackets following an object. The `.loc` and `.iloc` indexers also use the indexing operator to make selections. In this indexing operator to refer to `df[]`.
+
+#### Selecting Single Columns
+In order to select a single column, we simply put the name of the column in-between the brackets
+
+
+```
+df['density']
+```
+
+
+
+
+    state
+    California      9.041392
+    Texas          38.018740
+    New York      139.076746
+    Florida       114.806121
+    Illinois       85.883763
+    Name: density, dtype: float64
+
+
+
+#### Selecting Multiple Columns
+
+
+```
+df[['area','density']]
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>area</th>
+      <th>density</th>
+    </tr>
+    <tr>
+      <th>state</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>California</th>
+      <td>423967</td>
+      <td>9.041392</td>
+    </tr>
+    <tr>
+      <th>Texas</th>
+      <td>695662</td>
+      <td>38.018740</td>
+    </tr>
+    <tr>
+      <th>New York</th>
+      <td>141297</td>
+      <td>139.076746</td>
+    </tr>
+    <tr>
+      <th>Florida</th>
+      <td>170312</td>
+      <td>114.806121</td>
+    </tr>
+    <tr>
+      <th>Illinois</th>
+      <td>149995</td>
+      <td>85.883763</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+### Indexing a DataFrame using .loc[ ] :
+This function selects data by the label of the rows and columns. The df.loc indexer selects data in a different way than just the indexing operator. It can select subsets of rows or columns. It can also simultaneously select subsets of rows and columns.
+
+#### Selecting a single row
+In order to select a single row using .loc[], we put a single row label in a .loc function.
+
+
+```
+df.loc["Florida"]
+```
+
+
+
+
+    pop        1.955286e+07
+    area       1.703120e+05
+    density    1.148061e+02
+    Name: Florida, dtype: float64
+
+
+
+#### Selecting multiple rows
+
+
+```
+df.loc[['Florida','Illinois']]
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pop</th>
+      <th>area</th>
+      <th>density</th>
+    </tr>
+    <tr>
+      <th>state</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Florida</th>
+      <td>19552860</td>
+      <td>170312</td>
+      <td>114.806121</td>
+    </tr>
+    <tr>
+      <th>Illinois</th>
+      <td>12882135</td>
+      <td>149995</td>
+      <td>85.883763</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+### Indexing a DataFrame using .iloc[ ] :
+This function allows us to retrieve rows and columns by position. In order to do that, we’ll need to specify the positions of the rows that we want, and the positions of the columns that we want as well. The df.iloc indexer is very similar to df.loc but only uses integer locations to make its selections.
+
+
+#### Selecting a single row
+In order to select a single row using `.iloc[]`, we can pass a single integer to `.iloc[]` function.
+
+
+```
+df.iloc[2]
+```
+
+
+
+
+    pop        1.965113e+07
+    area       1.412970e+05
+    density    1.390767e+02
+    Name: New York, dtype: float64
+
+
+
+#### Selecting multiple rows
+
+
+```
+df.iloc[[0,2]]
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pop</th>
+      <th>area</th>
+      <th>density</th>
+    </tr>
+    <tr>
+      <th>state</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>California</th>
+      <td>3833252</td>
+      <td>423967</td>
+      <td>9.041392</td>
+    </tr>
+    <tr>
+      <th>New York</th>
+      <td>19651127</td>
+      <td>141297</td>
+      <td>139.076746</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+[Next Section: Data Import](https://colab.research.google.com/github/SoIllEconomist/ds4b/blob/master/python_ds4b/02_wrangle/02_data_import.ipynb)

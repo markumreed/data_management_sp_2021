@@ -1,0 +1,461 @@
+<a href="https://colab.research.google.com/github/SoIllEconomist/ds4b/blob/master/python_ds4b/python_basics/course_restart/dictionaries.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+
+# Dictionaries
+A **dictionary** is like a list, but more general. In a list, the indices have to be integers; in a dictionary they can be (almost) any type.
+
+- A dictionary contains a collection of indices, which are called **keys**, and a collection of **values**
+
+- Each key is associated with a single value. 
+
+- The association of a key and a value is called a 
+**key-value pair**
+
+- Dictionaries represent a **mapping** from keys to values, so you can also say that each key “maps to” a value
+
+- The function `dict` creates a new dictionary with no items
+
+
+```python
+en2ch = dict()
+en2ch
+```
+
+
+
+
+    {}
+
+
+
+squiggly-brackets, `{}`, represent an empty dictionary. To add items to the dictionary, you can use square brackets:
+
+
+```python
+en2ch['one'] = 'yi'
+```
+
+- This line creates an item that maps from the key 'one' to the value 'yi'. 
+
+- If we print the dictionary again, we see a key-value pair with a colon between the key and value:
+
+
+```python
+en2ch
+```
+
+
+
+
+    {'one': 'yi'}
+
+
+
+This output format is also an input format. For example, you can create a new dictionary with three items:
+
+
+```python
+en2ch = {'one':'yi','two':'er','three':'san'}
+en2ch
+```
+
+
+
+
+    {'one': 'yi', 'two': 'er', 'three': 'san'}
+
+
+
+- The order of the key-value pairs might not be the same
+
+- If you type the same example on your computer, you might get a different result
+
+    - The order of items in a dictionary is unpredictable.
+- Not a problem since the elements of a dictionary are never indexed with integer indices
+- Instead, you use the keys to look up the corresponding values:
+
+
+```python
+en2ch['two']
+```
+
+
+
+
+    'er'
+
+
+
+- The key 'two' always maps to the value 'er' so the order of the items doesn’t matter.
+
+- If the key isn’t in the dictionary, you get an exception:
+
+
+```python
+en2ch['four']
+```
+
+
+    ---------------------------------------------------------------------------
+
+    KeyError                                  Traceback (most recent call last)
+
+    <ipython-input-14-bf386d070566> in <module>()
+    ----> 1 en2ch['four']
+    
+
+    KeyError: 'four'
+
+
+The `len` function works on dictionaries; it returns the number of key-value pairs:
+
+
+```python
+len(en2ch)
+```
+
+
+
+
+    3
+
+
+
+The `in` operator works on dictionaries; it tells you whether something appears as a **key** in the dictionary
+
+
+```python
+'one' in en2ch
+```
+
+
+
+
+    True
+
+
+
+
+```python
+'yi' in en2ch
+```
+
+
+
+
+    False
+
+
+
+To see whether something appears as a value in a dictionary, you can use the method `values`, which returns a collection of values, and then use the `in` operator:
+
+
+```python
+'yi' in en2ch.values()
+```
+
+
+
+
+    True
+
+
+
+
+```python
+en2ch.values()
+```
+
+
+
+
+    dict_values(['yi', 'er', 'san'])
+
+
+
+## Dictionary as a collection of counters
+Suppose you are given a string and you want to count how many times each letter appears. 
+
+- An advantage of a dictionary implementation is that we don’t have to know ahead of time which letters appear in the string and we only have to make room for the letters that do appear
+
+
+
+
+
+```python
+def alpha_count(s):
+    d = dict()
+    for c in s:
+        if c not in d:
+            d[c] = 1
+        else:
+            d[c] += 1
+    return d
+```
+
+- The first line of the function creates an empty dictionary. 
+- The for loop traverses the string. 
+    - Each time through the loop, if the character `c` is not in the dictionary, we create a new item with key `c` and the initial value 1 (since we have seen this letter once). 
+    - If `c` is already in the dictionary we increment `d[c]`
+
+
+```python
+h = alpha_count('the quick brown fox jumped over the lazy dog')
+```
+
+
+```python
+h
+```
+
+
+
+
+    {'t': 2,
+     'h': 2,
+     'e': 4,
+     ' ': 8,
+     'q': 1,
+     'u': 2,
+     'i': 1,
+     'c': 1,
+     'k': 1,
+     'b': 1,
+     'r': 2,
+     'o': 4,
+     'w': 1,
+     'n': 1,
+     'f': 1,
+     'x': 1,
+     'j': 1,
+     'm': 1,
+     'p': 1,
+     'd': 2,
+     'v': 1,
+     'l': 1,
+     'a': 1,
+     'z': 1,
+     'y': 1,
+     'g': 1}
+
+
+
+h indicates that the letters 't', 'h' appeared twice; 'e' appears four times; etc.
+
+Dictionaries have a method called get that takes a key and a default value. If the key appears in the dictionary, `get` returns the corresponding value; otherwise it returns the default value:
+
+
+```python
+h = alpha_count('a')
+h
+```
+
+
+
+
+    {'a': 1}
+
+
+
+
+```python
+h.get('a',0) # Find 'a', if not return 0
+```
+
+
+
+
+    1
+
+
+
+
+```python
+h.get('b',0)
+```
+
+
+
+
+    0
+
+
+
+#### Exercise
+
+Use `get` to write `alpha_count` more concisely. 
+
+```python
+def alpha_count(s):
+    d = dict()
+    for c in s:
+        if c not in d:
+            d[c] = 1
+        else:
+            d[c] += 1
+    return d
+```
+*Hint: You should be able to eliminate the `if` statement.*
+
+
+
+```python
+def alpha_count(s):
+    d = dict()
+    for c in s:
+        d[c] = d.get(c, 0) + 1
+    return d
+```
+
+
+```python
+alpha_count('carrot')
+```
+
+
+
+
+    {'c': 1, 'a': 1, 'r': 2, 'o': 1, 't': 1}
+
+
+
+## Looping and dictionaries
+
+If you use a dictionary in a `for` statement, it traverses the keys of the dictionary. For example, `print_count` prints each *key* and the corresponding *value*:
+
+
+
+
+```python
+def print_count(h):
+    for k in h:
+        print(k, h[k])
+```
+
+
+```python
+h = alpha_count('parrot')
+h
+```
+
+
+
+
+    {'p': 1, 'a': 1, 'r': 2, 'o': 1, 't': 1}
+
+
+
+
+```python
+print_count(h)
+```
+
+    p 1
+    a 1
+    r 2
+    o 1
+    t 1
+
+
+- The keys are in no particular order. To traverse the keys in sorted order, you can use the built-in function `sorted`:
+
+
+```python
+for key in sorted(h):
+    print(key, h[key])
+```
+
+    a 1
+    o 1
+    p 1
+    r 2
+    t 1
+
+
+#### Exercise
+
+Use the `sorted` function to have `print_count` print a sorted dictionary. 
+
+```python
+def print_count(h):
+    for c in h:
+        print(c, h[c])
+```
+
+
+```python
+def print_count(h):
+    for c in sorted(h):
+        print(c, h[c])
+```
+
+
+```python
+h = alpha_count('Pparrot'.lower())
+print_count(h)
+```
+
+    a 1
+    o 1
+    p 2
+    r 2
+    t 1
+
+
+## Reverse Lookup
+
+Given a dictionary `d` and a key `k`, it is easy to find the corresponding value `v = d[k]`. This operation is called a **lookup**.
+
+But what if you have `v` and you want to find `k`?
+
+You have two problems: 
+1. There might be more than one key that maps to the value v. 
+2. There is no simple syntax to do a **reverse lookup**; you have to search.
+
+Here is a function that takes a value and returns the **first** key that maps to that value:
+
+
+```python
+def reverse_lookup(d, v):
+    for k in d:
+        if d[k] == v:
+            return k
+    raise LookupError('value does not appear in the dictionary')
+```
+
+
+```python
+h
+```
+
+
+
+
+    {'p': 1, 'a': 1, 'r': 2, 'o': 1, 't': 1}
+
+
+
+
+```python
+reverse_lookup(h,2)
+```
+
+
+
+
+    'r'
+
+
+
+
+```python
+reverse_lookup(h,1)
+```
+
+
+
+
+    'p'
+
+
+
+A reverse lookup is much slower than a forward lookup; if you have to do it often, or if the dictionary gets big, the performance of your program will suffer.

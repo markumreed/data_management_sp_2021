@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Section 36 Reshaping | Data Management</title>
+  <meta name="description" content="You’ll learn how to get data, get it into the most useful structure, transform it, visualize it and model it. In this course, you will find a practicum of skills for data science. You’ll learn how to clean data and draw plots—and many other things besides. These are the skills that allow data science to happen, and here you will find the best practices for doing each of these things. You’ll learn how to use the grammar of graphics, literate programming, and reproducible research to save time. You’ll also learn how to manage cognitive resources to facilitate discoveries when wrangling, visualizing and exploring data. This is a three-credit hour course." />
+  <meta name="generator" content="bookdown 0.21.6 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Section 36 Reshaping | Data Management" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="You’ll learn how to get data, get it into the most useful structure, transform it, visualize it and model it. In this course, you will find a practicum of skills for data science. You’ll learn how to clean data and draw plots—and many other things besides. These are the skills that allow data science to happen, and here you will find the best practices for doing each of these things. You’ll learn how to use the grammar of graphics, literate programming, and reproducible research to save time. You’ll also learn how to manage cognitive resources to facilitate discoveries when wrangling, visualizing and exploring data. This is a three-credit hour course." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Section 36 Reshaping | Data Management" />
+  
+  <meta name="twitter:description" content="You’ll learn how to get data, get it into the most useful structure, transform it, visualize it and model it. In this course, you will find a practicum of skills for data science. You’ll learn how to clean data and draw plots—and many other things besides. These are the skills that allow data science to happen, and here you will find the best practices for doing each of these things. You’ll learn how to use the grammar of graphics, literate programming, and reproducible research to save time. You’ll also learn how to manage cognitive resources to facilitate discoveries when wrangling, visualizing and exploring data. This is a three-credit hour course." />
+  
+
+<meta name="author" content="Markum Reed" />
+
+
+<meta name="date" content="2021-01-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="done-2.html"/>
+<link rel="next" href="pivot-tables.html"/>
+<script src="libs/header-attrs-2.6.4/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+true
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Management</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="reshaping" class="section level1" number="36">
+<h1><span class="header-section-number">Section 36</span> Reshaping</h1>
+<div id="stack" class="section level2" number="36.1">
+<h2><span class="header-section-number">36.1</span> Stack</h2>
+<div class="sourceCode" id="cb851"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb851-1"><a href="reshaping.html#cb851-1" aria-hidden="true" tabindex="-1"></a>tuples <span class="op">=</span> <span class="bu">list</span>(<span class="bu">zip</span>(<span class="op">*</span>[[<span class="st">&#39;bar&#39;</span>, <span class="st">&#39;bar&#39;</span>, <span class="st">&#39;baz&#39;</span>, <span class="st">&#39;baz&#39;</span>, </span>
+<span id="cb851-2"><a href="reshaping.html#cb851-2" aria-hidden="true" tabindex="-1"></a>                     <span class="st">&#39;foo&#39;</span>, <span class="st">&#39;foo&#39;</span>, <span class="st">&#39;qux&#39;</span>, <span class="st">&#39;qux&#39;</span>],</span>
+<span id="cb851-3"><a href="reshaping.html#cb851-3" aria-hidden="true" tabindex="-1"></a>                    [<span class="st">&#39;one&#39;</span>, <span class="st">&#39;two&#39;</span>, <span class="st">&#39;one&#39;</span>, <span class="st">&#39;two&#39;</span>,</span>
+<span id="cb851-4"><a href="reshaping.html#cb851-4" aria-hidden="true" tabindex="-1"></a>                     <span class="st">&#39;one&#39;</span>, <span class="st">&#39;two&#39;</span>, <span class="st">&#39;one&#39;</span>, <span class="st">&#39;two&#39;</span>]])) </span></code></pre></div>
+<div class="sourceCode" id="cb852"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb852-1"><a href="reshaping.html#cb852-1" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> pd.MultiIndex.from_tuples(tuples, names<span class="op">=</span>[<span class="st">&#39;first&#39;</span>, <span class="st">&#39;second&#39;</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb853"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb853-1"><a href="reshaping.html#cb853-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(np.random.randn(<span class="dv">8</span>, <span class="dv">2</span>), index<span class="op">=</span>index, columns<span class="op">=</span>[<span class="st">&#39;A&#39;</span>, <span class="st">&#39;B&#39;</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb854"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb854-1"><a href="reshaping.html#cb854-1" aria-hidden="true" tabindex="-1"></a>df2 <span class="op">=</span> df[:<span class="dv">4</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb855"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb855-1"><a href="reshaping.html#cb855-1" aria-hidden="true" tabindex="-1"></a>df2</span></code></pre></div>
+<p>The <code>stack()</code> method “compresses” a level in the DataFrame’s columns.</p>
+<div class="sourceCode" id="cb856"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb856-1"><a href="reshaping.html#cb856-1" aria-hidden="true" tabindex="-1"></a>stacked <span class="op">=</span> df2.stack()</span></code></pre></div>
+<div class="sourceCode" id="cb857"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb857-1"><a href="reshaping.html#cb857-1" aria-hidden="true" tabindex="-1"></a>stacked</span></code></pre></div>
+<p>With a “stacked” DataFrame or Series (having a MultiIndex as the index), the inverse operation of stack() is unstack(), which by default unstacks the last level:</p>
+<div class="sourceCode" id="cb858"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb858-1"><a href="reshaping.html#cb858-1" aria-hidden="true" tabindex="-1"></a>stacked.unstack()</span></code></pre></div>
+<div class="sourceCode" id="cb859"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb859-1"><a href="reshaping.html#cb859-1" aria-hidden="true" tabindex="-1"></a>stacked.unstack(<span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb860"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb860-1"><a href="reshaping.html#cb860-1" aria-hidden="true" tabindex="-1"></a>stacked.unstack(<span class="dv">0</span>)</span>
+<span id="cb860-2"><a href="reshaping.html#cb860-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb860-3"><a href="reshaping.html#cb860-3" aria-hidden="true" tabindex="-1"></a><span class="co">## Creating New Columns</span></span></code></pre></div>
+<div class="sourceCode" id="cb861"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb861-1"><a href="reshaping.html#cb861-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">&#39;new&#39;</span>] <span class="op">=</span> df[<span class="st">&#39;A&#39;</span>] <span class="op">+</span> df[<span class="st">&#39;B&#39;</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb862"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb862-1"><a href="reshaping.html#cb862-1" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
+</div>
+<div id="removing-columns" class="section level2" number="36.2">
+<h2><span class="header-section-number">36.2</span> Removing Columns</h2>
+<div class="sourceCode" id="cb863"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb863-1"><a href="reshaping.html#cb863-1" aria-hidden="true" tabindex="-1"></a>df.drop(<span class="st">&#39;new&#39;</span>, axis<span class="op">=</span><span class="st">&#39;columns&#39;</span>) <span class="co"># could also use axis = 1</span></span></code></pre></div>
+<div class="sourceCode" id="cb864"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb864-1"><a href="reshaping.html#cb864-1" aria-hidden="true" tabindex="-1"></a>df <span class="co"># new is still there!!</span></span></code></pre></div>
+</div>
+<div id="removedrop-data-for-real" class="section level2" number="36.3">
+<h2><span class="header-section-number">36.3</span> Remove/Drop data (For real)</h2>
+<p>Use <code>inplace</code> to remove <strong>PERMENANTLY</strong></p>
+<div class="sourceCode" id="cb865"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb865-1"><a href="reshaping.html#cb865-1" aria-hidden="true" tabindex="-1"></a>df.drop(<span class="st">&#39;new&#39;</span>, axis<span class="op">=</span><span class="st">&#39;columns&#39;</span>, inplace<span class="op">=</span><span class="va">True</span>) </span></code></pre></div>
+</div>
+<div id="dropping-rows" class="section level2" number="36.4">
+<h2><span class="header-section-number">36.4</span> Dropping rows</h2>
+<p>Default drop is row (or use axis = 0)</p>
+<div class="sourceCode" id="cb866"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb866-1"><a href="reshaping.html#cb866-1" aria-hidden="true" tabindex="-1"></a>df.drop(<span class="st">&#39;second&#39;</span>, axis<span class="op">=</span><span class="st">&#39;rows&#39;</span>) </span></code></pre></div>
+</div>
+<div id="why-0-for-row-1-for-column" class="section level2" number="36.5">
+<h2><span class="header-section-number">36.5</span> Why 0 for row; 1 for column</h2>
+<div class="sourceCode" id="cb867"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb867-1"><a href="reshaping.html#cb867-1" aria-hidden="true" tabindex="-1"></a>df.shape <span class="co"># location 0 for row; 1 for column</span></span></code></pre></div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="done-2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="pivot-tables.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["data_management.pdf", "data_management.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

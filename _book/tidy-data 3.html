@@ -1,0 +1,3929 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Section 33 Tidy Data | Data Management</title>
+  <meta name="description" content="You’ll learn how to get data, get it into the most useful structure, transform it, visualize it and model it. In this course, you will find a practicum of skills for data science. You’ll learn how to clean data and draw plots—and many other things besides. These are the skills that allow data science to happen, and here you will find the best practices for doing each of these things. You’ll learn how to use the grammar of graphics, literate programming, and reproducible research to save time. You’ll also learn how to manage cognitive resources to facilitate discoveries when wrangling, visualizing and exploring data. This is a three-credit hour course." />
+  <meta name="generator" content="bookdown 0.21.6 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Section 33 Tidy Data | Data Management" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="You’ll learn how to get data, get it into the most useful structure, transform it, visualize it and model it. In this course, you will find a practicum of skills for data science. You’ll learn how to clean data and draw plots—and many other things besides. These are the skills that allow data science to happen, and here you will find the best practices for doing each of these things. You’ll learn how to use the grammar of graphics, literate programming, and reproducible research to save time. You’ll also learn how to manage cognitive resources to facilitate discoveries when wrangling, visualizing and exploring data. This is a three-credit hour course." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Section 33 Tidy Data | Data Management" />
+  
+  <meta name="twitter:description" content="You’ll learn how to get data, get it into the most useful structure, transform it, visualize it and model it. In this course, you will find a practicum of skills for data science. You’ll learn how to clean data and draw plots—and many other things besides. These are the skills that allow data science to happen, and here you will find the best practices for doing each of these things. You’ll learn how to use the grammar of graphics, literate programming, and reproducible research to save time. You’ll also learn how to manage cognitive resources to facilitate discoveries when wrangling, visualizing and exploring data. This is a three-credit hour course." />
+  
+
+<meta name="author" content="Markum Reed" />
+
+
+<meta name="date" content="2021-01-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="done.html"/>
+<link rel="next" href="operations.html"/>
+<script src="libs/header-attrs-2.6.4/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Data Management</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Description</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#what-is-expected-of-you"><i class="fa fa-check"></i><b>1.1</b> What is expected of you</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#python_basics"><i class="fa fa-check"></i><b>2.1</b> Python Basics</a></li>
+<li class="chapter" data-level="2.2" data-path="intro.html"><a href="intro.html#pandas_basics"><i class="fa fa-check"></i><b>2.2</b> Pandas Basics</a></li>
+<li class="chapter" data-level="2.3" data-path="intro.html"><a href="intro.html#shell_basics"><i class="fa fa-check"></i><b>2.3</b> Data Science at the Command Line</a></li>
+<li class="chapter" data-level="2.4" data-path="intro.html"><a href="intro.html#sql_basics"><i class="fa fa-check"></i><b>2.4</b> SQL Basics</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="literature.html"><a href="literature.html"><i class="fa fa-check"></i><b>3</b> Literature</a></li>
+<li class="chapter" data-level="4" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>4</b> Methods</a></li>
+<li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>5.1</b> Example one</a></li>
+<li class="chapter" data-level="5.2" data-path="applications.html"><a href="applications.html#example-two"><i class="fa fa-check"></i><b>5.2</b> Example two</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>6</b> Final Words</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="7" data-path="intro-programming.html"><a href="intro-programming.html"><i class="fa fa-check"></i><b>7</b> Introduction, Types, &amp; Expressions</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="intro-programming.html"><a href="intro-programming.html#why-learn-to-code"><i class="fa fa-check"></i><b>7.1</b> Why Learn to Code?</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="intro-programming.html"><a href="intro-programming.html#outcomes"><i class="fa fa-check"></i><b>7.1.1</b> Outcomes</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="intro-programming.html"><a href="intro-programming.html#why-python"><i class="fa fa-check"></i><b>7.2</b> Why Python?</a></li>
+<li class="chapter" data-level="7.3" data-path="intro-programming.html"><a href="intro-programming.html#storing-and-computing-data"><i class="fa fa-check"></i><b>7.3</b> Storing and Computing Data</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="intro-programming.html"><a href="intro-programming.html#expressions"><i class="fa fa-check"></i><b>7.3.1</b> Expressions</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="intro-programming.html"><a href="intro-programming.html#types"><i class="fa fa-check"></i><b>7.4</b> Types</a>
+<ul>
+<li class="chapter" data-level="7.4.1" data-path="intro-programming.html"><a href="intro-programming.html#how-to-tell-the-type-of-a-value"><i class="fa fa-check"></i><b>7.4.1</b> How to tell the type of a value</a></li>
+<li class="chapter" data-level="7.4.2" data-path="intro-programming.html"><a href="intro-programming.html#float-floating-point"><i class="fa fa-check"></i><b>7.4.2</b> float (floating point)</a></li>
+<li class="chapter" data-level="7.4.3" data-path="intro-programming.html"><a href="intro-programming.html#int-integers"><i class="fa fa-check"></i><b>7.4.3</b> int (integers)</a></li>
+<li class="chapter" data-level="7.4.4" data-path="intro-programming.html"><a href="intro-programming.html#bool-boolean"><i class="fa fa-check"></i><b>7.4.4</b> bool (boolean)</a></li>
+<li class="chapter" data-level="7.4.5" data-path="intro-programming.html"><a href="intro-programming.html#str-string-for-text"><i class="fa fa-check"></i><b>7.4.5</b> str (string) for text</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="dictionaries.html"><a href="dictionaries.html"><i class="fa fa-check"></i><b>8</b> Dictionaries</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="dictionaries.html"><a href="dictionaries.html#dictionary-as-a-collection-of-counters"><i class="fa fa-check"></i><b>8.1</b> Dictionary as a collection of counters</a></li>
+<li class="chapter" data-level="8.2" data-path="dictionaries.html"><a href="dictionaries.html#looping-and-dictionaries"><i class="fa fa-check"></i><b>8.2</b> Looping and dictionaries</a></li>
+<li class="chapter" data-level="8.3" data-path="dictionaries.html"><a href="dictionaries.html#reverse-lookup"><i class="fa fa-check"></i><b>8.3</b> Reverse Lookup</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>9</b> Functions</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="functions.html"><a href="functions.html#function-calls"><i class="fa fa-check"></i><b>9.1</b> Function calls</a></li>
+<li class="chapter" data-level="9.2" data-path="functions.html"><a href="functions.html#math-functions"><i class="fa fa-check"></i><b>9.2</b> Math functions</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="functions.html"><a href="functions.html#example"><i class="fa fa-check"></i><b>9.2.1</b> Example</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="functions.html"><a href="functions.html#new-functions"><i class="fa fa-check"></i><b>9.3</b> New Functions</a></li>
+<li class="chapter" data-level="9.4" data-path="functions.html"><a href="functions.html#definitions-and-uses"><i class="fa fa-check"></i><b>9.4</b> Definitions and Uses</a></li>
+<li class="chapter" data-level="9.5" data-path="functions.html"><a href="functions.html#parameters-and-arguments"><i class="fa fa-check"></i><b>9.5</b> Parameters and arguments</a></li>
+<li class="chapter" data-level="9.6" data-path="functions.html"><a href="functions.html#variables-and-parameters-are-local"><i class="fa fa-check"></i><b>9.6</b> Variables and parameters are local</a></li>
+<li class="chapter" data-level="9.7" data-path="functions.html"><a href="functions.html#why-functions"><i class="fa fa-check"></i><b>9.7</b> Why functions</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="fruitful-functions-for-business.html"><a href="fruitful-functions-for-business.html"><i class="fa fa-check"></i><b>10</b> Fruitful Functions (For Business)</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="fruitful-functions-for-business.html"><a href="fruitful-functions-for-business.html#return-values"><i class="fa fa-check"></i><b>10.1</b> Return values</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="fruitful-functions-for-business.html"><a href="fruitful-functions-for-business.html#example-1"><i class="fa fa-check"></i><b>10.1.1</b> Example</a></li>
+<li class="chapter" data-level="10.1.2" data-path="fruitful-functions-for-business.html"><a href="fruitful-functions-for-business.html#example-2"><i class="fa fa-check"></i><b>10.1.2</b> Example 2</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="fruitful-functions-for-business.html"><a href="fruitful-functions-for-business.html#boolean-functions"><i class="fa fa-check"></i><b>10.2</b> Boolean Functions</a></li>
+<li class="chapter" data-level="10.3" data-path="fruitful-functions-for-business.html"><a href="fruitful-functions-for-business.html#recursion-factorial-example"><i class="fa fa-check"></i><b>10.3</b> Recursion (Factorial Example)</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="fruitful-functions-for-business.html"><a href="fruitful-functions-for-business.html#step-1-decide-on-parameters"><i class="fa fa-check"></i><b>10.3.1</b> Step 1: Decide on parameters</a></li>
+<li class="chapter" data-level="10.3.2" data-path="fruitful-functions-for-business.html"><a href="fruitful-functions-for-business.html#step-2-add-basic-conditional-argument"><i class="fa fa-check"></i><b>10.3.2</b> Step 2: Add basic conditional argument</a></li>
+<li class="chapter" data-level="10.3.3" data-path="fruitful-functions-for-business.html"><a href="fruitful-functions-for-business.html#step-3-make-it-recursive"><i class="fa fa-check"></i><b>10.3.3</b> Step 3: Make it recursive</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="fruitful-functions-for-business.html"><a href="fruitful-functions-for-business.html#fibonacci-example"><i class="fa fa-check"></i><b>10.4</b> Fibonacci Example</a></li>
+<li class="chapter" data-level="10.5" data-path="fruitful-functions-for-business.html"><a href="fruitful-functions-for-business.html#checking-types-factorial-example-2"><i class="fa fa-check"></i><b>10.5</b> Checking types: Factorial Example 2</a>
+<ul>
+<li class="chapter" data-level="10.5.1" data-path="fruitful-functions-for-business.html"><a href="fruitful-functions-for-business.html#solution"><i class="fa fa-check"></i><b>10.5.1</b> Solution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="iteration.html"><a href="iteration.html"><i class="fa fa-check"></i><b>11</b> Iteration</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="iteration.html"><a href="iteration.html#reassignment"><i class="fa fa-check"></i><b>11.1</b> Reassignment</a></li>
+<li class="chapter" data-level="11.2" data-path="iteration.html"><a href="iteration.html#updating-variables"><i class="fa fa-check"></i><b>11.2</b> Updating variables</a></li>
+<li class="chapter" data-level="11.3" data-path="iteration.html"><a href="iteration.html#while-statement"><i class="fa fa-check"></i><b>11.3</b> while statement</a></li>
+<li class="chapter" data-level="11.4" data-path="iteration.html"><a href="iteration.html#break"><i class="fa fa-check"></i><b>11.4</b> break</a></li>
+<li class="chapter" data-level="11.5" data-path="iteration.html"><a href="iteration.html#example-square-roots"><i class="fa fa-check"></i><b>11.5</b> Example: Square roots</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="strings.html"><a href="strings.html"><i class="fa fa-check"></i><b>12</b> Strings</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="strings.html"><a href="strings.html#a-string-is-a-sequence"><i class="fa fa-check"></i><b>12.1</b> A string is a sequence</a></li>
+<li class="chapter" data-level="12.2" data-path="strings.html"><a href="strings.html#len"><i class="fa fa-check"></i><b>12.2</b> len</a></li>
+<li class="chapter" data-level="12.3" data-path="strings.html"><a href="strings.html#traversal-with-a-for-loop"><i class="fa fa-check"></i><b>12.3</b> Traversal with a for loop</a></li>
+<li class="chapter" data-level="12.4" data-path="strings.html"><a href="strings.html#example-concatenation"><i class="fa fa-check"></i><b>12.4</b> Example: Concatenation</a></li>
+<li class="chapter" data-level="12.5" data-path="strings.html"><a href="strings.html#example-in-class-question"><i class="fa fa-check"></i><b>12.5</b> Example: In-class question</a></li>
+<li class="chapter" data-level="12.6" data-path="strings.html"><a href="strings.html#string-slices"><i class="fa fa-check"></i><b>12.6</b> String slices</a></li>
+<li class="chapter" data-level="12.7" data-path="strings.html"><a href="strings.html#strings-are-immutable"><i class="fa fa-check"></i><b>12.7</b> Strings are immutable</a></li>
+<li class="chapter" data-level="12.8" data-path="strings.html"><a href="strings.html#search"><i class="fa fa-check"></i><b>12.8</b> Search</a></li>
+<li class="chapter" data-level="12.9" data-path="strings.html"><a href="strings.html#looping-and-counting"><i class="fa fa-check"></i><b>12.9</b> Looping and counting</a></li>
+<li class="chapter" data-level="12.10" data-path="strings.html"><a href="strings.html#string-methods"><i class="fa fa-check"></i><b>12.10</b> String methods</a></li>
+<li class="chapter" data-level="12.11" data-path="strings.html"><a href="strings.html#in-operator"><i class="fa fa-check"></i><b>12.11</b> in operator</a></li>
+<li class="chapter" data-level="12.12" data-path="strings.html"><a href="strings.html#example-3"><i class="fa fa-check"></i><b>12.12</b> Example</a></li>
+<li class="chapter" data-level="12.13" data-path="strings.html"><a href="strings.html#string-comparison"><i class="fa fa-check"></i><b>12.13</b> String comparison</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="conditionals-and-recursion.html"><a href="conditionals-and-recursion.html"><i class="fa fa-check"></i><b>13</b> Conditionals and Recursion</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="conditionals-and-recursion.html"><a href="conditionals-and-recursion.html#floor-division-and-modulus"><i class="fa fa-check"></i><b>13.1</b> Floor division and modulus</a></li>
+<li class="chapter" data-level="13.2" data-path="conditionals-and-recursion.html"><a href="conditionals-and-recursion.html#boolean-expressions"><i class="fa fa-check"></i><b>13.2</b> Boolean expressions</a></li>
+<li class="chapter" data-level="13.3" data-path="conditionals-and-recursion.html"><a href="conditionals-and-recursion.html#logical-operators"><i class="fa fa-check"></i><b>13.3</b> Logical operators</a></li>
+<li class="chapter" data-level="13.4" data-path="conditionals-and-recursion.html"><a href="conditionals-and-recursion.html#conditional-execution"><i class="fa fa-check"></i><b>13.4</b> Conditional execution</a></li>
+<li class="chapter" data-level="13.5" data-path="conditionals-and-recursion.html"><a href="conditionals-and-recursion.html#alternative-execution"><i class="fa fa-check"></i><b>13.5</b> Alternative execution</a></li>
+<li class="chapter" data-level="13.6" data-path="conditionals-and-recursion.html"><a href="conditionals-and-recursion.html#chained-conditionals"><i class="fa fa-check"></i><b>13.6</b> Chained conditionals</a></li>
+<li class="chapter" data-level="13.7" data-path="conditionals-and-recursion.html"><a href="conditionals-and-recursion.html#nested-conditionals"><i class="fa fa-check"></i><b>13.7</b> Nested conditionals</a></li>
+<li class="chapter" data-level="13.8" data-path="conditionals-and-recursion.html"><a href="conditionals-and-recursion.html#recursion"><i class="fa fa-check"></i><b>13.8</b> Recursion</a>
+<ul>
+<li class="chapter" data-level="13.8.1" data-path="conditionals-and-recursion.html"><a href="conditionals-and-recursion.html#what-is-recursion-in-python"><i class="fa fa-check"></i><b>13.8.1</b> What is recursion in Python?</a></li>
+</ul></li>
+<li class="chapter" data-level="13.9" data-path="conditionals-and-recursion.html"><a href="conditionals-and-recursion.html#infinite-recursion"><i class="fa fa-check"></i><b>13.9</b> Infinite recursion</a></li>
+<li class="chapter" data-level="13.10" data-path="conditionals-and-recursion.html"><a href="conditionals-and-recursion.html#keyboard-input"><i class="fa fa-check"></i><b>13.10</b> Keyboard Input</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="lists.html"><a href="lists.html"><i class="fa fa-check"></i><b>14</b> Lists</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="lists.html"><a href="lists.html#list-sequence"><i class="fa fa-check"></i><b>14.1</b> List == Sequence</a></li>
+<li class="chapter" data-level="14.2" data-path="lists.html"><a href="lists.html#lists-are-mutable"><i class="fa fa-check"></i><b>14.2</b> Lists are Mutable</a></li>
+<li class="chapter" data-level="14.3" data-path="lists.html"><a href="lists.html#traversing-a-list"><i class="fa fa-check"></i><b>14.3</b> Traversing a list</a></li>
+<li class="chapter" data-level="14.4" data-path="lists.html"><a href="lists.html#list-operations"><i class="fa fa-check"></i><b>14.4</b> List operations</a></li>
+<li class="chapter" data-level="14.5" data-path="lists.html"><a href="lists.html#list-slices"><i class="fa fa-check"></i><b>14.5</b> List slices</a></li>
+<li class="chapter" data-level="14.6" data-path="lists.html"><a href="lists.html#list-methods"><i class="fa fa-check"></i><b>14.6</b> List methods</a></li>
+<li class="chapter" data-level="14.7" data-path="lists.html"><a href="lists.html#map-filter-reduce"><i class="fa fa-check"></i><b>14.7</b> Map, filter, reduce</a>
+<ul>
+<li class="chapter" data-level="14.7.1" data-path="lists.html"><a href="lists.html#reduce"><i class="fa fa-check"></i><b>14.7.1</b> Reduce</a></li>
+<li class="chapter" data-level="14.7.2" data-path="lists.html"><a href="lists.html#map"><i class="fa fa-check"></i><b>14.7.2</b> Map</a></li>
+<li class="chapter" data-level="14.7.3" data-path="lists.html"><a href="lists.html#filter"><i class="fa fa-check"></i><b>14.7.3</b> Filter</a></li>
+</ul></li>
+<li class="chapter" data-level="14.8" data-path="lists.html"><a href="lists.html#deleting-elements"><i class="fa fa-check"></i><b>14.8</b> Deleting Elements</a></li>
+<li class="chapter" data-level="14.9" data-path="lists.html"><a href="lists.html#lists-and-strings"><i class="fa fa-check"></i><b>14.9</b> Lists and strings</a></li>
+<li class="chapter" data-level="14.10" data-path="lists.html"><a href="lists.html#list-arguments"><i class="fa fa-check"></i><b>14.10</b> List arguments</a></li>
+<li class="chapter" data-level="14.11" data-path="lists.html"><a href="lists.html#debugging"><i class="fa fa-check"></i><b>14.11</b> Debugging</a>
+<ul>
+<li class="chapter" data-level="14.11.1" data-path="lists.html"><a href="lists.html#most-list-methods-modify-the-argument-and-return-none"><i class="fa fa-check"></i><b>14.11.1</b> Most list methods modify the argument and return <code>None</code></a></li>
+<li class="chapter" data-level="14.11.2" data-path="lists.html"><a href="lists.html#pick-an-idiom-and-stick-with-it"><i class="fa fa-check"></i><b>14.11.2</b> Pick an idiom and stick with it</a></li>
+<li class="chapter" data-level="14.11.3" data-path="lists.html"><a href="lists.html#make-copies-to-avoid-aliasing."><i class="fa fa-check"></i><b>14.11.3</b> Make copies to avoid aliasing.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="python-basics.html"><a href="python-basics.html"><i class="fa fa-check"></i><b>15</b> Python Basics</a></li>
+<li class="chapter" data-level="16" data-path="numpy.html"><a href="numpy.html"><i class="fa fa-check"></i><b>16</b> NumPy</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="numpy.html"><a href="numpy.html#using-numpy"><i class="fa fa-check"></i><b>16.1</b> Using NumPy</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="numpy-arrays.html"><a href="numpy-arrays.html"><i class="fa fa-check"></i><b>17</b> Numpy Arrays</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="numpy-arrays.html"><a href="numpy-arrays.html#creating-numpy-arrays"><i class="fa fa-check"></i><b>17.1</b> Creating NumPy Arrays</a>
+<ul>
+<li class="chapter" data-level="17.1.1" data-path="numpy-arrays.html"><a href="numpy-arrays.html#from-a-python-list"><i class="fa fa-check"></i><b>17.1.1</b> From a Python List</a></li>
+</ul></li>
+<li class="chapter" data-level="17.2" data-path="numpy-arrays.html"><a href="numpy-arrays.html#built-in-methods"><i class="fa fa-check"></i><b>17.2</b> Built-in Methods</a>
+<ul>
+<li class="chapter" data-level="17.2.1" data-path="numpy-arrays.html"><a href="numpy-arrays.html#arange"><i class="fa fa-check"></i><b>17.2.1</b> arange</a></li>
+<li class="chapter" data-level="17.2.2" data-path="numpy-arrays.html"><a href="numpy-arrays.html#zeros-and-ones"><i class="fa fa-check"></i><b>17.2.2</b> zeros and ones</a></li>
+<li class="chapter" data-level="17.2.3" data-path="numpy-arrays.html"><a href="numpy-arrays.html#linspace"><i class="fa fa-check"></i><b>17.2.3</b> linspace</a></li>
+</ul></li>
+<li class="chapter" data-level="17.3" data-path="numpy-arrays.html"><a href="numpy-arrays.html#eye"><i class="fa fa-check"></i><b>17.3</b> eye</a></li>
+<li class="chapter" data-level="17.4" data-path="numpy-arrays.html"><a href="numpy-arrays.html#random"><i class="fa fa-check"></i><b>17.4</b> Random</a>
+<ul>
+<li class="chapter" data-level="17.4.1" data-path="numpy-arrays.html"><a href="numpy-arrays.html#rand"><i class="fa fa-check"></i><b>17.4.1</b> rand</a></li>
+<li class="chapter" data-level="17.4.2" data-path="numpy-arrays.html"><a href="numpy-arrays.html#randn"><i class="fa fa-check"></i><b>17.4.2</b> randn</a></li>
+<li class="chapter" data-level="17.4.3" data-path="numpy-arrays.html"><a href="numpy-arrays.html#randint"><i class="fa fa-check"></i><b>17.4.3</b> randint</a></li>
+</ul></li>
+<li class="chapter" data-level="17.5" data-path="numpy-arrays.html"><a href="numpy-arrays.html#array-attributes-and-methods"><i class="fa fa-check"></i><b>17.5</b> Array Attributes and Methods</a></li>
+<li class="chapter" data-level="17.6" data-path="numpy-arrays.html"><a href="numpy-arrays.html#reshape"><i class="fa fa-check"></i><b>17.6</b> Reshape</a>
+<ul>
+<li class="chapter" data-level="17.6.1" data-path="numpy-arrays.html"><a href="numpy-arrays.html#maxminargmaxargmin"><i class="fa fa-check"></i><b>17.6.1</b> max,min,argmax,argmin</a></li>
+</ul></li>
+<li class="chapter" data-level="17.7" data-path="numpy-arrays.html"><a href="numpy-arrays.html#shape"><i class="fa fa-check"></i><b>17.7</b> Shape</a>
+<ul>
+<li class="chapter" data-level="17.7.1" data-path="numpy-arrays.html"><a href="numpy-arrays.html#dtype"><i class="fa fa-check"></i><b>17.7.1</b> dtype</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="numpy-indexing-and-selection.html"><a href="numpy-indexing-and-selection.html"><i class="fa fa-check"></i><b>18</b> NumPy Indexing and Selection</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="numpy-indexing-and-selection.html"><a href="numpy-indexing-and-selection.html#bracket-indexing-and-selection"><i class="fa fa-check"></i><b>18.1</b> Bracket Indexing and Selection</a></li>
+<li class="chapter" data-level="18.2" data-path="numpy-indexing-and-selection.html"><a href="numpy-indexing-and-selection.html#broadcasting"><i class="fa fa-check"></i><b>18.2</b> Broadcasting</a></li>
+<li class="chapter" data-level="18.3" data-path="numpy-indexing-and-selection.html"><a href="numpy-indexing-and-selection.html#broadcasting-1"><i class="fa fa-check"></i><b>18.3</b> Broadcasting</a></li>
+<li class="chapter" data-level="18.4" data-path="numpy-indexing-and-selection.html"><a href="numpy-indexing-and-selection.html#broadcasting-dangers"><i class="fa fa-check"></i><b>18.4</b> Broadcasting (DANGERS)</a></li>
+<li class="chapter" data-level="18.5" data-path="numpy-indexing-and-selection.html"><a href="numpy-indexing-and-selection.html#copying"><i class="fa fa-check"></i><b>18.5</b> Copying</a></li>
+<li class="chapter" data-level="18.6" data-path="numpy-indexing-and-selection.html"><a href="numpy-indexing-and-selection.html#indexing-a-2d-array-matrices"><i class="fa fa-check"></i><b>18.6</b> Indexing a 2D array (matrices)</a></li>
+<li class="chapter" data-level="18.7" data-path="numpy-indexing-and-selection.html"><a href="numpy-indexing-and-selection.html#indexing-a-2d-array-matrices-1"><i class="fa fa-check"></i><b>18.7</b> Indexing a 2D array (matrices)</a></li>
+<li class="chapter" data-level="18.8" data-path="numpy-indexing-and-selection.html"><a href="numpy-indexing-and-selection.html#indexing-a-2d-array-matrices-2"><i class="fa fa-check"></i><b>18.8</b> Indexing a 2D array (matrices)</a>
+<ul>
+<li class="chapter" data-level="18.8.1" data-path="numpy-indexing-and-selection.html"><a href="numpy-indexing-and-selection.html#fancy-indexing"><i class="fa fa-check"></i><b>18.8.1</b> Fancy Indexing</a></li>
+<li class="chapter" data-level="18.8.2" data-path="numpy-indexing-and-selection.html"><a href="numpy-indexing-and-selection.html#fancy-indexing-1"><i class="fa fa-check"></i><b>18.8.2</b> Fancy Indexing</a></li>
+</ul></li>
+<li class="chapter" data-level="18.9" data-path="numpy-indexing-and-selection.html"><a href="numpy-indexing-and-selection.html#more-indexing-help"><i class="fa fa-check"></i><b>18.9</b> More Indexing Help</a></li>
+<li class="chapter" data-level="18.10" data-path="numpy-indexing-and-selection.html"><a href="numpy-indexing-and-selection.html#selection"><i class="fa fa-check"></i><b>18.10</b> Selection</a></li>
+<li class="chapter" data-level="18.11" data-path="numpy-indexing-and-selection.html"><a href="numpy-indexing-and-selection.html#selection-1"><i class="fa fa-check"></i><b>18.11</b> Selection</a></li>
+<li class="chapter" data-level="18.12" data-path="numpy-indexing-and-selection.html"><a href="numpy-indexing-and-selection.html#selection-2"><i class="fa fa-check"></i><b>18.12</b> Selection</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="numpy-operations.html"><a href="numpy-operations.html"><i class="fa fa-check"></i><b>19</b> NumPy Operations</a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="numpy-operations.html"><a href="numpy-operations.html#arithmetic"><i class="fa fa-check"></i><b>19.1</b> Arithmetic</a></li>
+<li class="chapter" data-level="19.2" data-path="numpy-operations.html"><a href="numpy-operations.html#arithmetic-1"><i class="fa fa-check"></i><b>19.2</b> Arithmetic</a></li>
+<li class="chapter" data-level="19.3" data-path="numpy-operations.html"><a href="numpy-operations.html#arithmetic-2"><i class="fa fa-check"></i><b>19.3</b> Arithmetic</a></li>
+<li class="chapter" data-level="19.4" data-path="numpy-operations.html"><a href="numpy-operations.html#arithmetic-3"><i class="fa fa-check"></i><b>19.4</b> Arithmetic</a></li>
+<li class="chapter" data-level="19.5" data-path="numpy-operations.html"><a href="numpy-operations.html#arithmetic-4"><i class="fa fa-check"></i><b>19.5</b> Arithmetic</a></li>
+<li class="chapter" data-level="19.6" data-path="numpy-operations.html"><a href="numpy-operations.html#universal-array-functions"><i class="fa fa-check"></i><b>19.6</b> Universal Array Functions</a></li>
+<li class="chapter" data-level="19.7" data-path="numpy-operations.html"><a href="numpy-operations.html#universal-array-functions-1"><i class="fa fa-check"></i><b>19.7</b> Universal Array Functions</a></li>
+<li class="chapter" data-level="19.8" data-path="numpy-operations.html"><a href="numpy-operations.html#universal-array-functions-2"><i class="fa fa-check"></i><b>19.8</b> Universal Array Functions</a></li>
+<li class="chapter" data-level="19.9" data-path="numpy-operations.html"><a href="numpy-operations.html#great-job"><i class="fa fa-check"></i><b>19.9</b> Great Job!</a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>20</b> Introduction</a></li>
+<li class="chapter" data-level="21" data-path="dataframes.html"><a href="dataframes.html"><i class="fa fa-check"></i><b>21</b> DataFrames</a>
+<ul>
+<li class="chapter" data-level="21.1" data-path="dataframes.html"><a href="dataframes.html#introduction-1"><i class="fa fa-check"></i><b>21.1</b> Introduction</a></li>
+<li class="chapter" data-level="21.2" data-path="dataframes.html"><a href="dataframes.html#creating-a-dataframe-using-list"><i class="fa fa-check"></i><b>21.2</b> Creating a dataframe using List:</a></li>
+<li class="chapter" data-level="21.3" data-path="dataframes.html"><a href="dataframes.html#creating-dataframe-from-dict-of-ndarraylists"><i class="fa fa-check"></i><b>21.3</b> Creating DataFrame from dict of ndarray/lists:</a></li>
+<li class="chapter" data-level="21.4" data-path="dataframes.html"><a href="dataframes.html#dealing-with-rows-and-columns"><i class="fa fa-check"></i><b>21.4</b> Dealing with Rows and Columns</a>
+<ul>
+<li class="chapter" data-level="21.4.1" data-path="dataframes.html"><a href="dataframes.html#column-selection"><i class="fa fa-check"></i><b>21.4.1</b> Column Selection:</a></li>
+</ul></li>
+<li class="chapter" data-level="21.5" data-path="dataframes.html"><a href="dataframes.html#select-multiple-columns"><i class="fa fa-check"></i><b>21.5</b> Select Multiple Columns</a></li>
+<li class="chapter" data-level="21.6" data-path="dataframes.html"><a href="dataframes.html#row-selection"><i class="fa fa-check"></i><b>21.6</b> Row Selection:</a></li>
+<li class="chapter" data-level="21.7" data-path="dataframes.html"><a href="dataframes.html#indexing-and-selecting-data"><i class="fa fa-check"></i><b>21.7</b> Indexing and Selecting Data</a>
+<ul>
+<li class="chapter" data-level="21.7.1" data-path="dataframes.html"><a href="dataframes.html#indexing-a-dataframe-using-indexing-operator"><i class="fa fa-check"></i><b>21.7.1</b> Indexing a Dataframe using indexing operator [] :</a></li>
+<li class="chapter" data-level="21.7.2" data-path="dataframes.html"><a href="dataframes.html#indexing-a-dataframe-using-.loc"><i class="fa fa-check"></i><b>21.7.2</b> Indexing a DataFrame using .loc[ ] :</a></li>
+<li class="chapter" data-level="21.7.3" data-path="dataframes.html"><a href="dataframes.html#indexing-a-dataframe-using-.iloc"><i class="fa fa-check"></i><b>21.7.3</b> Indexing a DataFrame using .iloc[ ] :</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="introduction-to-pandas.html"><a href="introduction-to-pandas.html"><i class="fa fa-check"></i><b>22</b> Introduction to Pandas</a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="introduction-to-pandas.html"><a href="introduction-to-pandas.html#overview-of-pandas-capabilities"><i class="fa fa-check"></i><b>22.1</b> Overview of Pandas Capabilities</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="pandas.html"><a href="pandas.html"><i class="fa fa-check"></i><b>23</b> Pandas</a></li>
+<li class="chapter" data-level="24" data-path="object-creation.html"><a href="object-creation.html"><i class="fa fa-check"></i><b>24</b> Object Creation</a>
+<ul>
+<li class="chapter" data-level="24.1" data-path="object-creation.html"><a href="object-creation.html#series"><i class="fa fa-check"></i><b>24.1</b> Series</a></li>
+<li class="chapter" data-level="24.2" data-path="object-creation.html"><a href="object-creation.html#series-creation"><i class="fa fa-check"></i><b>24.2</b> Series Creation</a></li>
+<li class="chapter" data-level="24.3" data-path="object-creation.html"><a href="object-creation.html#series-1"><i class="fa fa-check"></i><b>24.3</b> Series</a></li>
+<li class="chapter" data-level="24.4" data-path="object-creation.html"><a href="object-creation.html#series-examples"><i class="fa fa-check"></i><b>24.4</b> Series Examples</a></li>
+<li class="chapter" data-level="24.5" data-path="object-creation.html"><a href="object-creation.html#series-examples-1"><i class="fa fa-check"></i><b>24.5</b> Series Examples</a></li>
+<li class="chapter" data-level="24.6" data-path="object-creation.html"><a href="object-creation.html#series-example"><i class="fa fa-check"></i><b>24.6</b> Series Example</a></li>
+<li class="chapter" data-level="24.7" data-path="object-creation.html"><a href="object-creation.html#series-2"><i class="fa fa-check"></i><b>24.7</b> Series</a></li>
+</ul></li>
+<li class="chapter" data-level="25" data-path="dataframe-creation.html"><a href="dataframe-creation.html"><i class="fa fa-check"></i><b>25</b> DataFrame Creation</a></li>
+<li class="chapter" data-level="26" data-path="viewing-data.html"><a href="viewing-data.html"><i class="fa fa-check"></i><b>26</b> Viewing Data</a></li>
+<li class="chapter" data-level="27" data-path="selection-3.html"><a href="selection-3.html"><i class="fa fa-check"></i><b>27</b> Selection</a></li>
+<li class="chapter" data-level="28" data-path="data-import.html"><a href="data-import.html"><i class="fa fa-check"></i><b>28</b> Data Import</a>
+<ul>
+<li class="chapter" data-level="28.1" data-path="data-import.html"><a href="data-import.html#introduction-2"><i class="fa fa-check"></i><b>28.1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="28.1.1" data-path="data-import.html"><a href="data-import.html#prerequisites"><i class="fa fa-check"></i><b>28.1.1</b> Prerequisites</a></li>
+</ul></li>
+<li class="chapter" data-level="28.2" data-path="data-import.html"><a href="data-import.html#getting-started"><i class="fa fa-check"></i><b>28.2</b> Getting started</a>
+<ul>
+<li class="chapter" data-level="28.2.1" data-path="data-import.html"><a href="data-import.html#exercises"><i class="fa fa-check"></i><b>28.2.1</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="28.3" data-path="data-import.html"><a href="data-import.html#parsing-a-list"><i class="fa fa-check"></i><b>28.3</b> Parsing a list</a></li>
+<li class="chapter" data-level="28.4" data-path="data-import.html"><a href="data-import.html#numbers"><i class="fa fa-check"></i><b>28.4</b> Numbers</a></li>
+<li class="chapter" data-level="28.5" data-path="data-import.html"><a href="data-import.html#strings-1"><i class="fa fa-check"></i><b>28.5</b> Strings</a></li>
+<li class="chapter" data-level="28.6" data-path="data-import.html"><a href="data-import.html#categoricals-in-pandas"><i class="fa fa-check"></i><b>28.6</b> Categoricals in Pandas</a></li>
+<li class="chapter" data-level="28.7" data-path="data-import.html"><a href="data-import.html#dates-date-times-and-times"><i class="fa fa-check"></i><b>28.7</b> Dates, date-times, and times</a>
+<ul>
+<li class="chapter" data-level="28.7.1" data-path="data-import.html"><a href="data-import.html#exercises-1"><i class="fa fa-check"></i><b>28.7.1</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="28.8" data-path="data-import.html"><a href="data-import.html#parsing-a-file"><i class="fa fa-check"></i><b>28.8</b> Parsing a file</a>
+<ul>
+<li class="chapter" data-level="28.8.1" data-path="data-import.html"><a href="data-import.html#strategy"><i class="fa fa-check"></i><b>28.8.1</b> Strategy</a></li>
+<li class="chapter" data-level="28.8.2" data-path="data-import.html"><a href="data-import.html#problems"><i class="fa fa-check"></i><b>28.8.2</b> Problems</a></li>
+<li class="chapter" data-level="28.8.3" data-path="data-import.html"><a href="data-import.html#other-strategies"><i class="fa fa-check"></i><b>28.8.3</b> Other Strategies</a></li>
+</ul></li>
+<li class="chapter" data-level="28.9" data-path="data-import.html"><a href="data-import.html#writing-to-a-file"><i class="fa fa-check"></i><b>28.9</b> Writing to a file</a></li>
+<li class="chapter" data-level="28.10" data-path="data-import.html"><a href="data-import.html#other-types-of-data"><i class="fa fa-check"></i><b>28.10</b> Other types of data</a></li>
+<li class="chapter" data-level="28.11" data-path="data-import.html"><a href="data-import.html#selection-by-label"><i class="fa fa-check"></i><b>28.11</b> Selection by label</a></li>
+<li class="chapter" data-level="28.12" data-path="data-import.html"><a href="data-import.html#selection-by-position"><i class="fa fa-check"></i><b>28.12</b> Selection by position</a></li>
+</ul></li>
+<li class="chapter" data-level="29" data-path="boolean-indexing.html"><a href="boolean-indexing.html"><i class="fa fa-check"></i><b>29</b> Boolean indexing</a></li>
+<li class="chapter" data-level="30" data-path="setting.html"><a href="setting.html"><i class="fa fa-check"></i><b>30</b> Setting</a></li>
+<li class="chapter" data-level="31" data-path="missing-data.html"><a href="missing-data.html"><i class="fa fa-check"></i><b>31</b> Missing Data</a>
+<ul>
+<li class="chapter" data-level="31.1" data-path="missing-data.html"><a href="missing-data.html#dealing-with-missing-data"><i class="fa fa-check"></i><b>31.1</b> Dealing with Missing Data</a></li>
+<li class="chapter" data-level="31.2" data-path="missing-data.html"><a href="missing-data.html#creating-missing-data"><i class="fa fa-check"></i><b>31.2</b> Creating Missing Data</a></li>
+<li class="chapter" data-level="31.3" data-path="missing-data.html"><a href="missing-data.html#drop-missing-data"><i class="fa fa-check"></i><b>31.3</b> Drop Missing Data</a></li>
+<li class="chapter" data-level="31.4" data-path="missing-data.html"><a href="missing-data.html#keep-rows-at-threshold"><i class="fa fa-check"></i><b>31.4</b> Keep rows at Threshold</a></li>
+<li class="chapter" data-level="31.5" data-path="missing-data.html"><a href="missing-data.html#fill-missing-values"><i class="fa fa-check"></i><b>31.5</b> Fill Missing Values</a></li>
+</ul></li>
+<li class="chapter" data-level="32" data-path="done.html"><a href="done.html"><i class="fa fa-check"></i><b>32</b> DONE!</a></li>
+<li class="chapter" data-level="33" data-path="tidy-data.html"><a href="tidy-data.html"><i class="fa fa-check"></i><b>33</b> Tidy Data</a>
+<ul>
+<li class="chapter" data-level="33.1" data-path="tidy-data.html"><a href="tidy-data.html#introduction-3"><i class="fa fa-check"></i><b>33.1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="33.1.1" data-path="tidy-data.html"><a href="tidy-data.html#prerequisties"><i class="fa fa-check"></i><b>33.1.1</b> Prerequisties</a></li>
+<li class="chapter" data-level="33.1.2" data-path="tidy-data.html"><a href="tidy-data.html#exercises-2"><i class="fa fa-check"></i><b>33.1.2</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="33.2" data-path="tidy-data.html"><a href="tidy-data.html#spreading-and-gathering"><i class="fa fa-check"></i><b>33.2</b> Spreading and gathering</a>
+<ul>
+<li class="chapter" data-level="33.2.1" data-path="tidy-data.html"><a href="tidy-data.html#melt-gathering"><i class="fa fa-check"></i><b>33.2.1</b> Melt (Gathering)</a></li>
+</ul></li>
+<li class="chapter" data-level="33.3" data-path="tidy-data.html"><a href="tidy-data.html#pivot-spreading"><i class="fa fa-check"></i><b>33.3</b> Pivot (Spreading)</a>
+<ul>
+<li class="chapter" data-level="33.3.1" data-path="tidy-data.html"><a href="tidy-data.html#exercises-3"><i class="fa fa-check"></i><b>33.3.1</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="33.4" data-path="tidy-data.html"><a href="tidy-data.html#separating-and-uniting"><i class="fa fa-check"></i><b>33.4</b> Separating and uniting</a></li>
+<li class="chapter" data-level="33.5" data-path="tidy-data.html"><a href="tidy-data.html#separate"><i class="fa fa-check"></i><b>33.5</b> Separate</a>
+<ul>
+<li class="chapter" data-level="33.5.1" data-path="tidy-data.html"><a href="tidy-data.html#unite"><i class="fa fa-check"></i><b>33.5.1</b> Unite</a></li>
+<li class="chapter" data-level="33.5.2" data-path="tidy-data.html"><a href="tidy-data.html#exercises-4"><i class="fa fa-check"></i><b>33.5.2</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="33.6" data-path="tidy-data.html"><a href="tidy-data.html#missing-values"><i class="fa fa-check"></i><b>33.6</b> Missing Values</a>
+<ul>
+<li class="chapter" data-level="33.6.1" data-path="tidy-data.html"><a href="tidy-data.html#exercise-2"><i class="fa fa-check"></i><b>33.6.1</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="33.7" data-path="tidy-data.html"><a href="tidy-data.html#case-study"><i class="fa fa-check"></i><b>33.7</b> Case Study</a>
+<ul>
+<li class="chapter" data-level="33.7.1" data-path="tidy-data.html"><a href="tidy-data.html#exercises-5"><i class="fa fa-check"></i><b>33.7.1</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="33.8" data-path="tidy-data.html"><a href="tidy-data.html#non-tidy-data"><i class="fa fa-check"></i><b>33.8</b> Non-tidy data</a></li>
+</ul></li>
+<li class="chapter" data-level="34" data-path="operations.html"><a href="operations.html"><i class="fa fa-check"></i><b>34</b> Operations</a>
+<ul>
+<li class="chapter" data-level="34.1" data-path="operations.html"><a href="operations.html#stats"><i class="fa fa-check"></i><b>34.1</b> Stats</a></li>
+</ul></li>
+<li class="chapter" data-level="35" data-path="apply.html"><a href="apply.html"><i class="fa fa-check"></i><b>35</b> Apply</a></li>
+<li class="chapter" data-level="36" data-path="histogramming.html"><a href="histogramming.html"><i class="fa fa-check"></i><b>36</b> Histogramming</a></li>
+<li class="chapter" data-level="37" data-path="string-methods-1.html"><a href="string-methods-1.html"><i class="fa fa-check"></i><b>37</b> String Methods</a></li>
+<li class="chapter" data-level="38" data-path="merge.html"><a href="merge.html"><i class="fa fa-check"></i><b>38</b> Merge</a>
+<ul>
+<li class="chapter" data-level="38.1" data-path="merge.html"><a href="merge.html#concat"><i class="fa fa-check"></i><b>38.1</b> Concat</a></li>
+</ul></li>
+<li class="chapter" data-level="39" data-path="join.html"><a href="join.html"><i class="fa fa-check"></i><b>39</b> Join</a></li>
+<li class="chapter" data-level="40" data-path="append.html"><a href="append.html"><i class="fa fa-check"></i><b>40</b> Append</a></li>
+<li class="chapter" data-level="41" data-path="merging-joining-and-concatenating.html"><a href="merging-joining-and-concatenating.html"><i class="fa fa-check"></i><b>41</b> Merging, Joining, and Concatenating</a>
+<ul>
+<li class="chapter" data-level="41.1" data-path="merging-joining-and-concatenating.html"><a href="merging-joining-and-concatenating.html#create-dataframe-examples-using-list-comprehension"><i class="fa fa-check"></i><b>41.1</b> Create DataFrame Examples Using List Comprehension</a></li>
+<li class="chapter" data-level="41.2" data-path="merging-joining-and-concatenating.html"><a href="merging-joining-and-concatenating.html#concatenation"><i class="fa fa-check"></i><b>41.2</b> Concatenation</a></li>
+<li class="chapter" data-level="41.3" data-path="merging-joining-and-concatenating.html"><a href="merging-joining-and-concatenating.html#example-dataframes-with-keys"><i class="fa fa-check"></i><b>41.3</b> Example DataFrames with Keys</a></li>
+<li class="chapter" data-level="41.4" data-path="merging-joining-and-concatenating.html"><a href="merging-joining-and-concatenating.html#merging"><i class="fa fa-check"></i><b>41.4</b> Merging</a></li>
+<li class="chapter" data-level="41.5" data-path="merging-joining-and-concatenating.html"><a href="merging-joining-and-concatenating.html#joining"><i class="fa fa-check"></i><b>41.5</b> Joining</a></li>
+</ul></li>
+<li class="chapter" data-level="42" data-path="done-1.html"><a href="done-1.html"><i class="fa fa-check"></i><b>42</b> DONE</a></li>
+<li class="chapter" data-level="43" data-path="grouping.html"><a href="grouping.html"><i class="fa fa-check"></i><b>43</b> Grouping</a></li>
+<li class="chapter" data-level="44" data-path="groupby.html"><a href="groupby.html"><i class="fa fa-check"></i><b>44</b> Groupby</a>
+<ul>
+<li class="chapter" data-level="44.1" data-path="groupby.html"><a href="groupby.html#groupby-1"><i class="fa fa-check"></i><b>44.1</b> groupby()</a></li>
+<li class="chapter" data-level="44.2" data-path="groupby.html"><a href="groupby.html#groupby-and-aggregation-methods"><i class="fa fa-check"></i><b>44.2</b> Groupby and Aggregation Methods</a></li>
+<li class="chapter" data-level="44.3" data-path="groupby.html"><a href="groupby.html#groupby-describe-method"><i class="fa fa-check"></i><b>44.3</b> Groupby + describe method</a></li>
+<li class="chapter" data-level="44.4" data-path="groupby.html"><a href="groupby.html#groupby-describe-method-1"><i class="fa fa-check"></i><b>44.4</b> Groupby + describe method</a></li>
+<li class="chapter" data-level="44.5" data-path="groupby.html"><a href="groupby.html#groupby-describe-method-multiple-numeric-values"><i class="fa fa-check"></i><b>44.5</b> Groupby + describe method (multiple numeric values)</a></li>
+</ul></li>
+<li class="chapter" data-level="45" data-path="done-2.html"><a href="done-2.html"><i class="fa fa-check"></i><b>45</b> DONE</a></li>
+<li class="chapter" data-level="46" data-path="reshaping.html"><a href="reshaping.html"><i class="fa fa-check"></i><b>46</b> Reshaping</a>
+<ul>
+<li class="chapter" data-level="46.1" data-path="reshaping.html"><a href="reshaping.html#stack"><i class="fa fa-check"></i><b>46.1</b> Stack</a></li>
+<li class="chapter" data-level="46.2" data-path="reshaping.html"><a href="reshaping.html#removing-columns"><i class="fa fa-check"></i><b>46.2</b> Removing Columns</a></li>
+<li class="chapter" data-level="46.3" data-path="reshaping.html"><a href="reshaping.html#removedrop-data-for-real"><i class="fa fa-check"></i><b>46.3</b> Remove/Drop data (For real)</a></li>
+<li class="chapter" data-level="46.4" data-path="reshaping.html"><a href="reshaping.html#dropping-rows"><i class="fa fa-check"></i><b>46.4</b> Dropping rows</a></li>
+<li class="chapter" data-level="46.5" data-path="reshaping.html"><a href="reshaping.html#why-0-for-row-1-for-column"><i class="fa fa-check"></i><b>46.5</b> Why 0 for row; 1 for column</a></li>
+</ul></li>
+<li class="chapter" data-level="47" data-path="pivot-tables.html"><a href="pivot-tables.html"><i class="fa fa-check"></i><b>47</b> Pivot tables</a></li>
+<li class="chapter" data-level="48" data-path="time-series.html"><a href="time-series.html"><i class="fa fa-check"></i><b>48</b> Time Series</a></li>
+<li class="chapter" data-level="49" data-path="categoricals.html"><a href="categoricals.html"><i class="fa fa-check"></i><b>49</b> Categoricals</a></li>
+<li class="chapter" data-level="50" data-path="plotting.html"><a href="plotting.html"><i class="fa fa-check"></i><b>50</b> Plotting</a></li>
+<li class="chapter" data-level="51" data-path="getting-data-inout.html"><a href="getting-data-inout.html"><i class="fa fa-check"></i><b>51</b> Getting data in/out</a>
+<ul>
+<li class="chapter" data-level="51.1" data-path="getting-data-inout.html"><a href="getting-data-inout.html#csv"><i class="fa fa-check"></i><b>51.1</b> CSV</a></li>
+<li class="chapter" data-level="51.2" data-path="getting-data-inout.html"><a href="getting-data-inout.html#hdf5"><i class="fa fa-check"></i><b>51.2</b> HDF5</a></li>
+<li class="chapter" data-level="51.3" data-path="getting-data-inout.html"><a href="getting-data-inout.html#excel"><i class="fa fa-check"></i><b>51.3</b> Excel</a></li>
+</ul></li>
+<li class="chapter" data-level="52" data-path="data-input-and-output.html"><a href="data-input-and-output.html"><i class="fa fa-check"></i><b>52</b> Data Input and Output</a>
+<ul>
+<li class="chapter" data-level="52.1" data-path="data-input-and-output.html"><a href="data-input-and-output.html#csv-1"><i class="fa fa-check"></i><b>52.1</b> CSV</a>
+<ul>
+<li class="chapter" data-level="52.1.1" data-path="data-input-and-output.html"><a href="data-input-and-output.html#csv-input"><i class="fa fa-check"></i><b>52.1.1</b> CSV Input</a></li>
+<li class="chapter" data-level="52.1.2" data-path="data-input-and-output.html"><a href="data-input-and-output.html#csv-output"><i class="fa fa-check"></i><b>52.1.2</b> CSV Output</a></li>
+</ul></li>
+<li class="chapter" data-level="52.2" data-path="data-input-and-output.html"><a href="data-input-and-output.html#excel-1"><i class="fa fa-check"></i><b>52.2</b> Excel</a>
+<ul>
+<li class="chapter" data-level="52.2.1" data-path="data-input-and-output.html"><a href="data-input-and-output.html#excel-output"><i class="fa fa-check"></i><b>52.2.1</b> Excel Output</a></li>
+<li class="chapter" data-level="52.2.2" data-path="data-input-and-output.html"><a href="data-input-and-output.html#html-input"><i class="fa fa-check"></i><b>52.2.2</b> HTML Input</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="53" data-path="operations-1.html"><a href="operations-1.html"><i class="fa fa-check"></i><b>53</b> Operations</a>
+<ul>
+<li class="chapter" data-level="53.1" data-path="operations-1.html"><a href="operations-1.html#unique"><i class="fa fa-check"></i><b>53.1</b> Unique</a></li>
+<li class="chapter" data-level="53.2" data-path="operations-1.html"><a href="operations-1.html#select-data"><i class="fa fa-check"></i><b>53.2</b> Select Data</a></li>
+<li class="chapter" data-level="53.3" data-path="operations-1.html"><a href="operations-1.html#applying-functions"><i class="fa fa-check"></i><b>53.3</b> Applying Functions</a></li>
+<li class="chapter" data-level="53.4" data-path="operations-1.html"><a href="operations-1.html#columns"><i class="fa fa-check"></i><b>53.4</b> Columns</a></li>
+<li class="chapter" data-level="53.5" data-path="operations-1.html"><a href="operations-1.html#sort-and-order-dataframes"><i class="fa fa-check"></i><b>53.5</b> Sort and Order DataFrames</a></li>
+<li class="chapter" data-level="53.6" data-path="operations-1.html"><a href="operations-1.html#null-values"><i class="fa fa-check"></i><b>53.6</b> Null Values</a></li>
+</ul></li>
+<li class="chapter" data-level="54" data-path="sql.html"><a href="sql.html"><i class="fa fa-check"></i><b>54</b> SQL</a></li>
+<li class="chapter" data-level="55" data-path="pandas-basics.html"><a href="pandas-basics.html"><i class="fa fa-check"></i><b>55</b> Pandas Basics</a></li>
+<li class="chapter" data-level="56" data-path="why-learn-sql.html"><a href="why-learn-sql.html"><i class="fa fa-check"></i><b>56</b> Why Learn SQL?</a>
+<ul>
+<li class="chapter" data-level="56.1" data-path="why-learn-sql.html"><a href="why-learn-sql.html#what-is-sql-and-why-is-it-marketable"><i class="fa fa-check"></i><b>56.1</b> What Is SQL and Why Is It Marketable?</a></li>
+</ul></li>
+<li class="chapter" data-level="57" data-path="databases.html"><a href="databases.html"><i class="fa fa-check"></i><b>57</b> Databases</a>
+<ul>
+<li class="chapter" data-level="57.1" data-path="databases.html"><a href="databases.html#what-is-a-database"><i class="fa fa-check"></i><b>57.1</b> What Is a Database?</a></li>
+</ul></li>
+<li class="chapter" data-level="58" data-path="exploring-relational-databases.html"><a href="exploring-relational-databases.html"><i class="fa fa-check"></i><b>58</b> Exploring Relational Databases</a></li>
+<li class="chapter" data-level="59" data-path="why-separate-tables.html"><a href="why-separate-tables.html"><i class="fa fa-check"></i><b>59</b> Why Separate Tables?</a></li>
+<li class="chapter" data-level="60" data-path="sqlite.html"><a href="sqlite.html"><i class="fa fa-check"></i><b>60</b> SQLite</a>
+<ul>
+<li class="chapter" data-level="60.1" data-path="sqlite.html"><a href="sqlite.html#what-is-sqlite"><i class="fa fa-check"></i><b>60.1</b> What is SQLite?</a></li>
+</ul></li>
+<li class="chapter" data-level="61" data-path="using-sql-in-r-markdown.html"><a href="using-sql-in-r-markdown.html"><i class="fa fa-check"></i><b>61</b> Using SQL in R Markdown</a></li>
+<li class="chapter" data-level="62" data-path="select.html"><a href="select.html"><i class="fa fa-check"></i><b>62</b> SELECT</a>
+<ul>
+<li class="chapter" data-level="62.1" data-path="select.html"><a href="select.html#retrieving-data-with-sql"><i class="fa fa-check"></i><b>62.1</b> Retrieving Data with SQL</a></li>
+<li class="chapter" data-level="62.2" data-path="select.html"><a href="select.html#expression-in-select-statements"><i class="fa fa-check"></i><b>62.2</b> Expression in SELECT Statements</a></li>
+<li class="chapter" data-level="62.3" data-path="select.html"><a href="select.html#text-concatenation"><i class="fa fa-check"></i><b>62.3</b> Text Concatenation</a></li>
+<li class="chapter" data-level="62.4" data-path="select.html"><a href="select.html#summary"><i class="fa fa-check"></i><b>62.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="63" data-path="where.html"><a href="where.html"><i class="fa fa-check"></i><b>63</b> WHERE</a>
+<ul>
+<li class="chapter" data-level="63.1" data-path="where.html"><a href="where.html#filtering-records"><i class="fa fa-check"></i><b>63.1</b> Filtering Records</a></li>
+<li class="chapter" data-level="63.2" data-path="where.html"><a href="where.html#and-or-and-in-statements"><i class="fa fa-check"></i><b>63.2</b> AND, OR, and IN Statements</a></li>
+<li class="chapter" data-level="63.3" data-path="where.html"><a href="where.html#using-where-on-text"><i class="fa fa-check"></i><b>63.3</b> Using Where on Text</a></li>
+<li class="chapter" data-level="63.4" data-path="where.html"><a href="where.html#where-on-booleans"><i class="fa fa-check"></i><b>63.4</b> WHERE on Booleans</a></li>
+<li class="chapter" data-level="63.5" data-path="where.html"><a href="where.html#handling-null"><i class="fa fa-check"></i><b>63.5</b> Handling NULL</a></li>
+<li class="chapter" data-level="63.6" data-path="where.html"><a href="where.html#grouping-conditions"><i class="fa fa-check"></i><b>63.6</b> Grouping Conditions</a>
+<ul>
+<li class="chapter" data-level="63.6.1" data-path="where.html"><a href="where.html#preamble"><i class="fa fa-check"></i><b>63.6.1</b> PREAMBLE</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="64" data-path="group-by-and-order-by.html"><a href="group-by-and-order-by.html"><i class="fa fa-check"></i><b>64</b> GROUP BY and ORDER BY</a>
+<ul>
+<li class="chapter" data-level="64.1" data-path="group-by-and-order-by.html"><a href="group-by-and-order-by.html#grouping-records"><i class="fa fa-check"></i><b>64.1</b> Grouping Records</a></li>
+<li class="chapter" data-level="64.2" data-path="group-by-and-order-by.html"><a href="group-by-and-order-by.html#ordering-records"><i class="fa fa-check"></i><b>64.2</b> Ordering Records</a></li>
+<li class="chapter" data-level="64.3" data-path="group-by-and-order-by.html"><a href="group-by-and-order-by.html#aggregate-functions"><i class="fa fa-check"></i><b>64.3</b> Aggregate Functions</a></li>
+<li class="chapter" data-level="64.4" data-path="group-by-and-order-by.html"><a href="group-by-and-order-by.html#having"><i class="fa fa-check"></i><b>64.4</b> HAVING</a></li>
+<li class="chapter" data-level="64.5" data-path="group-by-and-order-by.html"><a href="group-by-and-order-by.html#getting-distinct-records"><i class="fa fa-check"></i><b>64.5</b> Getting Distinct Records</a></li>
+</ul></li>
+<li class="chapter" data-level="65" data-path="case-statements.html"><a href="case-statements.html"><i class="fa fa-check"></i><b>65</b> CASE Statements</a>
+<ul>
+<li class="chapter" data-level="65.1" data-path="case-statements.html"><a href="case-statements.html#grouping-case-statements"><i class="fa fa-check"></i><b>65.1</b> Grouping CASE Statements</a></li>
+<li class="chapter" data-level="65.2" data-path="case-statements.html"><a href="case-statements.html#the-zeronull-case-trick"><i class="fa fa-check"></i><b>65.2</b> The “Zero/Null” CASE Trick</a>
+<ul>
+<li class="chapter" data-level="65.2.1" data-path="case-statements.html"><a href="case-statements.html#preamble-1"><i class="fa fa-check"></i><b>65.2.1</b> PREAMBLE</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="66" data-path="join-1.html"><a href="join-1.html"><i class="fa fa-check"></i><b>66</b> JOIN</a>
+<ul>
+<li class="chapter" data-level="66.1" data-path="join-1.html"><a href="join-1.html#stitching-tables-together"><i class="fa fa-check"></i><b>66.1</b> Stitching Tables Together</a></li>
+<li class="chapter" data-level="66.2" data-path="join-1.html"><a href="join-1.html#inner-join"><i class="fa fa-check"></i><b>66.2</b> INNER JOIN</a></li>
+<li class="chapter" data-level="66.3" data-path="join-1.html"><a href="join-1.html#left-join"><i class="fa fa-check"></i><b>66.3</b> LEFT JOIN</a></li>
+<li class="chapter" data-level="66.4" data-path="join-1.html"><a href="join-1.html#joining-mutliple-tables"><i class="fa fa-check"></i><b>66.4</b> Joining Mutliple Tables</a></li>
+<li class="chapter" data-level="66.5" data-path="join-1.html"><a href="join-1.html#grouping-joins"><i class="fa fa-check"></i><b>66.5</b> Grouping JOINs</a></li>
+</ul></li>
+<li class="chapter" data-level="67" data-path="sql-basics.html"><a href="sql-basics.html"><i class="fa fa-check"></i><b>67</b> SQL Basics</a>
+<ul>
+<li class="chapter" data-level="67.1" data-path="sql-basics.html"><a href="sql-basics.html#lectures"><i class="fa fa-check"></i><b>67.1</b> Lectures</a></li>
+<li class="chapter" data-level="67.2" data-path="sql-basics.html"><a href="sql-basics.html#preamble-2"><i class="fa fa-check"></i><b>67.2</b> Preamble</a></li>
+</ul></li>
+<li class="chapter" data-level="68" data-path="midterm-practice.html"><a href="midterm-practice.html"><i class="fa fa-check"></i><b>68</b> Midterm Practice</a>
+<ul>
+<li class="chapter" data-level="68.1" data-path="midterm-practice.html"><a href="midterm-practice.html#question-1"><i class="fa fa-check"></i><b>68.1</b> Question 1:</a></li>
+<li class="chapter" data-level="68.2" data-path="midterm-practice.html"><a href="midterm-practice.html#question-2"><i class="fa fa-check"></i><b>68.2</b> Question 2:</a></li>
+<li class="chapter" data-level="68.3" data-path="midterm-practice.html"><a href="midterm-practice.html#question-prep"><i class="fa fa-check"></i><b>68.3</b> Question Prep</a></li>
+<li class="chapter" data-level="68.4" data-path="midterm-practice.html"><a href="midterm-practice.html#question-3"><i class="fa fa-check"></i><b>68.4</b> Question 3:</a></li>
+<li class="chapter" data-level="68.5" data-path="midterm-practice.html"><a href="midterm-practice.html#question-4"><i class="fa fa-check"></i><b>68.5</b> Question 4:</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Management</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="tidy-data" class="section level1" number="33">
+<h1><span class="header-section-number">Section 33</span> Tidy Data</h1>
+<div id="introduction-3" class="section level2" number="33.1">
+<h2><span class="header-section-number">33.1</span> Introduction</h2>
+<p>In this chapter, you will learn a consistent way to organise your data in Python, an organisation called <strong>tidy data</strong>. Getting your data into this format requires some upfront work, but that work pays off in the long term. Once you have tidy data and the tidy tools provided by <code>pandas</code>, you will spend much less time munging data from one representation to another, allowing you to spend more time on the analytic questions at hand.</p>
+<p>This chapter will give you a practical introduction to tidy data and the accompanying tools in <code>pandas</code>. If you’d like to learn more about the underlying theory, you might enjoy the Tidy Data paper published in the Journal of Statistical Software, <a href="http://www.jstatsoft.org/v59/i10/paper" class="uri">http://www.jstatsoft.org/v59/i10/paper</a>.</p>
+<div id="prerequisties" class="section level3" number="33.1.1">
+<h3><span class="header-section-number">33.1.1</span> Prerequisties</h3>
+<p>In this chapter we’ll focus on <code>pandas</code>, a package that provides tools to help tidy up your messy datasets.</p>
+<pre><code>import pandas as pd
+import numpy as np</code></pre>
+<p>You can represent the same underlying data in multiple ways. The example below shows the same data organised in four different ways. Each dataset shows the same values of four variables country, year, population, and cases, but each dataset organises the values in a different way.</p>
+<p><strong>Table 1</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>country</th>
+<th>year</th>
+<th>cases</th>
+<th>population</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Afghanistan</td>
+<td>1999</td>
+<td>745</td>
+<td>19987071</td>
+</tr>
+<tr class="even">
+<td>Afghanistan</td>
+<td>2000</td>
+<td>2666</td>
+<td>20595360</td>
+</tr>
+<tr class="odd">
+<td>Brazil</td>
+<td>1999</td>
+<td>37737</td>
+<td>172006362</td>
+</tr>
+<tr class="even">
+<td>Brazil</td>
+<td>2000</td>
+<td>80488</td>
+<td>174504898</td>
+</tr>
+<tr class="odd">
+<td>China</td>
+<td>1999</td>
+<td>212258</td>
+<td>1272915272</td>
+</tr>
+<tr class="even">
+<td>China</td>
+<td>2000</td>
+<td>213766</td>
+<td>1280428583</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Table 2</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>country</th>
+<th>year</th>
+<th>type</th>
+<th>count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Afghanistan</td>
+<td>1999</td>
+<td>cases</td>
+<td>745</td>
+</tr>
+<tr class="even">
+<td>Afghanistan</td>
+<td>1999</td>
+<td>population</td>
+<td>19987071</td>
+</tr>
+<tr class="odd">
+<td>Afghanistan</td>
+<td>2000</td>
+<td>cases</td>
+<td>2666</td>
+</tr>
+<tr class="even">
+<td>Afghanistan</td>
+<td>2000</td>
+<td>population</td>
+<td>20595360</td>
+</tr>
+<tr class="odd">
+<td>Brazil</td>
+<td>1999</td>
+<td>cases</td>
+<td>37737</td>
+</tr>
+<tr class="even">
+<td>Brazil</td>
+<td>1999</td>
+<td>population</td>
+<td>172006362</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Table 3</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>country</th>
+<th>year</th>
+<th>rate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Afghanistan</td>
+<td>1999</td>
+<td>745/19987071</td>
+</tr>
+<tr class="even">
+<td>Afghanistan</td>
+<td>2000</td>
+<td>2666/20595360</td>
+</tr>
+<tr class="odd">
+<td>Brazil</td>
+<td>1999</td>
+<td>37737/172006362</td>
+</tr>
+<tr class="even">
+<td>Brazil</td>
+<td>2000</td>
+<td>80488/174504898</td>
+</tr>
+<tr class="odd">
+<td>China</td>
+<td>1999</td>
+<td>212258/1272915272</td>
+</tr>
+<tr class="even">
+<td>China</td>
+<td>2000</td>
+<td>213766/1280428583</td>
+</tr>
+</tbody>
+</table>
+<p>Data Spread accross two tables.</p>
+<p><strong>Table 4a: Cases</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>country</th>
+<th>1999</th>
+<th>2000</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Afghanistan</td>
+<td>745</td>
+<td>2666</td>
+</tr>
+<tr class="even">
+<td>Brazil</td>
+<td>37737</td>
+<td>80488</td>
+</tr>
+<tr class="odd">
+<td>China</td>
+<td>212258</td>
+<td>213766</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Table 4b: Population</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>country</th>
+<th>1999</th>
+<th>2000</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Afghanistan</td>
+<td>19987071</td>
+<td>20595360</td>
+</tr>
+<tr class="even">
+<td>Brazil</td>
+<td>172006362</td>
+<td>174504898</td>
+</tr>
+<tr class="odd">
+<td>China</td>
+<td>1272915272</td>
+<td>1280428583</td>
+</tr>
+</tbody>
+</table>
+<p>These are all representations of the same underlying data, but they are not equally easy to use. One dataset, the tidy dataset, will be much easier to work with inside the tidyverse.</p>
+<p>There are three interrelated rules which make a dataset tidy:</p>
+<ol style="list-style-type: decimal">
+<li>Each variable must have its own column.</li>
+<li>Each observation must have its own row.</li>
+<li>Each value must have its own cell.</li>
+</ol>
+<p><strong>Visual Representation of the rules</strong></p>
+<div class="figure">
+<img src="https://github.com/SoIllEconomist/ds4b/blob/master/python_ds4b/02_wrangle/tidy-1.png?raw=1" alt="" />
+<p class="caption">Following three rules makes a dataset tidy: variables are in columns, observations are in rows, and values are in cells.</p>
+</div>
+<p>These three rules are interrelated because it’s impossible to only satisfy two of the three. That interrelationship leads to an even simpler set of practical instructions:</p>
+<ol style="list-style-type: decimal">
+<li>Put each dataset in a DataFrame.</li>
+<li>Put each variable in a column.</li>
+</ol>
+<p>In this example, only <strong>Table 1</strong> is tidy. It’s the only representation where each column is a variable.</p>
+<p><em>Why ensure that your data is tidy?</em> There are two main advantages:</p>
+<ol style="list-style-type: decimal">
+<li><p>There’s a general advantage to picking one consistent way of storing data. If you have a consistent data structure, it’s easier to learn the tools that work with it because they have an underlying uniformity.</p></li>
+<li><p>There’s a specific advantage to placing variables in columns because it allows <code>pandas</code>’s vectorised nature to shine. As you learned, most built-in <code>pandas</code> functions work with vectors of values. That makes transforming tidy data feel particularly natural.</p></li>
+</ol>
+<p>!ll the other functions/methods in <code>pandas</code> are designed to work with tidy data. Here are a couple of small examples showing how you might work with</p>
+<pre><code>from io import StringIO
+table1 = StringIO(&quot;&quot;&quot;country     | year  | cases  | population
+Afghanistan | 1999  | 745    | 19987071
+Afghanistan | 2000  | 2666   | 20595360
+Brazil      | 1999  | 37737  | 172006362
+Brazil      | 2000  | 80488  | 174504898
+China       | 1999  | 212258 | 1272915272
+China       | 2000  | 213766 | 1280428583&quot;&quot;&quot;)
+
+table1 = pd.read_csv(table1, sep=&quot;|&quot;, )</code></pre>
+<pre><code>table1.columns = table1.columns.str.strip()</code></pre>
+<p>Compute rate per 10,000</p>
+<pre><code>table1.assign(rate = lambda x: x[&quot;cases&quot;] / x[&quot;population&quot;] * 10000)</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+country
+</th>
+<th>
+year
+</th>
+<th>
+cases
+</th>
+<th>
+population
+</th>
+<th>
+rate
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+Afghanistan
+</td>
+<td>
+1999
+</td>
+<td>
+745
+</td>
+<td>
+19987071
+</td>
+<td>
+0.372741
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+Afghanistan
+</td>
+<td>
+2000
+</td>
+<td>
+2666
+</td>
+<td>
+20595360
+</td>
+<td>
+1.294466
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+Brazil
+</td>
+<td>
+1999
+</td>
+<td>
+37737
+</td>
+<td>
+172006362
+</td>
+<td>
+2.193930
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<td>
+Brazil
+</td>
+<td>
+2000
+</td>
+<td>
+80488
+</td>
+<td>
+174504898
+</td>
+<td>
+4.612363
+</td>
+</tr>
+<tr>
+<th>
+4
+</th>
+<td>
+China
+</td>
+<td>
+1999
+</td>
+<td>
+212258
+</td>
+<td>
+1272915272
+</td>
+<td>
+1.667495
+</td>
+</tr>
+<tr>
+<th>
+5
+</th>
+<td>
+China
+</td>
+<td>
+2000
+</td>
+<td>
+213766
+</td>
+<td>
+1280428583
+</td>
+<td>
+1.669488
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Compute cases per year</p>
+<pre><code>table1.groupby(&#39;year&#39;)[&#39;cases&#39;].count()</code></pre>
+<pre><code>year
+1999    3
+2000    3
+Name: cases, dtype: int64</code></pre>
+<p>Visualise changes over time</p>
+<pre><code>import seaborn as sns</code></pre>
+<pre><code>sns.lineplot(x=&#39;year&#39;,y=&#39;cases&#39;,hue=&#39;country&#39;,data=table1);</code></pre>
+<div class="figure">
+<img src="03_tidy_data_files/03_tidy_data_12_0.png" alt="" />
+<p class="caption">png</p>
+</div>
+</div>
+<div id="exercises-2" class="section level3" number="33.1.2">
+<h3><span class="header-section-number">33.1.2</span> Exercises</h3>
+<ol style="list-style-type: decimal">
+<li><p>Using prose, describe how the variables and observations are organised in each of the sample tables.</p></li>
+<li><p>Compute the rate for table2, and table4a + table4b. You will need to perform four operations:</p></li>
+<li><p>Extract the number of TB cases per country per year.</p></li>
+<li><p>Extract the matching population per country per year.</p></li>
+<li><p>Divide cases by population, and multiply by 10000.</p></li>
+<li><p>Store back in the appropriate place.
+Which representation is easiest to work with? Which is hardest? Why?</p></li>
+<li><p>Recreate the plot showing change in cases over time using table2 instead of table1. What do you need to do first?</p></li>
+</ol>
+</div>
+</div>
+<div id="spreading-and-gathering" class="section level2" number="33.2">
+<h2><span class="header-section-number">33.2</span> Spreading and gathering</h2>
+<p>The principles of tidy data seem so obvious that you might wonder if you’ll ever encounter a dataset that isn’t tidy. Unfortunately, however, most data that you will encounter will be untidy. There are two main reasons:</p>
+<ol style="list-style-type: decimal">
+<li><p>Most people aren’t familiar with the principles of tidy data, and it’s hard to derive them yourself unless you spend a lot of time working with data.</p></li>
+<li><p>Data is often organised to facilitate some use other than analysis. For example, data is often organised to make entry as easy as possible.</p></li>
+</ol>
+<p>This means for most real analyses, you’ll need to do some tidying. The first step is always to figure out what the variables and observations are. Sometimes this is easy; other times you’ll need to consult with the people who originally generated the data. The second step is to resolve one of two common problems:</p>
+<ol style="list-style-type: decimal">
+<li><p>One variable might be spread across multiple columns.</p></li>
+<li><p>One observation might be scattered across multiple rows.</p></li>
+</ol>
+<p>Typically a dataset will only suffer from one of these problems; it’ll only suffer from both if you’re really unlucky! To fix these problems, you’ll need the two most important functions in <code>pandas</code>: <code>melt()</code> and <code>pivot_table()</code>.</p>
+<div id="melt-gathering" class="section level3" number="33.2.1">
+<h3><span class="header-section-number">33.2.1</span> Melt (Gathering)</h3>
+<p>A common problem is a dataset where some of the column names are not names of variables, but <em>values</em> of a variable. Take <code>table4a</code>: the column names <em>1999</em> and <em>2000</em> represent values of the year variable, and each row represents two observations, not one. E.g., we are unpivoting a DataFrame from wide format to long format, optionally leaving identifier variables set.</p>
+<p>This function is useful to massage a DataFrame into a format where one or more columns are identifier variables (id_vars), while all other columns, considered measured variables (value_vars), are “unpivoted” to the row axis, leaving just two non-identifier columns, ‘variable’ and ‘value.’</p>
+<pre><code>table4a = StringIO(&quot;&quot;&quot;country|1999|2000
+Afghanistan | 745    | 2666   
+Brazil      | 37737  | 80488  
+China       | 212258 | 213766 
+&quot;&quot;&quot;)
+table4a = pd.read_csv(table4a, sep=&quot;|&quot;)</code></pre>
+<pre><code>table4a</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+country
+</th>
+<th>
+1999
+</th>
+<th>
+2000
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+Afghanistan
+</td>
+<td>
+745
+</td>
+<td>
+2666
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+Brazil
+</td>
+<td>
+37737
+</td>
+<td>
+80488
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+China
+</td>
+<td>
+212258
+</td>
+<td>
+213766
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>To tidy a dataset like this, we need to <strong>melt</strong> (gather) those columns into a new pair of variables. To describe that operation we need three parameters:</p>
+<ul>
+<li><p>The set of columns that represent values, not variables. In this example, those are the columns 1999 and 2000.</p></li>
+<li><p>The name of the identifier variable(s) is the <code>id_vars</code>, and here it is <code>country</code>.</p></li>
+<li><p>The name of the variable whose values form the column names. We call that the <code>var_name</code>, and here it is <code>year</code>.</p></li>
+<li><p>The name of the variable whose values are spread over the cells. We call that <code>value_name</code>, and here it’s the number of <code>cases</code>.</p></li>
+</ul>
+<p>Together those parameters generate the call to <code>pd.melt()</code></p>
+<pre><code>table4a = pd.melt(table4a,
+        id_vars=[&quot;country&quot;],
+        value_vars=[&quot;1999&quot;,&quot;2000&quot;],
+        var_name = &quot;year&quot;,
+        value_name=&quot;cases&quot;
+        )
+table4a</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+country
+</th>
+<th>
+year
+</th>
+<th>
+cases
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+Afghanistan
+</td>
+<td>
+1999
+</td>
+<td>
+745
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+Brazil
+</td>
+<td>
+1999
+</td>
+<td>
+37737
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+China
+</td>
+<td>
+1999
+</td>
+<td>
+212258
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<td>
+Afghanistan
+</td>
+<td>
+2000
+</td>
+<td>
+2666
+</td>
+</tr>
+<tr>
+<th>
+4
+</th>
+<td>
+Brazil
+</td>
+<td>
+2000
+</td>
+<td>
+80488
+</td>
+</tr>
+<tr>
+<th>
+5
+</th>
+<td>
+China
+</td>
+<td>
+2000
+</td>
+<td>
+213766
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Here there are only two columns, so we list them individually. Note that “1999” and “2000” are non-syntactic names (because they don’t start with a letter) so we have to surround them in backticks. To refresh your memory of the other ways to select columns.</p>
+<div class="figure">
+<img src="https://github.com/SoIllEconomist/ds4b/blob/master/python_ds4b/02_wrangle/tidy-9.png?raw=1" alt="" />
+<p class="caption">Gathering table4 into a tidy form.</p>
+</div>
+<p>In the final result, the gathered columns are dropped, and we get new key and value columns. Otherwise, the relationships between the original variables are preserved.</p>
+<p>We can use <code>melt()</code> to tidy <code>table4b</code> in a similar fashion.</p>
+<pre><code>table4b = StringIO(&quot;&quot;&quot;country|1999|2000
+Afghanistan | 19987071   | 20595360
+Brazil      | 172006362  | 174504898
+China       | 1272915272 | 1280428583&quot;&quot;&quot;)
+table4b = pd.read_csv(table4b, sep=&quot;|&quot;)</code></pre>
+<pre><code>table4b = pd.melt(table4b,
+        id_vars=[&quot;country&quot;],
+        value_vars=[&quot;1999&quot;,&quot;2000&quot;],
+        var_name = &quot;year&quot;,
+        value_name=&quot;population&quot;
+        )
+table4b</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+country
+</th>
+<th>
+year
+</th>
+<th>
+population
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+Afghanistan
+</td>
+<td>
+1999
+</td>
+<td>
+19987071
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+Brazil
+</td>
+<td>
+1999
+</td>
+<td>
+172006362
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+China
+</td>
+<td>
+1999
+</td>
+<td>
+1272915272
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<td>
+Afghanistan
+</td>
+<td>
+2000
+</td>
+<td>
+20595360
+</td>
+</tr>
+<tr>
+<th>
+4
+</th>
+<td>
+Brazil
+</td>
+<td>
+2000
+</td>
+<td>
+174504898
+</td>
+</tr>
+<tr>
+<th>
+5
+</th>
+<td>
+China
+</td>
+<td>
+2000
+</td>
+<td>
+1280428583
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>To combine the tidied versions of table4a and table4b into a single tibble, we need to use <code>merge()</code>, which you’ll learn about in relational data.</p>
+<pre><code>pd.merge(table4a, table4b, how=&quot;left&quot;, on=[&quot;country&quot;,&quot;year&quot;])</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+country
+</th>
+<th>
+year
+</th>
+<th>
+cases
+</th>
+<th>
+population
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+Afghanistan
+</td>
+<td>
+1999
+</td>
+<td>
+745
+</td>
+<td>
+19987071
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+Brazil
+</td>
+<td>
+1999
+</td>
+<td>
+37737
+</td>
+<td>
+172006362
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+China
+</td>
+<td>
+1999
+</td>
+<td>
+212258
+</td>
+<td>
+1272915272
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<td>
+Afghanistan
+</td>
+<td>
+2000
+</td>
+<td>
+2666
+</td>
+<td>
+20595360
+</td>
+</tr>
+<tr>
+<th>
+4
+</th>
+<td>
+Brazil
+</td>
+<td>
+2000
+</td>
+<td>
+80488
+</td>
+<td>
+174504898
+</td>
+</tr>
+<tr>
+<th>
+5
+</th>
+<td>
+China
+</td>
+<td>
+2000
+</td>
+<td>
+213766
+</td>
+<td>
+1280428583
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="pivot-spreading" class="section level2" number="33.3">
+<h2><span class="header-section-number">33.3</span> Pivot (Spreading)</h2>
+<p>Pivoting (spreading) is the opposite of melting (gathering). You use it when an observation is scattered across multiple rows. For example, take <code>table2</code>: an observation is a country in a year, but each observation is spread across two rows.</p>
+<pre><code>table2 = StringIO(&quot;&quot;&quot;country|year|type|count
+Afghanistan | 1999 | cases      | 745       
+Afghanistan | 1999 | population | 19987071  
+Afghanistan | 2000 | cases      | 2666      
+Afghanistan | 2000 | population | 20595360  
+Brazil      | 1999 | cases      | 37737     
+Brazil      | 1999 | population | 172006362 &quot;&quot;&quot;)
+table2 = pd.read_csv(table2, sep=&quot;|&quot;)</code></pre>
+<pre><code>table2</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+country
+</th>
+<th>
+year
+</th>
+<th>
+type
+</th>
+<th>
+count
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+Afghanistan
+</td>
+<td>
+1999
+</td>
+<td>
+cases
+</td>
+<td>
+745
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+Afghanistan
+</td>
+<td>
+1999
+</td>
+<td>
+population
+</td>
+<td>
+19987071
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+Afghanistan
+</td>
+<td>
+2000
+</td>
+<td>
+cases
+</td>
+<td>
+2666
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<td>
+Afghanistan
+</td>
+<td>
+2000
+</td>
+<td>
+population
+</td>
+<td>
+20595360
+</td>
+</tr>
+<tr>
+<th>
+4
+</th>
+<td>
+Brazil
+</td>
+<td>
+1999
+</td>
+<td>
+cases
+</td>
+<td>
+37737
+</td>
+</tr>
+<tr>
+<th>
+5
+</th>
+<td>
+Brazil
+</td>
+<td>
+1999
+</td>
+<td>
+population
+</td>
+<td>
+172006362
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>To tidy this up, we first analyse the representation in similar way to <code>pivot_table()</code>.</p>
+<pre><code>pd.pivot_table(table2, index=[&quot;country&quot;,&quot;year&quot;],values=&quot;count&quot;, columns=&quot;type&quot;)</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+type
+</th>
+<th>
+cases
+</th>
+<th>
+population
+</th>
+</tr>
+<tr>
+<th>
+country
+</th>
+<th>
+year
+</th>
+<th>
+</th>
+<th>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th rowspan="2" valign="top">
+Afghanistan
+</th>
+<th>
+1999
+</th>
+<td>
+745
+</td>
+<td>
+19987071
+</td>
+</tr>
+<tr>
+<th>
+2000
+</th>
+<td>
+2666
+</td>
+<td>
+20595360
+</td>
+</tr>
+<tr>
+<th>
+Brazil
+</th>
+<th>
+1999
+</th>
+<td>
+37737
+</td>
+<td>
+172006362
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="figure">
+<img src="https://github.com/SoIllEconomist/ds4b/blob/master/python_ds4b/02_wrangle/tidy-8.png?raw=1" alt="" />
+<p class="caption">Spreading table2 makes it tidy.</p>
+</div>
+<p>As you might have guessed that <code>melt()</code> and <code>pivot_table()</code> are complements. <code>melt()</code> makes wide tables narrower and longer; <code>pivot_table()</code> makes long tables shorter and wider.</p>
+<div id="exercises-3" class="section level3" number="33.3.1">
+<h3><span class="header-section-number">33.3.1</span> Exercises</h3>
+<ol style="list-style-type: decimal">
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+</ol>
+</div>
+</div>
+<div id="separating-and-uniting" class="section level2" number="33.4">
+<h2><span class="header-section-number">33.4</span> Separating and uniting</h2>
+<p>So far you’ve learned how to tidy <code>table2</code> and <code>table4</code>, but not <code>table3</code>. <code>table3</code> has a different problem: we have one column (<code>rate</code>) that contains two variables (<code>cases</code> and <code>population</code>). To fix this problem, we’ll need the <code>split()</code> function. You’ll also learn about the complement of <code>split()</code>: <code>cat()</code>, which you use if a single variable is spread across multiple columns.</p>
+</div>
+<div id="separate" class="section level2" number="33.5">
+<h2><span class="header-section-number">33.5</span> Separate</h2>
+<p><code>str.split()</code> pulls apart one column into multiple columns, by splitting whatever a separator character appears. The <code>expand=True</code> parameter converts the separated values into new columns. The <code>astype(int)</code> converts the string into integer columns. Take <code>table3</code>:</p>
+<pre><code>table3 = StringIO(&quot;&quot;&quot;country|year|rate
+Afghanistan | 1999 | 745/19987071      
+Afghanistan | 2000 | 2666/20595360     
+Brazil      | 1999 | 37737/172006362   
+Brazil      | 2000 | 80488/174504898   
+China       | 1999 | 212258/1272915272 
+China       | 2000 | 213766/1280428583 &quot;&quot;&quot;)
+table3 = pd.read_csv(table3, sep=&quot;|&quot;)</code></pre>
+<pre><code>table3[[&#39;cases&#39;,&#39;population&#39;]] = table3[&#39;rate&#39;].str.split(&quot;/&quot;, expand=True).astype(int)</code></pre>
+<div class="figure">
+<img src="https://github.com/SoIllEconomist/ds4b/blob/master/python_ds4b/02_wrangle/tidy-17.png?raw=1" alt="" />
+<p class="caption">Separating table3 makes it tidy</p>
+</div>
+<p>By default, <code>split()</code> will split values by <code>,</code>. If you wish to use a specific character to separate a column, you can pass the character to the <code>sep</code> argument.</p>
+<p>Formally, sep is a regular expression, which you’ll learn more about in strings</p>
+<pre><code>table3[&quot;century&quot;] = table3[&quot;year&quot;].astype(str).str[:2]
+table3[&quot;year&quot;] = table3[&quot;year&quot;].astype(str).str[2:]
+table3</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+country
+</th>
+<th>
+year
+</th>
+<th>
+rate
+</th>
+<th>
+cases
+</th>
+<th>
+population
+</th>
+<th>
+century
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+Afghanistan
+</td>
+<td>
+99
+</td>
+<td>
+745/19987071
+</td>
+<td>
+745
+</td>
+<td>
+19987071
+</td>
+<td>
+19
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+Afghanistan
+</td>
+<td>
+00
+</td>
+<td>
+2666/20595360
+</td>
+<td>
+2666
+</td>
+<td>
+20595360
+</td>
+<td>
+20
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+Brazil
+</td>
+<td>
+99
+</td>
+<td>
+37737/172006362
+</td>
+<td>
+37737
+</td>
+<td>
+172006362
+</td>
+<td>
+19
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<td>
+Brazil
+</td>
+<td>
+00
+</td>
+<td>
+80488/174504898
+</td>
+<td>
+80488
+</td>
+<td>
+174504898
+</td>
+<td>
+20
+</td>
+</tr>
+<tr>
+<th>
+4
+</th>
+<td>
+China
+</td>
+<td>
+99
+</td>
+<td>
+212258/1272915272
+</td>
+<td>
+212258
+</td>
+<td>
+1272915272
+</td>
+<td>
+19
+</td>
+</tr>
+<tr>
+<th>
+5
+</th>
+<td>
+China
+</td>
+<td>
+00
+</td>
+<td>
+213766/1280428583
+</td>
+<td>
+213766
+</td>
+<td>
+1280428583
+</td>
+<td>
+20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="unite" class="section level3" number="33.5.1">
+<h3><span class="header-section-number">33.5.1</span> Unite</h3>
+<p><code>cat()</code> is the inverse of <code>split()1: it combines multiple columns into a single column. You’ll need it much less frequently than</code>split()`, but it’s still a useful tool to have in your back pocket.</p>
+<pre><code>table3[&quot;new&quot;] = table3[&quot;century&quot;].str.cat(table3[&quot;year&quot;])
+table3</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+country
+</th>
+<th>
+year
+</th>
+<th>
+rate
+</th>
+<th>
+cases
+</th>
+<th>
+population
+</th>
+<th>
+century
+</th>
+<th>
+new
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+Afghanistan
+</td>
+<td>
+99
+</td>
+<td>
+745/19987071
+</td>
+<td>
+745
+</td>
+<td>
+19987071
+</td>
+<td>
+19
+</td>
+<td>
+1999
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+Afghanistan
+</td>
+<td>
+00
+</td>
+<td>
+2666/20595360
+</td>
+<td>
+2666
+</td>
+<td>
+20595360
+</td>
+<td>
+20
+</td>
+<td>
+2000
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+Brazil
+</td>
+<td>
+99
+</td>
+<td>
+37737/172006362
+</td>
+<td>
+37737
+</td>
+<td>
+172006362
+</td>
+<td>
+19
+</td>
+<td>
+1999
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<td>
+Brazil
+</td>
+<td>
+00
+</td>
+<td>
+80488/174504898
+</td>
+<td>
+80488
+</td>
+<td>
+174504898
+</td>
+<td>
+20
+</td>
+<td>
+2000
+</td>
+</tr>
+<tr>
+<th>
+4
+</th>
+<td>
+China
+</td>
+<td>
+99
+</td>
+<td>
+212258/1272915272
+</td>
+<td>
+212258
+</td>
+<td>
+1272915272
+</td>
+<td>
+19
+</td>
+<td>
+1999
+</td>
+</tr>
+<tr>
+<th>
+5
+</th>
+<td>
+China
+</td>
+<td>
+00
+</td>
+<td>
+213766/1280428583
+</td>
+<td>
+213766
+</td>
+<td>
+1280428583
+</td>
+<td>
+20
+</td>
+<td>
+2000
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="exercises-4" class="section level3" number="33.5.2">
+<h3><span class="header-section-number">33.5.2</span> Exercises</h3>
+<ol style="list-style-type: decimal">
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+</ol>
+</div>
+</div>
+<div id="missing-values" class="section level2" number="33.6">
+<h2><span class="header-section-number">33.6</span> Missing Values</h2>
+<p>Changing the representation of a dataset brings up an important subtlety of missing values. Surprisingly, a value can be missing in one of two possible ways:
+1. <strong>Explicitly</strong>, i.e. flagged with <code>NaN</code>
+1. <strong>Implicitly</strong>, i.e. simply not present in the data.</p>
+<p>Let’s illustrate this idea with a very simple dataset:</p>
+<pre><code>stocks = pd.DataFrame(
+                      {
+                          &quot;year&quot;:[2015, 2015, 2015, 2015, 2016, 2016, 2016],
+                       &quot;qtr&quot;:[1,    2,    3,    4,    2,    3,    4],
+                       &quot;return&quot;:[1.88, 0.59, 0.35,   np.nan, 0.92, 0.17, 2.66]
+                      }
+)</code></pre>
+<pre><code>stocks</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+year
+</th>
+<th>
+qtr
+</th>
+<th>
+return
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+2015
+</td>
+<td>
+1
+</td>
+<td>
+1.88
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+2015
+</td>
+<td>
+2
+</td>
+<td>
+0.59
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+2015
+</td>
+<td>
+3
+</td>
+<td>
+0.35
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<td>
+2015
+</td>
+<td>
+4
+</td>
+<td>
+NaN
+</td>
+</tr>
+<tr>
+<th>
+4
+</th>
+<td>
+2016
+</td>
+<td>
+2
+</td>
+<td>
+0.92
+</td>
+</tr>
+<tr>
+<th>
+5
+</th>
+<td>
+2016
+</td>
+<td>
+3
+</td>
+<td>
+0.17
+</td>
+</tr>
+<tr>
+<th>
+6
+</th>
+<td>
+2016
+</td>
+<td>
+4
+</td>
+<td>
+2.66
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>There are two missing values in this dataset:</p>
+<ul>
+<li><p>The return for the fourth quarter of 2015 is explicitly missing, because the cell where its value should be instead contains <code>NaN</code>.</p></li>
+<li><p>The return for the first quarter of 2016 is implicitly missing, because it simply does not appear in the dataset.</p></li>
+</ul>
+<p>One way to think about the difference is with this Zen-like koan: An explicit missing value is the presence of an absence; an implicit missing value is the absence of a presence.</p>
+<p>The way that a dataset is represented can make implicit values explicit. For example, we can make the implicit missing value explicit by putting years in the columns:</p>
+<pre><code>stocks_pivot = stocks.pivot(index=&quot;qtr&quot;, columns=&quot;year&quot;,values=&quot;return&quot;)</code></pre>
+<pre><code>stocks_pivot</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+year
+</th>
+<th>
+2015
+</th>
+<th>
+2016
+</th>
+</tr>
+<tr>
+<th>
+qtr
+</th>
+<th>
+</th>
+<th>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+1
+</th>
+<td>
+1.88
+</td>
+<td>
+NaN
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+0.59
+</td>
+<td>
+0.92
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<td>
+0.35
+</td>
+<td>
+0.17
+</td>
+</tr>
+<tr>
+<th>
+4
+</th>
+<td>
+NaN
+</td>
+<td>
+2.66
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Because these explicit missing values may not be important in other representations of the data, you can use <code>.dropna()</code> in <code>melt()</code> to turn explicit missing values implicit:</p>
+<pre><code>stocks_explicit = pd.melt(stocks_pivot.reset_index(), id_vars=[&#39;qtr&#39;], value_vars=[2015,2016])</code></pre>
+<pre><code>stocks_explicit</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+qtr
+</th>
+<th>
+year
+</th>
+<th>
+value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+1
+</td>
+<td>
+2015
+</td>
+<td>
+1.88
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+2
+</td>
+<td>
+2015
+</td>
+<td>
+0.59
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+3
+</td>
+<td>
+2015
+</td>
+<td>
+0.35
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<td>
+4
+</td>
+<td>
+2015
+</td>
+<td>
+NaN
+</td>
+</tr>
+<tr>
+<th>
+4
+</th>
+<td>
+1
+</td>
+<td>
+2016
+</td>
+<td>
+NaN
+</td>
+</tr>
+<tr>
+<th>
+5
+</th>
+<td>
+2
+</td>
+<td>
+2016
+</td>
+<td>
+0.92
+</td>
+</tr>
+<tr>
+<th>
+6
+</th>
+<td>
+3
+</td>
+<td>
+2016
+</td>
+<td>
+0.17
+</td>
+</tr>
+<tr>
+<th>
+7
+</th>
+<td>
+4
+</td>
+<td>
+2016
+</td>
+<td>
+2.66
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<pre><code>stocks_implicit = pd.melt(stocks_pivot.reset_index(), id_vars=[&#39;qtr&#39;], value_vars=[2015,2016]).dropna()</code></pre>
+<pre><code>stocks_implicit</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+qtr
+</th>
+<th>
+year
+</th>
+<th>
+value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+1
+</td>
+<td>
+2015
+</td>
+<td>
+1.88
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+2
+</td>
+<td>
+2015
+</td>
+<td>
+0.59
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+3
+</td>
+<td>
+2015
+</td>
+<td>
+0.35
+</td>
+</tr>
+<tr>
+<th>
+5
+</th>
+<td>
+2
+</td>
+<td>
+2016
+</td>
+<td>
+0.92
+</td>
+</tr>
+<tr>
+<th>
+6
+</th>
+<td>
+3
+</td>
+<td>
+2016
+</td>
+<td>
+0.17
+</td>
+</tr>
+<tr>
+<th>
+7
+</th>
+<td>
+4
+</td>
+<td>
+2016
+</td>
+<td>
+2.66
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>There’s one other important tool that you should know for working with missing values.</p>
+<p>To drop any rows that have missing data.</p>
+<pre><code>stocks_explicit.dropna()</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+qtr
+</th>
+<th>
+year
+</th>
+<th>
+value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+1
+</td>
+<td>
+2015
+</td>
+<td>
+1.88
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+2
+</td>
+<td>
+2015
+</td>
+<td>
+0.59
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+3
+</td>
+<td>
+2015
+</td>
+<td>
+0.35
+</td>
+</tr>
+<tr>
+<th>
+5
+</th>
+<td>
+2
+</td>
+<td>
+2016
+</td>
+<td>
+0.92
+</td>
+</tr>
+<tr>
+<th>
+6
+</th>
+<td>
+3
+</td>
+<td>
+2016
+</td>
+<td>
+0.17
+</td>
+</tr>
+<tr>
+<th>
+7
+</th>
+<td>
+4
+</td>
+<td>
+2016
+</td>
+<td>
+2.66
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Filling missing data.</p>
+<pre><code>stocks_explicit.fillna(&quot;FILL VALUE&quot;)</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+qtr
+</th>
+<th>
+year
+</th>
+<th>
+value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+1
+</td>
+<td>
+2015
+</td>
+<td>
+1.88
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+2
+</td>
+<td>
+2015
+</td>
+<td>
+0.59
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+3
+</td>
+<td>
+2015
+</td>
+<td>
+0.35
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<td>
+4
+</td>
+<td>
+2015
+</td>
+<td>
+FILL VALUE
+</td>
+</tr>
+<tr>
+<th>
+4
+</th>
+<td>
+1
+</td>
+<td>
+2016
+</td>
+<td>
+FILL VALUE
+</td>
+</tr>
+<tr>
+<th>
+5
+</th>
+<td>
+2
+</td>
+<td>
+2016
+</td>
+<td>
+0.92
+</td>
+</tr>
+<tr>
+<th>
+6
+</th>
+<td>
+3
+</td>
+<td>
+2016
+</td>
+<td>
+0.17
+</td>
+</tr>
+<tr>
+<th>
+7
+</th>
+<td>
+4
+</td>
+<td>
+2016
+</td>
+<td>
+2.66
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<pre><code>stocks_explicit.fillna(0)</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+qtr
+</th>
+<th>
+year
+</th>
+<th>
+value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+1
+</td>
+<td>
+2015
+</td>
+<td>
+1.88
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+2
+</td>
+<td>
+2015
+</td>
+<td>
+0.59
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+3
+</td>
+<td>
+2015
+</td>
+<td>
+0.35
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<td>
+4
+</td>
+<td>
+2015
+</td>
+<td>
+0.00
+</td>
+</tr>
+<tr>
+<th>
+4
+</th>
+<td>
+1
+</td>
+<td>
+2016
+</td>
+<td>
+0.00
+</td>
+</tr>
+<tr>
+<th>
+5
+</th>
+<td>
+2
+</td>
+<td>
+2016
+</td>
+<td>
+0.92
+</td>
+</tr>
+<tr>
+<th>
+6
+</th>
+<td>
+3
+</td>
+<td>
+2016
+</td>
+<td>
+0.17
+</td>
+</tr>
+<tr>
+<th>
+7
+</th>
+<td>
+4
+</td>
+<td>
+2016
+</td>
+<td>
+2.66
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<pre><code>stocks_explicit.fillna(method=&quot;bfill&quot;) # backfill</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+qtr
+</th>
+<th>
+year
+</th>
+<th>
+value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+1
+</td>
+<td>
+2015
+</td>
+<td>
+1.88
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+2
+</td>
+<td>
+2015
+</td>
+<td>
+0.59
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+3
+</td>
+<td>
+2015
+</td>
+<td>
+0.35
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<td>
+4
+</td>
+<td>
+2015
+</td>
+<td>
+0.92
+</td>
+</tr>
+<tr>
+<th>
+4
+</th>
+<td>
+1
+</td>
+<td>
+2016
+</td>
+<td>
+0.92
+</td>
+</tr>
+<tr>
+<th>
+5
+</th>
+<td>
+2
+</td>
+<td>
+2016
+</td>
+<td>
+0.92
+</td>
+</tr>
+<tr>
+<th>
+6
+</th>
+<td>
+3
+</td>
+<td>
+2016
+</td>
+<td>
+0.17
+</td>
+</tr>
+<tr>
+<th>
+7
+</th>
+<td>
+4
+</td>
+<td>
+2016
+</td>
+<td>
+2.66
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<pre><code>stocks_explicit.fillna(method=&quot;ffill&quot;) # forward fill</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+qtr
+</th>
+<th>
+year
+</th>
+<th>
+value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+1
+</td>
+<td>
+2015
+</td>
+<td>
+1.88
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+2
+</td>
+<td>
+2015
+</td>
+<td>
+0.59
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+3
+</td>
+<td>
+2015
+</td>
+<td>
+0.35
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<td>
+4
+</td>
+<td>
+2015
+</td>
+<td>
+0.35
+</td>
+</tr>
+<tr>
+<th>
+4
+</th>
+<td>
+1
+</td>
+<td>
+2016
+</td>
+<td>
+0.35
+</td>
+</tr>
+<tr>
+<th>
+5
+</th>
+<td>
+2
+</td>
+<td>
+2016
+</td>
+<td>
+0.92
+</td>
+</tr>
+<tr>
+<th>
+6
+</th>
+<td>
+3
+</td>
+<td>
+2016
+</td>
+<td>
+0.17
+</td>
+</tr>
+<tr>
+<th>
+7
+</th>
+<td>
+4
+</td>
+<td>
+2016
+</td>
+<td>
+2.66
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>There are a variety of other methods but we’ll leave those for another time.</p>
+<div id="exercise-2" class="section level3" number="33.6.1">
+<h3><span class="header-section-number">33.6.1</span> Exercise</h3>
+<ol style="list-style-type: decimal">
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+</ol>
+</div>
+</div>
+<div id="case-study" class="section level2" number="33.7">
+<h2><span class="header-section-number">33.7</span> Case Study</h2>
+<p>To finish off the chapter, let’s pull together everything you’ve learned to tackle a realistic data tidying problem. WHO dataset contains tuberculosis (TB) cases broken down by year, country, age, gender, and diagnosis method. The data comes from the 2014 World Health Organization Global Tuberculosis Report, available at <a href="http://www.who.int/tb/country/data/download/en/" class="uri">http://www.who.int/tb/country/data/download/en/</a>.</p>
+<p>There’s a wealth of epidemiological information in this dataset, but it’s challenging to work with the data in the form that it’s provided:</p>
+<pre><code>url = &quot;https://extranet.who.int/tme/generateCSV.asp?ds=notifications&quot;
+who = pd.read_csv(url)</code></pre>
+<p>This is a very typical real-life example dataset. It contains redundant columns, odd variable codes, and many missing values. In short, <code>who</code> is messy, and we’ll need multiple steps to tidy it. That means in real-life situations you’ll usually need to string together multiple functions into a pipeline.</p>
+<p>The best place to start is almost always to gather together the columns that are not variables. Let’s have a look at what we’ve got:</p>
+<ul>
+<li><p>It looks like <code>country</code>, <code>iso2</code>, and <code>iso3</code> are three variables that redundantly specify the country.</p></li>
+<li><p><code>year</code> is clearly also a variable.</p></li>
+<li><p>We don’t know what all the other columns are yet, but given the structure in the variable names (e.g. <code>new_sp_m014</code>, <code>new_ep_m014</code>, <code>new_ep_f014</code>) these are likely to be values, not variables.</p></li>
+</ul>
+<p>So we need to gather together all the columns from <code>new_sp_m014</code> to <code>newrel_f65</code>. We don’t know what those values represent yet, so we’ll give them the generic name “key.” We know the cells represent the count of cases, so we’ll use the variable cases. There are a lot of missing values in the current representation, so for now we’ll use <code>.dropna()</code> just so we can focus on the values that are present.</p>
+<pre><code>who1 = pd.melt(who,
+        id_vars=[&quot;country&quot;,&quot;iso2&quot;,&quot;iso3&quot;,&quot;year&quot;],
+        var_name=&quot;key&quot;,
+        value_name=&quot;cases&quot;).dropna()</code></pre>
+<p>We can get some hint of the structure of the values in the new key column by counting them:</p>
+<pre><code>who1</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th>
+</th>
+<th>
+country
+</th>
+<th>
+iso2
+</th>
+<th>
+iso3
+</th>
+<th>
+year
+</th>
+<th>
+key
+</th>
+<th>
+cases
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+Afghanistan
+</td>
+<td>
+AF
+</td>
+<td>
+AFG
+</td>
+<td>
+1980
+</td>
+<td>
+iso_numeric
+</td>
+<td>
+4
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+Afghanistan
+</td>
+<td>
+AF
+</td>
+<td>
+AFG
+</td>
+<td>
+1981
+</td>
+<td>
+iso_numeric
+</td>
+<td>
+4
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+Afghanistan
+</td>
+<td>
+AF
+</td>
+<td>
+AFG
+</td>
+<td>
+1982
+</td>
+<td>
+iso_numeric
+</td>
+<td>
+4
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<td>
+Afghanistan
+</td>
+<td>
+AF
+</td>
+<td>
+AFG
+</td>
+<td>
+1983
+</td>
+<td>
+iso_numeric
+</td>
+<td>
+4
+</td>
+</tr>
+<tr>
+<th>
+4
+</th>
+<td>
+Afghanistan
+</td>
+<td>
+AF
+</td>
+<td>
+AFG
+</td>
+<td>
+1984
+</td>
+<td>
+iso_numeric
+</td>
+<td>
+4
+</td>
+</tr>
+<tr>
+<th>
+…
+</th>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+</tr>
+<tr>
+<th>
+1325717
+</th>
+<td>
+Zambia
+</td>
+<td>
+ZM
+</td>
+<td>
+ZMB
+</td>
+<td>
+2015
+</td>
+<td>
+hiv_reg_new2
+</td>
+<td>
+3888
+</td>
+</tr>
+<tr>
+<th>
+1325719
+</th>
+<td>
+Zambia
+</td>
+<td>
+ZM
+</td>
+<td>
+ZMB
+</td>
+<td>
+2017
+</td>
+<td>
+hiv_reg_new2
+</td>
+<td>
+199278
+</td>
+</tr>
+<tr>
+<th>
+1325755
+</th>
+<td>
+Zimbabwe
+</td>
+<td>
+ZW
+</td>
+<td>
+ZWE
+</td>
+<td>
+2014
+</td>
+<td>
+hiv_reg_new2
+</td>
+<td>
+215379
+</td>
+</tr>
+<tr>
+<th>
+1325757
+</th>
+<td>
+Zimbabwe
+</td>
+<td>
+ZW
+</td>
+<td>
+ZWE
+</td>
+<td>
+2016
+</td>
+<td>
+hiv_reg_new2
+</td>
+<td>
+168968
+</td>
+</tr>
+<tr>
+<th>
+1325758
+</th>
+<td>
+Zimbabwe
+</td>
+<td>
+ZW
+</td>
+<td>
+ZWE
+</td>
+<td>
+2017
+</td>
+<td>
+hiv_reg_new2
+</td>
+<td>
+164963
+</td>
+</tr>
+</tbody>
+</table>
+<p>
+214489 rows × 6 columns
+</p>
+</div>
+<p>You might be able to parse this out by yourself with a little thought and some experimentation, but luckily we have the data dictionary handy. It tells us:</p>
+<ol style="list-style-type: decimal">
+<li>The first three letters of each column denote whether the column contains new or old cases of TB. In this dataset, each column contains new cases.</li>
+<li>The next two letters describe the type of TB:</li>
+</ol>
+<ul>
+<li><code>rel</code> stands for cases of relapse</li>
+<li><code>ep</code> stands for cases of extrapulmonary TB</li>
+<li><code>sn</code> stands for cases of pulmonary TB that could not be diagnosed by a pulmonary smear (smear negative)</li>
+<li><code>sp</code> stands for cases of pulmonary TB that could be diagnosed be a pulmonary smear (smear positive)</li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>The sixth letter gives the sex of TB patients. The dataset groups cases by males (<code>m</code>) and females (<code>f</code>).</li>
+<li>The remaining numbers gives the age group. The dataset groups cases into seven age groups:</li>
+</ol>
+<ul>
+<li><code>014</code> = 0 – 14 years old</li>
+<li><code>1524</code> = 15 – 24 years old</li>
+<li><code>2534</code> = 25 – 34 years old</li>
+<li><code>3544</code> = 35 – 44 years old</li>
+<li><code>4554</code> = 45 – 54 years old</li>
+<li><code>5564</code> = 55 – 64 years old</li>
+<li><code>65</code> = 65 or older</li>
+</ul>
+<p>We need to make a minor fix to the format of the column names: unfortunately the names are slightly inconsistent because instead of <code>new_rel</code> we have <code>newrel</code> (it’s hard to spot this here but if you don’t fix it we’ll get errors in subsequent steps). You’ll learn about<code>replace()</code> in strings, but the basic idea is pretty simple: replace the characters “newrel” with “new_rel.” This makes all variable names consistent.</p>
+<pre><code>who2 = who1.assign(key= who1[&quot;key&quot;].str.replace(&quot;newrel&quot;,&quot;new_rel&quot;).str.replace(&quot;newret&quot;,&quot;new_ret&quot;))</code></pre>
+<p>We can separate the values in each code with two passes. The first pass will split the codes at each underscore.</p>
+<pre><code>who2.key.str.split(&quot;_&quot;, expand=True).rename({0:&quot;new&quot;, 1:&quot;type&quot;,2:&quot;sexage&quot;,3:&quot;unk&quot;}, axis=1).unk.unique()</code></pre>
+<pre><code>array([None, &#39;flg&#39;, &#39;events&#39;, &#39;all&#39;], dtype=object)</code></pre>
+<pre><code></code></pre>
+<div id="exercises-5" class="section level3" number="33.7.1">
+<h3><span class="header-section-number">33.7.1</span> Exercises</h3>
+</div>
+</div>
+<div id="non-tidy-data" class="section level2" number="33.8">
+<h2><span class="header-section-number">33.8</span> Non-tidy data</h2>
+<pre><code></code></pre>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="done.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="operations.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["data_management.pdf", "data_management.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

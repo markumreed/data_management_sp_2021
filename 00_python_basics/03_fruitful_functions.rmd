@@ -1,0 +1,364 @@
+<a href="https://colab.research.google.com/github/SoIllEconomist/ds4b/blob/master/python_ds4b/python_basics/course_restart/fruitful_functions.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+
+# Functions: Part 2
+## Fruitful Functions (For Business)
+
+Many of the Python functions we have used (the `math` functions) produce return values. But the functions we’ve written are all void:
+    
+   - they have an effect, like printing a value, but 
+   - they don’t have a return value 
+   
+Today you'll learn to write fruitful functions
+
+## Return values
+
+- Calling the function generates a return value, which we (usually) assign to a variable or use as part of an expression
+
+- Today we are going to write fruitful functions
+
+- The first exampe is `cash_flow`, which returns your cash flow given income and expenses
+
+
+```python
+def cash_flow(income, expenses):
+    cf = income - expenses
+    return cf
+```
+
+
+```python
+cash_flow(10000, 9000.0)
+```
+
+
+
+
+    1000.0
+
+
+
+We have seen the return statement before, but in a fruitful function the return statement includes an expression. 
+
+This statement means: “Return immediately from this function and use the following expression as a return value.” 
+
+We could have written this function more concisely:
+
+
+```python
+def cash_flow(income, expenses):
+    return income - expenses
+```
+
+##### Incremental development
+
+- As you write larger functions, you might find yourself spending more time debugging.
+
+- To deal with increasingly complex programs, you might want to try a process called **incremental development**. 
+
+
+### Example
+
+Suppose you want to calculate *compound interest*:
+
+- Compound interest refers to calculating the *compounded interest*, not just the interest gained on the principal invested or borrowed amount.
+
+
+$$A = P(1+\frac{r}{n})^{nt}$$
+
+
+where
+
+- A = New Principal (principal + interest)
+- P = Original Principal Amount
+- r = Annual Nominal Interest Rate (Float)
+- t = Overall length of time the interest is applied
+- n = Compounding frequency
+
+#### Step 1
+The first step is to consider what a `comp_interest` function should look like. 
+- What are the inputs (parameters) and what is the output (return value)?
+
+    - In this case, the inputs are four numbers. 
+    - The return value is the accrued amount (principal + interest) AND the total compound interest (represented by a floating-point value)
+
+#### Step 2
+Write an outline of the function:
+
+```python
+def comp_interest(principal, rate, n, t):
+    return 0.0
+```
+
+- Obviously, this version doesn’t compute our values; it always returns zero. 
+- But it is syntactically correct, and it runs, which means that you can test it before you make it more complicated.
+
+```python
+comp_interest(5000, 0.08, 4, 2) # Easy to solve
+0.0
+```
+
+At this point we have confirmed that the function is syntactically correct, and we can start adding code to the body. 
+
+#### Step 3
+A reasonable next step is to find the subvalues.
+
+```python
+def comp_interest(principal, rate, n, t):
+    r_n = 1 + (rate / n)
+    nt = n * t
+    print('Compound rate: ', r_n)
+    print('Frequency: ', nt)
+    return 0.0
+```
+
+If the function is working, it should display: 
+
+```python
+comp_interest(5000,0.08,4,2)
+Compound rate: 1.02
+Frequency: 8
+```
+
+#### Step 4
+Next compute the result
+
+```python
+def comp_interest(principal, rate, n, t):
+    r_n = 1 + (rate / n)
+    nt = n * t
+    result = principal*r_n**nt
+    return round(result,2)
+```
+
+When you start out, you should add only a line or two of code at a time. As you gain more experience, you might find yourself writing and debugging bigger chunks. Either way, incremental development can save you a lot of debugging time.
+
+The key aspects of the process are:
+
+1. Start with a working program and make small incremental changes. At any point, if there is an error, you should have a good idea where it is.
+2. Use variables to hold intermediate values so you can display and check them.
+3. Once the program is working, you might want to remove some of the scaffolding or consolidate multiple statements into compound expressions, but only if it does not make the program difficult to read.
+
+### Example 2
+
+
+$$B = R [\frac{1-(1+i)^{-(n-x)}}{i}]$$
+
+
+```python
+def rem_bal(reg_pay, i, num_pay, pay_made):
+    return 0.0
+```
+
+
+```python
+
+```
+
+
+```python
+
+```
+
+
+```python
+def rem_bal(reg_pay, i, num_pay, pay_made):
+    a = 1+i
+    b = -(num_pay-pay_made)
+    c = 1 - a**b
+    d = c / i
+    result = reg_pay * d
+    return round(result,2)
+```
+
+
+```python
+rem_bal(5000, 0.08, 4, 2)
+```
+
+
+
+
+    8916.32
+
+
+
+## Boolean Functions
+
+Functions can return booleans, which is often convenient for hiding complicated tests inside functions. For example:
+
+```python
+def is_divisible(x, y):
+    if x % y == 0:
+        return True
+    else:
+        return False
+```
+It is common to give boolean functions names that sound like yes/no questions
+
+The result of the == operator is a boolean, so we can write the function more concisely by returning it directly:
+
+```python
+def is_divisible(x, y):
+    return x % y == 0
+```
+
+## Recursion (Factorial Example)
+
+- The factorial of a non-negative integer n, denoted by n!, is the product of all positive integers less than or equal to n.
+
+$$0! = 1$$
+$$n! = n(n-1)!$$
+
+If you can write a recursive definition of something, you can write a Python program to evaluate it
+
+### Step 1: Decide on parameters
+
+- `factorial` takes an integer
+
+```python
+def factorial(n):
+    
+```
+
+### Step 2: Add basic conditional argument
+- if the argument happens to be 0, we return 1:
+
+```python
+def factorial(n):
+    if n == 0:
+        return 1
+```
+
+### Step 3: Make it recursive
+Otherwise, we have to make a recursive call to 
+1. find the factorial of n-1
+2. multiply it by n
+
+```python
+def factorial(n):
+    if n == 0:
+        return 1
+    else:
+        recurse = factorial(n-1)
+        result = n * recurse
+        return result
+```
+
+This should look similar to our `countdown` example
+
+
+```python
+def factorial(n):
+    if n == 0:
+        return 1
+    else:
+        recurse = factorial(n-1)
+        result = n * recurse
+        return result
+```
+
+
+```python
+factorial(500)
+```
+
+
+
+
+    1220136825991110068701238785423046926253574342803192842192413588385845373153881997605496447502203281863013616477148203584163378722078177200480785205159329285477907571939330603772960859086270429174547882424912726344305670173270769461062802310452644218878789465754777149863494367781037644274033827365397471386477878495438489595537537990423241061271326984327745715546309977202781014561081188373709531016356324432987029563896628911658974769572087926928871281780070265174507768410719624390394322536422605234945850129918571501248706961568141625359056693423813008856249246891564126775654481886506593847951775360894005745238940335798476363944905313062323749066445048824665075946735862074637925184200459369692981022263971952597190945217823331756934581508552332820762820023402626907898342451712006207714640979456116127629145951237229913340169552363850942885592018727433795173014586357570828355780158735432768888680120399882384702151467605445407663535984174430480128938313896881639487469658817504506926365338175055478128640000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+
+
+## Fibonacci Example
+
+          fibonacci(0) = 0 
+ 	 	fibonacci(1) = 1 
+ 	 	fibonacci(n) = fibonacci(n−1) + fibonacci(n−2)
+        
+Translated into a Python function:
+
+
+```python
+def fibonacci(n):
+    if n ==0:
+        return 0
+    elif n == 1:
+        return 1
+    else:
+        return fibonacci(n-1) + fibonacci(n-2)
+```
+
+
+```python
+fibonacci(4)
+```
+
+
+
+
+    3
+
+
+
+## Checking types: Factorial Example 2
+
+What happens if we call `factorial` and give it 1.5 as an argument?
+
+```python
+factorial(1.5)
+RuntimeError: Maximum recursion depth exceeded
+```
+
+- It looks like an infinite recursion. How can that be? 
+- The function has a base case—when `n == 0`. 
+- But if n is not an integer, we can miss the base case and recurse forever
+
+### Solution
+
+- Use the built-in function `isinstance` to verify the type of the argument
+
+
+```python
+def factorial(n):
+    if not isinstance(n, int):
+        print('Factorial is only defined for integers.')
+        return None
+    elif n < 0:
+        print('Factorial is not defined for negative integers.')
+        return None
+    elif n == 0:
+        return 1
+    else:
+        return n * factorial(n-1)
+```
+
+
+```python
+factorial('bob')
+```
+
+    Factorial is only defined for integers.
+
+
+
+```python
+factorial(-2)
+```
+
+    Factorial is not defined for negative integers.
+
+
+
+```python
+factorial(0)
+
+
+
+```
+
+
+
+
+    1
+
+

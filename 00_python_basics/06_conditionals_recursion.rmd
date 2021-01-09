@@ -1,0 +1,595 @@
+<a href="https://colab.research.google.com/github/SoIllEconomist/ds4b/blob/master/python_ds4b/python_basics/course_restart/Conditionals%20and%20Recursion.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+
+# Conditionals and Recursion
+
+- `if` statement
+    - executes code depending on the state of the program
+
+## Floor division and modulus
+
+The **floor division** operator, //, divides two numbers and rounds down to an integer.
+
+Suppose you have a movie with a runtime of 105 minutes. You might want to know how long that is in hours.
+
+Conventional division returns a floating-point
+
+
+```python
+minutes = 105
+```
+
+
+```python
+minutes / 60
+```
+
+
+
+
+    1.75
+
+
+
+But we don’t normally write hours with decimal points. Floor division returns the integer number of hours, rounding down:
+
+
+```python
+hours = minutes // 60
+```
+
+
+```python
+hours
+```
+
+
+
+
+    1
+
+
+
+**Modulus operator**, %, which divides two numbers and returns the remainder.
+
+
+```python
+remainder = minutes % 60
+```
+
+
+```python
+remainder
+```
+
+
+
+
+    45
+
+
+
+
+```python
+def movie_time(minutes):
+    """Converts movie time from minutes 
+    to hours minutes.
+    Output:
+    =========
+    
+    X hrs Y mins
+    
+    """
+    hrs = minutes // 60
+    mins = minutes % 60
+    print(str(hrs) + ' hrs ' + str(mins) +' mins')
+```
+
+
+```python
+movie_time(105)
+```
+
+    1 hrs 45 mins
+
+
+## Boolean expressions
+
+A boolean expression is an expression that is either true or false. The following examples use the operator `==`, which compares two operands and produces `True` if they are equal and False otherwise:
+
+
+```python
+5 == 5
+```
+
+
+
+
+    True
+
+
+
+
+```python
+5 == 6
+```
+
+
+
+
+    False
+
+
+
+
+```python
+type(True)
+```
+
+
+
+
+    bool
+
+
+
+
+```python
+type(False)
+```
+
+
+
+
+    bool
+
+
+
+The `==` operator is one of the relational operators; the others are:
+
+| Relational Operator | Description                     |
+|---------------------|---------------------------------|
+| x != y              | x is not equal to y             |
+| x > y               | x is greater than y             |
+| x < y               | x is less than y                |
+| x >= y              | x is greater than or equal to y |
+| x <= y              | x is less than or equal to y    |
+
+## Logical operators
+
+There are three **logical operators**: 
+    - and, or, and not. 
+    
+The meaning of these operators is similar to their meaning in English. 
+
+For example, `x > 0` **and** `x < 10` is true only if x is greater than 0 and less than 10.
+
+
+```python
+5 > 0 and 5 < 10
+```
+
+
+
+
+    True
+
+
+
+
+```python
+20 > 0 and 20 < 10
+```
+
+
+
+
+    False
+
+
+
+`n%2 == 0` **or** `n%3 == 0` is true if either or both of the conditions is true, that is, if the number is divisible by 2 or 3
+
+
+```python
+4 % 2 == 0 or 4 % 3 == 0
+```
+
+
+
+
+    True
+
+
+
+
+```python
+9 % 2 == 0 or 9 % 3 == 0
+```
+
+
+
+
+    True
+
+
+
+
+```python
+9 % 2 == 0 or 10 % 3 == 0
+```
+
+
+
+
+    False
+
+
+
+the not operator negates a boolean expression, so **not** `(x > y)` is true if x > y is false, that is, if x is less than or equal to y.
+
+
+```python
+not (10 > 5)
+```
+
+
+
+
+    False
+
+
+
+
+```python
+(10 > 5)
+```
+
+
+
+
+    True
+
+
+
+## Conditional execution
+
+In order to write useful programs, we almost always need the ability to check conditions and change the behavior of the program accordingly. 
+
+**Conditional statements** give us this ability. The simplest form is the if statement:
+
+
+```python
+x = 10 
+if x > 0:
+    print('x is positive')
+```
+
+    x is positive
+
+
+The boolean expression after if is called the **condition**. If it is true, the indented statement runs. If not, nothing happens.
+
+`if` statements have the same structure as function definitions: a header followed by an indented body. 
+
+Statements like this are called **compound statements**.
+
+## Alternative execution
+
+A second form of the if statement is “alternative execution”, in which there are two possibilities and the condition determines which one runs. 
+
+The alternatives are called **branches**, because they are branches in the flow of execution.
+
+
+```python
+x = 10
+
+if x % 2 ==0:
+    print('x is even')
+else:
+    print('x is odd')
+
+```
+
+    x is even
+
+
+
+```python
+x = 9
+
+if x % 2 ==0:
+    print('x is even')
+else:
+    print('x is odd')
+```
+
+## Chained conditionals
+
+Sometimes there are more than two possibilities and we need more than two branches. 
+
+`elif` is an abbreviation of “else if”. 
+
+Exactly one branch will run. 
+
+There is no limit on the number of elif statements. 
+
+If there is an else clause, it has to be at the end, but there doesn’t have to be one.
+
+One way to express a computation like that is a **chained conditional**:
+
+
+```python
+x = 10
+y = 11
+
+if x < y:
+    print('x is less than y')
+elif x > y:
+    print('x is greater than y')
+else:
+    print('x and y are equal')
+```
+
+    x is less than y
+
+
+
+```python
+x = 12
+y = 11
+
+if x < y:
+    print('x is less than y')
+elif x > y:
+    print('x is greater than y')
+else:
+    print('x and y are equal')
+```
+
+
+```python
+x = 12
+y = 12
+
+if x < y:
+    print('x is less than y')
+elif x > y:
+    print('x is greater than y')
+else:
+    print('x and y are equal')
+```
+
+## Nested conditionals
+
+- One conditional can also be nested within another. 
+
+- The outer conditional contains two branches. 
+
+- The first branch contains a simple statement. 
+
+- The second branch contains another if statement, which has two branches of its own. 
+
+    - Those two branches are both simple statements, although they could have been conditional statements as well.
+
+
+
+
+```python
+x = 12
+y = 12
+
+if x == y:
+    print('x and y are equal')
+else:
+    if x < y:
+        print('x is less than y')
+    else:
+        print('x is greater than y')
+```
+
+    x and y are equal
+
+
+
+```python
+x = 12
+y = 11
+
+if x == y:
+    print('x and y are equal')
+else:
+    if x < y:
+        print('x is less than y')
+    else:
+        print('x is greater than y')
+```
+
+
+```python
+x = 10
+y = 11
+
+if x == y:
+    print('x and y are equal')
+else:
+    if x < y:
+        print('x is less than y')
+    else:
+        print('x is greater than y')
+```
+
+Although the indentation of the statements makes the structure apparent, nested conditionals become difficult to read very quickly. 
+
+**It is a good idea to avoid them when you can.**
+
+## Recursion
+
+It is legal for one function to call another; it is also legal for a function to call itself. 
+
+It may not be obvious why that is a good thing, but it turns out to be one of the most magical things a program can do. 
+
+### What is recursion in Python?
+Recursion is the process of defining something in terms of itself.
+
+A physical world example would be to place two parallel mirrors facing each other. Any object in between them would be reflected recursively.
+
+
+```python
+def countdown(n):
+    if n <= 0:
+        print('Blastoff!')
+    else:
+        print(n)
+        countdown(n-1)
+```
+
+- If n is 0 or negative, it outputs the word, “Blastoff!” 
+
+- Otherwise, it outputs n and then calls a function named countdown—itself—passing n-1 as an argument.
+
+
+
+
+```python
+countdown(5)
+```
+
+    5
+    4
+    3
+    2
+    1
+    Blastoff!
+
+
+## Infinite recursion
+
+- **Infinite recursion** is when a recursion never reaches a base case, it goes on making recursive calls forever, and the program never terminates.
+
+In most programming environments, a program with infinite recursion does not really run forever. Python reports an error message when the maximum recursion depth is reached:
+
+
+```python
+def recursion():
+    recursion()
+```
+
+
+```python
+recursion()
+```
+
+
+    ---------------------------------------------------------------------------
+
+    RecursionError                            Traceback (most recent call last)
+
+    <ipython-input-58-c6e0f7eb0cde> in <module>()
+    ----> 1 recursion()
+    
+
+    <ipython-input-57-d9b9ba688751> in recursion()
+          1 def recursion():
+    ----> 2     recursion()
+    
+
+    ... last 1 frames repeated, from the frame below ...
+
+
+    <ipython-input-57-d9b9ba688751> in recursion()
+          1 def recursion():
+    ----> 2     recursion()
+    
+
+    RecursionError: maximum recursion depth exceeded
+
+
+## Keyboard Input
+
+- Python provides a built-in function called `input` that stops the program and waits for the user to type something. 
+
+- When the user presses Return or Enter, the program resumes and input returns what the user typed as a string. 
+
+
+```python
+text = input()
+```
+
+    blah
+
+
+
+```python
+text
+```
+
+
+
+
+    'blah'
+
+
+
+
+```python
+number = input('Pick a number between 1 and 3:\n')
+```
+
+    Pick a number between 1 and 3:
+    2
+
+
+
+```python
+number
+```
+
+
+
+
+    '2'
+
+
+
+
+```python
+int(number)
+```
+
+
+
+
+    2
+
+
+
+What if they typed out the digits instead?
+
+
+```python
+number = input('Pick a number between 1 and 3:\n')
+```
+
+    Pick a number between 1 and 3:
+    two
+
+
+
+```python
+int(number)
+
+
+
+```
+
+
+    ---------------------------------------------------------------------------
+
+    ValueError                                Traceback (most recent call last)
+
+    <ipython-input-65-23a75fe4b6c6> in <module>()
+    ----> 1 int(number)
+    
+
+    ValueError: invalid literal for int() with base 10: 'two'
+

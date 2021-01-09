@@ -1,0 +1,136 @@
+<a href="https://colab.research.google.com/github/SoIllEconomist/ds4b/blob/master/python_ds4b/python_basics/course_restart/introduction_to_programming.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+
+# Introduction, Types, & Expressions
+
+## Why Learn to Code?
+### Outcomes
+1. Fluency: (Python) procedural programming
+    - Use assignments, conditionals, & loops
+    - Create Python modules and programs
+
+2. Competency: object-oriented programming
+    - Recognize and use objects and classes
+    
+3. Knowledge: Foundations for Data Science
+
+## Why Python?
+- Low overhead
+    - little to learn before you start 'doing'
+    - easier for beginners
+    - designed with 'rapid prototyping' in mind
+- Highly relevant to non-CS majors
+    - NumPy, SciPy and Pandas heavily used
+- Modern language
+    - Popular for web applications
+    - Applicable to mobile app development
+    - Data Scientists Toolkit
+
+## Storing and Computing Data
+
+### Expressions
+An expression **represents** something
+    
+- Python **evaluates it** (turns it into a value)
+- Similar to a calculator
+
+
+```python
+2.3 # Literal (Evaluates to self)
+```
+
+
+
+
+    2.3
+
+
+
+
+```python
+(3*7 + 2) * 0.1 # An expression with four literals and some operators
+```
+
+
+
+
+    2.3000000000000003
+
+
+
+## Types
+A set of values and operations on these values
+    
+- Examples of operations: +,-,/,*
+- Meaning of operations depend on type
+    
+**MEMORIZE THIS DEFINITION**
+
+### How to tell the type of a value
+
+Command:
+```python
+type(<value>)
+```
+
+
+```python
+type(2)
+```
+
+
+
+
+    int
+
+
+
+### float (floating point)
+
+**Values:** (approximations of) real numbers
+- With a ".": a **float** literal (e.g., 2.0)
+- Without a decimal: an **int** literal (e.g., 2)
+    
+**Operations:** + ,- ,\* ,/ ,\*\*
+- *Notice:* operator meaning can change from type to type
+
+**Exponent notation** useful for large (or small) values
+
+$-22.51e6$ is $-22.51 * 10^6$ or $-22510000$
+
+$22.51e-6$ is $-22.51 * 10^{-6}$ or $0.00002251$
+
+### int (integers)
+
+**Values:** $\dots , -3, -2, -1, 0, 1, 2, 3, 4, 5, \dots$
+
+**Operations:** + ,- ,\* , \*\* ,/ , // , %
+
+
+### bool (boolean)
+
+**Values:** True, False
+- Booleans literals `True` and `False` (MUST BE CAPITALIZED)
+    
+**Operations:** not, and, or
+- not b: **True** if *b is false* and **False** if b is true
+- b and c: **True** if *both b and c are true*; **False** otherwise
+- b or c: **True** if *b is true or c is true*; **False** otherwise
+
+Often come from comparing `int` or `float` values
+- Order comparisons: $i<j$ $i<=j$ $i>=j$ $i>j$
+- Equality, inequality: $i == j$ $i!=j$
+
+### str (string) for text
+
+**Values:** any sequence of characters
+
+**Operation(s):** + (contenation, or concatenation)
+- operator `+` changes from type to type
+    
+**String literal:** sequence of characters in quotes
+- Double quotes: "abc#&$g<" or "Hello World!"
+- Single quotes: 'Hello World'
+
+**Concatenation** applies only to strings
+- "ab"  + "cd" evaluates to "abcd"
+- "ab" + 2 produces an **ERROR**

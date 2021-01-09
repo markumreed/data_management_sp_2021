@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Section 48 Reshaping | Data Management</title>
+  <meta name="description" content="You’ll learn how to get data, get it into the most useful structure, transform it, visualize it and model it. In this course, you will find a practicum of skills for data science. You’ll learn how to clean data and draw plots—and many other things besides. These are the skills that allow data science to happen, and here you will find the best practices for doing each of these things. You’ll learn how to use the grammar of graphics, literate programming, and reproducible research to save time. You’ll also learn how to manage cognitive resources to facilitate discoveries when wrangling, visualizing and exploring data. This is a three-credit hour course." />
+  <meta name="generator" content="bookdown 0.21.6 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Section 48 Reshaping | Data Management" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="You’ll learn how to get data, get it into the most useful structure, transform it, visualize it and model it. In this course, you will find a practicum of skills for data science. You’ll learn how to clean data and draw plots—and many other things besides. These are the skills that allow data science to happen, and here you will find the best practices for doing each of these things. You’ll learn how to use the grammar of graphics, literate programming, and reproducible research to save time. You’ll also learn how to manage cognitive resources to facilitate discoveries when wrangling, visualizing and exploring data. This is a three-credit hour course." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Section 48 Reshaping | Data Management" />
+  
+  <meta name="twitter:description" content="You’ll learn how to get data, get it into the most useful structure, transform it, visualize it and model it. In this course, you will find a practicum of skills for data science. You’ll learn how to clean data and draw plots—and many other things besides. These are the skills that allow data science to happen, and here you will find the best practices for doing each of these things. You’ll learn how to use the grammar of graphics, literate programming, and reproducible research to save time. You’ll also learn how to manage cognitive resources to facilitate discoveries when wrangling, visualizing and exploring data. This is a three-credit hour course." />
+  
+
+<meta name="author" content="Markum Reed" />
+
+
+<meta name="date" content="2021-01-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="done-2.html"/>
+<link rel="next" href="pivot-tables.html"/>
+<script src="libs/header-attrs-2.6.4/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Data Management</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Description</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#what-is-expected-of-you"><i class="fa fa-check"></i><b>1.1</b> What is expected of you</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#python_basics"><i class="fa fa-check"></i><b>2.1</b> Python Basics</a></li>
+<li class="chapter" data-level="2.2" data-path="intro.html"><a href="intro.html#pandas_basics"><i class="fa fa-check"></i><b>2.2</b> Pandas Basics</a></li>
+<li class="chapter" data-level="2.3" data-path="intro.html"><a href="intro.html#shell_basics"><i class="fa fa-check"></i><b>2.3</b> Data Science at the Command Line</a></li>
+<li class="chapter" data-level="2.4" data-path="intro.html"><a href="intro.html#sql_basics"><i class="fa fa-check"></i><b>2.4</b> SQL Basics</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="literature.html"><a href="literature.html"><i class="fa fa-check"></i><b>3</b> Literature</a></li>
+<li class="chapter" data-level="4" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>4</b> Methods</a></li>
+<li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>5.1</b> Example one</a></li>
+<li class="chapter" data-level="5.2" data-path="applications.html"><a href="applications.html#example-two"><i class="fa fa-check"></i><b>5.2</b> Example two</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>6</b> Final Words</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="7" data-path="introduction-types-expressions.html"><a href="introduction-types-expressions.html"><i class="fa fa-check"></i><b>7</b> Introduction, Types, &amp; Expressions</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="introduction-types-expressions.html"><a href="introduction-types-expressions.html#why-learn-to-code"><i class="fa fa-check"></i><b>7.1</b> Why Learn to Code?</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="introduction-types-expressions.html"><a href="introduction-types-expressions.html#outcomes"><i class="fa fa-check"></i><b>7.1.1</b> Outcomes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="why-python.html"><a href="why-python.html"><i class="fa fa-check"></i><b>8</b> Why Python?</a></li>
+<li class="chapter" data-level="9" data-path="storing-and-computing-data.html"><a href="storing-and-computing-data.html"><i class="fa fa-check"></i><b>9</b> Storing and Computing Data</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="storing-and-computing-data.html"><a href="storing-and-computing-data.html#expressions"><i class="fa fa-check"></i><b>9.1</b> Expressions</a></li>
+<li class="chapter" data-level="9.2" data-path="storing-and-computing-data.html"><a href="storing-and-computing-data.html#types"><i class="fa fa-check"></i><b>9.2</b> Types</a></li>
+<li class="chapter" data-level="9.3" data-path="storing-and-computing-data.html"><a href="storing-and-computing-data.html#how-to-tell-the-type-of-a-value"><i class="fa fa-check"></i><b>9.3</b> How to tell the type of a value</a></li>
+<li class="chapter" data-level="9.4" data-path="storing-and-computing-data.html"><a href="storing-and-computing-data.html#type-float-floating-point"><i class="fa fa-check"></i><b>9.4</b> Type: float (floating point)</a></li>
+<li class="chapter" data-level="9.5" data-path="storing-and-computing-data.html"><a href="storing-and-computing-data.html#types-int-integers"><i class="fa fa-check"></i><b>9.5</b> Types: int (integers)</a></li>
+<li class="chapter" data-level="9.6" data-path="storing-and-computing-data.html"><a href="storing-and-computing-data.html#type-bool-boolean"><i class="fa fa-check"></i><b>9.6</b> Type: bool (boolean)</a></li>
+<li class="chapter" data-level="9.7" data-path="storing-and-computing-data.html"><a href="storing-and-computing-data.html#type-str-string-for-text"><i class="fa fa-check"></i><b>9.7</b> Type: str (string) for text</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="dictionaries.html"><a href="dictionaries.html"><i class="fa fa-check"></i><b>10</b> Dictionaries</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="dictionaries.html"><a href="dictionaries.html#dictionary-as-a-collection-of-counters"><i class="fa fa-check"></i><b>10.1</b> Dictionary as a collection of counters</a></li>
+<li class="chapter" data-level="10.2" data-path="dictionaries.html"><a href="dictionaries.html#looping-and-dictionaries"><i class="fa fa-check"></i><b>10.2</b> Looping and dictionaries</a></li>
+<li class="chapter" data-level="10.3" data-path="dictionaries.html"><a href="dictionaries.html#reverse-lookup"><i class="fa fa-check"></i><b>10.3</b> Reverse Lookup</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>11</b> Functions</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="functions.html"><a href="functions.html#function-calls"><i class="fa fa-check"></i><b>11.1</b> Function calls</a></li>
+<li class="chapter" data-level="11.2" data-path="functions.html"><a href="functions.html#math-functions"><i class="fa fa-check"></i><b>11.2</b> Math functions</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="functions.html"><a href="functions.html#example"><i class="fa fa-check"></i><b>11.2.1</b> Example</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="functions.html"><a href="functions.html#new-functions"><i class="fa fa-check"></i><b>11.3</b> New Functions</a></li>
+<li class="chapter" data-level="11.4" data-path="functions.html"><a href="functions.html#definitions-and-uses"><i class="fa fa-check"></i><b>11.4</b> Definitions and Uses</a></li>
+<li class="chapter" data-level="11.5" data-path="functions.html"><a href="functions.html#parameters-and-arguments"><i class="fa fa-check"></i><b>11.5</b> Parameters and arguments</a></li>
+<li class="chapter" data-level="11.6" data-path="functions.html"><a href="functions.html#variables-and-parameters-are-local"><i class="fa fa-check"></i><b>11.6</b> Variables and parameters are local</a></li>
+<li class="chapter" data-level="11.7" data-path="functions.html"><a href="functions.html#why-functions"><i class="fa fa-check"></i><b>11.7</b> Why functions</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="fruitful-functions-for-business.html"><a href="fruitful-functions-for-business.html"><i class="fa fa-check"></i><b>12</b> Fruitful Functions (For Business)</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="fruitful-functions-for-business.html"><a href="fruitful-functions-for-business.html#return-values"><i class="fa fa-check"></i><b>12.1</b> Return values</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="fruitful-functions-for-business.html"><a href="fruitful-functions-for-business.html#example-1"><i class="fa fa-check"></i><b>12.1.1</b> Example</a></li>
+<li class="chapter" data-level="12.1.2" data-path="fruitful-functions-for-business.html"><a href="fruitful-functions-for-business.html#example-2"><i class="fa fa-check"></i><b>12.1.2</b> Example 2</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="fruitful-functions-for-business.html"><a href="fruitful-functions-for-business.html#boolean-functions"><i class="fa fa-check"></i><b>12.2</b> Boolean Functions</a></li>
+<li class="chapter" data-level="12.3" data-path="fruitful-functions-for-business.html"><a href="fruitful-functions-for-business.html#recursion-factorial-example"><i class="fa fa-check"></i><b>12.3</b> Recursion (Factorial Example)</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="fruitful-functions-for-business.html"><a href="fruitful-functions-for-business.html#step-1-decide-on-parameters"><i class="fa fa-check"></i><b>12.3.1</b> Step 1: Decide on parameters</a></li>
+<li class="chapter" data-level="12.3.2" data-path="fruitful-functions-for-business.html"><a href="fruitful-functions-for-business.html#step-2-add-basic-conditional-argument"><i class="fa fa-check"></i><b>12.3.2</b> Step 2: Add basic conditional argument</a></li>
+<li class="chapter" data-level="12.3.3" data-path="fruitful-functions-for-business.html"><a href="fruitful-functions-for-business.html#step-3-make-it-recursive"><i class="fa fa-check"></i><b>12.3.3</b> Step 3: Make it recursive</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="fruitful-functions-for-business.html"><a href="fruitful-functions-for-business.html#fibonacci-example"><i class="fa fa-check"></i><b>12.4</b> Fibonacci Example</a></li>
+<li class="chapter" data-level="12.5" data-path="fruitful-functions-for-business.html"><a href="fruitful-functions-for-business.html#checking-types-factorial-example-2"><i class="fa fa-check"></i><b>12.5</b> Checking types: Factorial Example 2</a>
+<ul>
+<li class="chapter" data-level="12.5.1" data-path="fruitful-functions-for-business.html"><a href="fruitful-functions-for-business.html#solution"><i class="fa fa-check"></i><b>12.5.1</b> Solution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="iteration.html"><a href="iteration.html"><i class="fa fa-check"></i><b>13</b> Iteration</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="iteration.html"><a href="iteration.html#reassignment"><i class="fa fa-check"></i><b>13.1</b> Reassignment</a></li>
+<li class="chapter" data-level="13.2" data-path="iteration.html"><a href="iteration.html#updating-variables"><i class="fa fa-check"></i><b>13.2</b> Updating variables</a></li>
+<li class="chapter" data-level="13.3" data-path="iteration.html"><a href="iteration.html#while-statement"><i class="fa fa-check"></i><b>13.3</b> while statement</a></li>
+<li class="chapter" data-level="13.4" data-path="iteration.html"><a href="iteration.html#break"><i class="fa fa-check"></i><b>13.4</b> break</a></li>
+<li class="chapter" data-level="13.5" data-path="iteration.html"><a href="iteration.html#example-square-roots"><i class="fa fa-check"></i><b>13.5</b> Example: Square roots</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="strings.html"><a href="strings.html"><i class="fa fa-check"></i><b>14</b> Strings</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="strings.html"><a href="strings.html#a-string-is-a-sequence"><i class="fa fa-check"></i><b>14.1</b> A string is a sequence</a></li>
+<li class="chapter" data-level="14.2" data-path="strings.html"><a href="strings.html#len"><i class="fa fa-check"></i><b>14.2</b> len</a></li>
+<li class="chapter" data-level="14.3" data-path="strings.html"><a href="strings.html#traversal-with-a-for-loop"><i class="fa fa-check"></i><b>14.3</b> Traversal with a for loop</a></li>
+<li class="chapter" data-level="14.4" data-path="strings.html"><a href="strings.html#example-concatenation"><i class="fa fa-check"></i><b>14.4</b> Example: Concatenation</a></li>
+<li class="chapter" data-level="14.5" data-path="strings.html"><a href="strings.html#example-in-class-question"><i class="fa fa-check"></i><b>14.5</b> Example: In-class question</a></li>
+<li class="chapter" data-level="14.6" data-path="strings.html"><a href="strings.html#string-slices"><i class="fa fa-check"></i><b>14.6</b> String slices</a></li>
+<li class="chapter" data-level="14.7" data-path="strings.html"><a href="strings.html#strings-are-immutable"><i class="fa fa-check"></i><b>14.7</b> Strings are immutable</a></li>
+<li class="chapter" data-level="14.8" data-path="strings.html"><a href="strings.html#search"><i class="fa fa-check"></i><b>14.8</b> Search</a></li>
+<li class="chapter" data-level="14.9" data-path="strings.html"><a href="strings.html#looping-and-counting"><i class="fa fa-check"></i><b>14.9</b> Looping and counting</a></li>
+<li class="chapter" data-level="14.10" data-path="strings.html"><a href="strings.html#string-methods"><i class="fa fa-check"></i><b>14.10</b> String methods</a></li>
+<li class="chapter" data-level="14.11" data-path="strings.html"><a href="strings.html#in-operator"><i class="fa fa-check"></i><b>14.11</b> in operator</a></li>
+<li class="chapter" data-level="14.12" data-path="strings.html"><a href="strings.html#example-3"><i class="fa fa-check"></i><b>14.12</b> Example</a></li>
+<li class="chapter" data-level="14.13" data-path="strings.html"><a href="strings.html#string-comparison"><i class="fa fa-check"></i><b>14.13</b> String comparison</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="conditionals-and-recursion.html"><a href="conditionals-and-recursion.html"><i class="fa fa-check"></i><b>15</b> Conditionals and Recursion</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="conditionals-and-recursion.html"><a href="conditionals-and-recursion.html#floor-division-and-modulus"><i class="fa fa-check"></i><b>15.1</b> Floor division and modulus</a></li>
+<li class="chapter" data-level="15.2" data-path="conditionals-and-recursion.html"><a href="conditionals-and-recursion.html#boolean-expressions"><i class="fa fa-check"></i><b>15.2</b> Boolean expressions</a></li>
+<li class="chapter" data-level="15.3" data-path="conditionals-and-recursion.html"><a href="conditionals-and-recursion.html#logical-operators"><i class="fa fa-check"></i><b>15.3</b> Logical operators</a></li>
+<li class="chapter" data-level="15.4" data-path="conditionals-and-recursion.html"><a href="conditionals-and-recursion.html#conditional-execution"><i class="fa fa-check"></i><b>15.4</b> Conditional execution</a></li>
+<li class="chapter" data-level="15.5" data-path="conditionals-and-recursion.html"><a href="conditionals-and-recursion.html#alternative-execution"><i class="fa fa-check"></i><b>15.5</b> Alternative execution</a></li>
+<li class="chapter" data-level="15.6" data-path="conditionals-and-recursion.html"><a href="conditionals-and-recursion.html#chained-conditionals"><i class="fa fa-check"></i><b>15.6</b> Chained conditionals</a></li>
+<li class="chapter" data-level="15.7" data-path="conditionals-and-recursion.html"><a href="conditionals-and-recursion.html#nested-conditionals"><i class="fa fa-check"></i><b>15.7</b> Nested conditionals</a></li>
+<li class="chapter" data-level="15.8" data-path="conditionals-and-recursion.html"><a href="conditionals-and-recursion.html#recursion"><i class="fa fa-check"></i><b>15.8</b> Recursion</a>
+<ul>
+<li class="chapter" data-level="15.8.1" data-path="conditionals-and-recursion.html"><a href="conditionals-and-recursion.html#what-is-recursion-in-python"><i class="fa fa-check"></i><b>15.8.1</b> What is recursion in Python?</a></li>
+</ul></li>
+<li class="chapter" data-level="15.9" data-path="conditionals-and-recursion.html"><a href="conditionals-and-recursion.html#infinite-recursion"><i class="fa fa-check"></i><b>15.9</b> Infinite recursion</a></li>
+<li class="chapter" data-level="15.10" data-path="conditionals-and-recursion.html"><a href="conditionals-and-recursion.html#keyboard-input"><i class="fa fa-check"></i><b>15.10</b> Keyboard Input</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="lists.html"><a href="lists.html"><i class="fa fa-check"></i><b>16</b> Lists</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="lists.html"><a href="lists.html#list-sequence"><i class="fa fa-check"></i><b>16.1</b> List == Sequence</a></li>
+<li class="chapter" data-level="16.2" data-path="lists.html"><a href="lists.html#lists-are-mutable"><i class="fa fa-check"></i><b>16.2</b> Lists are Mutable</a></li>
+<li class="chapter" data-level="16.3" data-path="lists.html"><a href="lists.html#traversing-a-list"><i class="fa fa-check"></i><b>16.3</b> Traversing a list</a></li>
+<li class="chapter" data-level="16.4" data-path="lists.html"><a href="lists.html#list-operations"><i class="fa fa-check"></i><b>16.4</b> List operations</a></li>
+<li class="chapter" data-level="16.5" data-path="lists.html"><a href="lists.html#list-slices"><i class="fa fa-check"></i><b>16.5</b> List slices</a></li>
+<li class="chapter" data-level="16.6" data-path="lists.html"><a href="lists.html#list-methods"><i class="fa fa-check"></i><b>16.6</b> List methods</a></li>
+<li class="chapter" data-level="16.7" data-path="lists.html"><a href="lists.html#map-filter-reduce"><i class="fa fa-check"></i><b>16.7</b> Map, filter, reduce</a>
+<ul>
+<li class="chapter" data-level="16.7.1" data-path="lists.html"><a href="lists.html#reduce"><i class="fa fa-check"></i><b>16.7.1</b> Reduce</a></li>
+<li class="chapter" data-level="16.7.2" data-path="lists.html"><a href="lists.html#map"><i class="fa fa-check"></i><b>16.7.2</b> Map</a></li>
+<li class="chapter" data-level="16.7.3" data-path="lists.html"><a href="lists.html#filter"><i class="fa fa-check"></i><b>16.7.3</b> Filter</a></li>
+</ul></li>
+<li class="chapter" data-level="16.8" data-path="lists.html"><a href="lists.html#deleting-elements"><i class="fa fa-check"></i><b>16.8</b> Deleting Elements</a></li>
+<li class="chapter" data-level="16.9" data-path="lists.html"><a href="lists.html#lists-and-strings"><i class="fa fa-check"></i><b>16.9</b> Lists and strings</a></li>
+<li class="chapter" data-level="16.10" data-path="lists.html"><a href="lists.html#list-arguments"><i class="fa fa-check"></i><b>16.10</b> List arguments</a></li>
+<li class="chapter" data-level="16.11" data-path="lists.html"><a href="lists.html#debugging"><i class="fa fa-check"></i><b>16.11</b> Debugging</a>
+<ul>
+<li class="chapter" data-level="16.11.1" data-path="lists.html"><a href="lists.html#most-list-methods-modify-the-argument-and-return-none"><i class="fa fa-check"></i><b>16.11.1</b> Most list methods modify the argument and return <code>None</code></a></li>
+<li class="chapter" data-level="16.11.2" data-path="lists.html"><a href="lists.html#pick-an-idiom-and-stick-with-it"><i class="fa fa-check"></i><b>16.11.2</b> Pick an idiom and stick with it</a></li>
+<li class="chapter" data-level="16.11.3" data-path="lists.html"><a href="lists.html#make-copies-to-avoid-aliasing."><i class="fa fa-check"></i><b>16.11.3</b> Make copies to avoid aliasing.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="python-basics.html"><a href="python-basics.html"><i class="fa fa-check"></i><b>17</b> Python Basics</a></li>
+<li class="chapter" data-level="18" data-path="numpy.html"><a href="numpy.html"><i class="fa fa-check"></i><b>18</b> NumPy</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="numpy.html"><a href="numpy.html#using-numpy"><i class="fa fa-check"></i><b>18.1</b> Using NumPy</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="numpy-arrays.html"><a href="numpy-arrays.html"><i class="fa fa-check"></i><b>19</b> Numpy Arrays</a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="numpy-arrays.html"><a href="numpy-arrays.html#creating-numpy-arrays"><i class="fa fa-check"></i><b>19.1</b> Creating NumPy Arrays</a>
+<ul>
+<li class="chapter" data-level="19.1.1" data-path="numpy-arrays.html"><a href="numpy-arrays.html#from-a-python-list"><i class="fa fa-check"></i><b>19.1.1</b> From a Python List</a></li>
+</ul></li>
+<li class="chapter" data-level="19.2" data-path="numpy-arrays.html"><a href="numpy-arrays.html#built-in-methods"><i class="fa fa-check"></i><b>19.2</b> Built-in Methods</a>
+<ul>
+<li class="chapter" data-level="19.2.1" data-path="numpy-arrays.html"><a href="numpy-arrays.html#arange"><i class="fa fa-check"></i><b>19.2.1</b> arange</a></li>
+<li class="chapter" data-level="19.2.2" data-path="numpy-arrays.html"><a href="numpy-arrays.html#zeros-and-ones"><i class="fa fa-check"></i><b>19.2.2</b> zeros and ones</a></li>
+<li class="chapter" data-level="19.2.3" data-path="numpy-arrays.html"><a href="numpy-arrays.html#linspace"><i class="fa fa-check"></i><b>19.2.3</b> linspace</a></li>
+</ul></li>
+<li class="chapter" data-level="19.3" data-path="numpy-arrays.html"><a href="numpy-arrays.html#eye"><i class="fa fa-check"></i><b>19.3</b> eye</a></li>
+<li class="chapter" data-level="19.4" data-path="numpy-arrays.html"><a href="numpy-arrays.html#random"><i class="fa fa-check"></i><b>19.4</b> Random</a>
+<ul>
+<li class="chapter" data-level="19.4.1" data-path="numpy-arrays.html"><a href="numpy-arrays.html#rand"><i class="fa fa-check"></i><b>19.4.1</b> rand</a></li>
+<li class="chapter" data-level="19.4.2" data-path="numpy-arrays.html"><a href="numpy-arrays.html#randn"><i class="fa fa-check"></i><b>19.4.2</b> randn</a></li>
+<li class="chapter" data-level="19.4.3" data-path="numpy-arrays.html"><a href="numpy-arrays.html#randint"><i class="fa fa-check"></i><b>19.4.3</b> randint</a></li>
+</ul></li>
+<li class="chapter" data-level="19.5" data-path="numpy-arrays.html"><a href="numpy-arrays.html#array-attributes-and-methods"><i class="fa fa-check"></i><b>19.5</b> Array Attributes and Methods</a></li>
+<li class="chapter" data-level="19.6" data-path="numpy-arrays.html"><a href="numpy-arrays.html#reshape"><i class="fa fa-check"></i><b>19.6</b> Reshape</a>
+<ul>
+<li class="chapter" data-level="19.6.1" data-path="numpy-arrays.html"><a href="numpy-arrays.html#maxminargmaxargmin"><i class="fa fa-check"></i><b>19.6.1</b> max,min,argmax,argmin</a></li>
+</ul></li>
+<li class="chapter" data-level="19.7" data-path="numpy-arrays.html"><a href="numpy-arrays.html#shape"><i class="fa fa-check"></i><b>19.7</b> Shape</a>
+<ul>
+<li class="chapter" data-level="19.7.1" data-path="numpy-arrays.html"><a href="numpy-arrays.html#dtype"><i class="fa fa-check"></i><b>19.7.1</b> dtype</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="numpy-indexing-and-selection.html"><a href="numpy-indexing-and-selection.html"><i class="fa fa-check"></i><b>20</b> NumPy Indexing and Selection</a>
+<ul>
+<li class="chapter" data-level="20.1" data-path="numpy-indexing-and-selection.html"><a href="numpy-indexing-and-selection.html#bracket-indexing-and-selection"><i class="fa fa-check"></i><b>20.1</b> Bracket Indexing and Selection</a></li>
+<li class="chapter" data-level="20.2" data-path="numpy-indexing-and-selection.html"><a href="numpy-indexing-and-selection.html#broadcasting"><i class="fa fa-check"></i><b>20.2</b> Broadcasting</a></li>
+<li class="chapter" data-level="20.3" data-path="numpy-indexing-and-selection.html"><a href="numpy-indexing-and-selection.html#broadcasting-1"><i class="fa fa-check"></i><b>20.3</b> Broadcasting</a></li>
+<li class="chapter" data-level="20.4" data-path="numpy-indexing-and-selection.html"><a href="numpy-indexing-and-selection.html#broadcasting-dangers"><i class="fa fa-check"></i><b>20.4</b> Broadcasting (DANGERS)</a></li>
+<li class="chapter" data-level="20.5" data-path="numpy-indexing-and-selection.html"><a href="numpy-indexing-and-selection.html#copying"><i class="fa fa-check"></i><b>20.5</b> Copying</a></li>
+<li class="chapter" data-level="20.6" data-path="numpy-indexing-and-selection.html"><a href="numpy-indexing-and-selection.html#indexing-a-2d-array-matrices"><i class="fa fa-check"></i><b>20.6</b> Indexing a 2D array (matrices)</a></li>
+<li class="chapter" data-level="20.7" data-path="numpy-indexing-and-selection.html"><a href="numpy-indexing-and-selection.html#indexing-a-2d-array-matrices-1"><i class="fa fa-check"></i><b>20.7</b> Indexing a 2D array (matrices)</a></li>
+<li class="chapter" data-level="20.8" data-path="numpy-indexing-and-selection.html"><a href="numpy-indexing-and-selection.html#indexing-a-2d-array-matrices-2"><i class="fa fa-check"></i><b>20.8</b> Indexing a 2D array (matrices)</a>
+<ul>
+<li class="chapter" data-level="20.8.1" data-path="numpy-indexing-and-selection.html"><a href="numpy-indexing-and-selection.html#fancy-indexing"><i class="fa fa-check"></i><b>20.8.1</b> Fancy Indexing</a></li>
+<li class="chapter" data-level="20.8.2" data-path="numpy-indexing-and-selection.html"><a href="numpy-indexing-and-selection.html#fancy-indexing-1"><i class="fa fa-check"></i><b>20.8.2</b> Fancy Indexing</a></li>
+</ul></li>
+<li class="chapter" data-level="20.9" data-path="numpy-indexing-and-selection.html"><a href="numpy-indexing-and-selection.html#more-indexing-help"><i class="fa fa-check"></i><b>20.9</b> More Indexing Help</a></li>
+<li class="chapter" data-level="20.10" data-path="numpy-indexing-and-selection.html"><a href="numpy-indexing-and-selection.html#selection"><i class="fa fa-check"></i><b>20.10</b> Selection</a></li>
+<li class="chapter" data-level="20.11" data-path="numpy-indexing-and-selection.html"><a href="numpy-indexing-and-selection.html#selection-1"><i class="fa fa-check"></i><b>20.11</b> Selection</a></li>
+<li class="chapter" data-level="20.12" data-path="numpy-indexing-and-selection.html"><a href="numpy-indexing-and-selection.html#selection-2"><i class="fa fa-check"></i><b>20.12</b> Selection</a></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="numpy-operations.html"><a href="numpy-operations.html"><i class="fa fa-check"></i><b>21</b> NumPy Operations</a>
+<ul>
+<li class="chapter" data-level="21.1" data-path="numpy-operations.html"><a href="numpy-operations.html#arithmetic"><i class="fa fa-check"></i><b>21.1</b> Arithmetic</a></li>
+<li class="chapter" data-level="21.2" data-path="numpy-operations.html"><a href="numpy-operations.html#arithmetic-1"><i class="fa fa-check"></i><b>21.2</b> Arithmetic</a></li>
+<li class="chapter" data-level="21.3" data-path="numpy-operations.html"><a href="numpy-operations.html#arithmetic-2"><i class="fa fa-check"></i><b>21.3</b> Arithmetic</a></li>
+<li class="chapter" data-level="21.4" data-path="numpy-operations.html"><a href="numpy-operations.html#arithmetic-3"><i class="fa fa-check"></i><b>21.4</b> Arithmetic</a></li>
+<li class="chapter" data-level="21.5" data-path="numpy-operations.html"><a href="numpy-operations.html#arithmetic-4"><i class="fa fa-check"></i><b>21.5</b> Arithmetic</a></li>
+<li class="chapter" data-level="21.6" data-path="numpy-operations.html"><a href="numpy-operations.html#universal-array-functions"><i class="fa fa-check"></i><b>21.6</b> Universal Array Functions</a></li>
+<li class="chapter" data-level="21.7" data-path="numpy-operations.html"><a href="numpy-operations.html#universal-array-functions-1"><i class="fa fa-check"></i><b>21.7</b> Universal Array Functions</a></li>
+<li class="chapter" data-level="21.8" data-path="numpy-operations.html"><a href="numpy-operations.html#universal-array-functions-2"><i class="fa fa-check"></i><b>21.8</b> Universal Array Functions</a></li>
+<li class="chapter" data-level="21.9" data-path="numpy-operations.html"><a href="numpy-operations.html#great-job"><i class="fa fa-check"></i><b>21.9</b> Great Job!</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>22</b> Introduction</a></li>
+<li class="chapter" data-level="23" data-path="dataframes.html"><a href="dataframes.html"><i class="fa fa-check"></i><b>23</b> DataFrames</a>
+<ul>
+<li class="chapter" data-level="23.1" data-path="dataframes.html"><a href="dataframes.html#introduction-1"><i class="fa fa-check"></i><b>23.1</b> Introduction</a></li>
+<li class="chapter" data-level="23.2" data-path="dataframes.html"><a href="dataframes.html#creating-a-dataframe-using-list"><i class="fa fa-check"></i><b>23.2</b> Creating a dataframe using List:</a></li>
+<li class="chapter" data-level="23.3" data-path="dataframes.html"><a href="dataframes.html#creating-dataframe-from-dict-of-ndarraylists"><i class="fa fa-check"></i><b>23.3</b> Creating DataFrame from dict of ndarray/lists:</a></li>
+<li class="chapter" data-level="23.4" data-path="dataframes.html"><a href="dataframes.html#dealing-with-rows-and-columns"><i class="fa fa-check"></i><b>23.4</b> Dealing with Rows and Columns</a>
+<ul>
+<li class="chapter" data-level="23.4.1" data-path="dataframes.html"><a href="dataframes.html#column-selection"><i class="fa fa-check"></i><b>23.4.1</b> Column Selection:</a></li>
+</ul></li>
+<li class="chapter" data-level="23.5" data-path="dataframes.html"><a href="dataframes.html#select-multiple-columns"><i class="fa fa-check"></i><b>23.5</b> Select Multiple Columns</a></li>
+<li class="chapter" data-level="23.6" data-path="dataframes.html"><a href="dataframes.html#row-selection"><i class="fa fa-check"></i><b>23.6</b> Row Selection:</a></li>
+<li class="chapter" data-level="23.7" data-path="dataframes.html"><a href="dataframes.html#indexing-and-selecting-data"><i class="fa fa-check"></i><b>23.7</b> Indexing and Selecting Data</a>
+<ul>
+<li class="chapter" data-level="23.7.1" data-path="dataframes.html"><a href="dataframes.html#indexing-a-dataframe-using-indexing-operator"><i class="fa fa-check"></i><b>23.7.1</b> Indexing a Dataframe using indexing operator [] :</a></li>
+<li class="chapter" data-level="23.7.2" data-path="dataframes.html"><a href="dataframes.html#indexing-a-dataframe-using-.loc"><i class="fa fa-check"></i><b>23.7.2</b> Indexing a DataFrame using .loc[ ] :</a></li>
+<li class="chapter" data-level="23.7.3" data-path="dataframes.html"><a href="dataframes.html#indexing-a-dataframe-using-.iloc"><i class="fa fa-check"></i><b>23.7.3</b> Indexing a DataFrame using .iloc[ ] :</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="24" data-path="introduction-to-pandas.html"><a href="introduction-to-pandas.html"><i class="fa fa-check"></i><b>24</b> Introduction to Pandas</a>
+<ul>
+<li class="chapter" data-level="24.1" data-path="introduction-to-pandas.html"><a href="introduction-to-pandas.html#overview-of-pandas-capabilities"><i class="fa fa-check"></i><b>24.1</b> Overview of Pandas Capabilities</a></li>
+</ul></li>
+<li class="chapter" data-level="25" data-path="pandas.html"><a href="pandas.html"><i class="fa fa-check"></i><b>25</b> Pandas</a></li>
+<li class="chapter" data-level="26" data-path="object-creation.html"><a href="object-creation.html"><i class="fa fa-check"></i><b>26</b> Object Creation</a>
+<ul>
+<li class="chapter" data-level="26.1" data-path="object-creation.html"><a href="object-creation.html#series"><i class="fa fa-check"></i><b>26.1</b> Series</a></li>
+<li class="chapter" data-level="26.2" data-path="object-creation.html"><a href="object-creation.html#series-creation"><i class="fa fa-check"></i><b>26.2</b> Series Creation</a></li>
+<li class="chapter" data-level="26.3" data-path="object-creation.html"><a href="object-creation.html#series-1"><i class="fa fa-check"></i><b>26.3</b> Series</a></li>
+<li class="chapter" data-level="26.4" data-path="object-creation.html"><a href="object-creation.html#series-examples"><i class="fa fa-check"></i><b>26.4</b> Series Examples</a></li>
+<li class="chapter" data-level="26.5" data-path="object-creation.html"><a href="object-creation.html#series-examples-1"><i class="fa fa-check"></i><b>26.5</b> Series Examples</a></li>
+<li class="chapter" data-level="26.6" data-path="object-creation.html"><a href="object-creation.html#series-example"><i class="fa fa-check"></i><b>26.6</b> Series Example</a></li>
+<li class="chapter" data-level="26.7" data-path="object-creation.html"><a href="object-creation.html#series-2"><i class="fa fa-check"></i><b>26.7</b> Series</a></li>
+</ul></li>
+<li class="chapter" data-level="27" data-path="dataframe-creation.html"><a href="dataframe-creation.html"><i class="fa fa-check"></i><b>27</b> DataFrame Creation</a></li>
+<li class="chapter" data-level="28" data-path="viewing-data.html"><a href="viewing-data.html"><i class="fa fa-check"></i><b>28</b> Viewing Data</a></li>
+<li class="chapter" data-level="29" data-path="selection-3.html"><a href="selection-3.html"><i class="fa fa-check"></i><b>29</b> Selection</a></li>
+<li class="chapter" data-level="30" data-path="data-import.html"><a href="data-import.html"><i class="fa fa-check"></i><b>30</b> Data Import</a>
+<ul>
+<li class="chapter" data-level="30.1" data-path="data-import.html"><a href="data-import.html#introduction-2"><i class="fa fa-check"></i><b>30.1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="30.1.1" data-path="data-import.html"><a href="data-import.html#prerequisites"><i class="fa fa-check"></i><b>30.1.1</b> Prerequisites</a></li>
+</ul></li>
+<li class="chapter" data-level="30.2" data-path="data-import.html"><a href="data-import.html#getting-started"><i class="fa fa-check"></i><b>30.2</b> Getting started</a>
+<ul>
+<li class="chapter" data-level="30.2.1" data-path="data-import.html"><a href="data-import.html#exercises"><i class="fa fa-check"></i><b>30.2.1</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="30.3" data-path="data-import.html"><a href="data-import.html#parsing-a-list"><i class="fa fa-check"></i><b>30.3</b> Parsing a list</a></li>
+<li class="chapter" data-level="30.4" data-path="data-import.html"><a href="data-import.html#numbers"><i class="fa fa-check"></i><b>30.4</b> Numbers</a></li>
+<li class="chapter" data-level="30.5" data-path="data-import.html"><a href="data-import.html#strings-1"><i class="fa fa-check"></i><b>30.5</b> Strings</a></li>
+<li class="chapter" data-level="30.6" data-path="data-import.html"><a href="data-import.html#categoricals-in-pandas"><i class="fa fa-check"></i><b>30.6</b> Categoricals in Pandas</a></li>
+<li class="chapter" data-level="30.7" data-path="data-import.html"><a href="data-import.html#dates-date-times-and-times"><i class="fa fa-check"></i><b>30.7</b> Dates, date-times, and times</a>
+<ul>
+<li class="chapter" data-level="30.7.1" data-path="data-import.html"><a href="data-import.html#exercises-1"><i class="fa fa-check"></i><b>30.7.1</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="30.8" data-path="data-import.html"><a href="data-import.html#parsing-a-file"><i class="fa fa-check"></i><b>30.8</b> Parsing a file</a>
+<ul>
+<li class="chapter" data-level="30.8.1" data-path="data-import.html"><a href="data-import.html#strategy"><i class="fa fa-check"></i><b>30.8.1</b> Strategy</a></li>
+<li class="chapter" data-level="30.8.2" data-path="data-import.html"><a href="data-import.html#problems"><i class="fa fa-check"></i><b>30.8.2</b> Problems</a></li>
+<li class="chapter" data-level="30.8.3" data-path="data-import.html"><a href="data-import.html#other-strategies"><i class="fa fa-check"></i><b>30.8.3</b> Other Strategies</a></li>
+</ul></li>
+<li class="chapter" data-level="30.9" data-path="data-import.html"><a href="data-import.html#writing-to-a-file"><i class="fa fa-check"></i><b>30.9</b> Writing to a file</a></li>
+<li class="chapter" data-level="30.10" data-path="data-import.html"><a href="data-import.html#other-types-of-data"><i class="fa fa-check"></i><b>30.10</b> Other types of data</a></li>
+<li class="chapter" data-level="30.11" data-path="data-import.html"><a href="data-import.html#selection-by-label"><i class="fa fa-check"></i><b>30.11</b> Selection by label</a></li>
+<li class="chapter" data-level="30.12" data-path="data-import.html"><a href="data-import.html#selection-by-position"><i class="fa fa-check"></i><b>30.12</b> Selection by position</a></li>
+</ul></li>
+<li class="chapter" data-level="31" data-path="boolean-indexing.html"><a href="boolean-indexing.html"><i class="fa fa-check"></i><b>31</b> Boolean indexing</a></li>
+<li class="chapter" data-level="32" data-path="setting.html"><a href="setting.html"><i class="fa fa-check"></i><b>32</b> Setting</a></li>
+<li class="chapter" data-level="33" data-path="missing-data.html"><a href="missing-data.html"><i class="fa fa-check"></i><b>33</b> Missing Data</a>
+<ul>
+<li class="chapter" data-level="33.1" data-path="missing-data.html"><a href="missing-data.html#dealing-with-missing-data"><i class="fa fa-check"></i><b>33.1</b> Dealing with Missing Data</a></li>
+<li class="chapter" data-level="33.2" data-path="missing-data.html"><a href="missing-data.html#creating-missing-data"><i class="fa fa-check"></i><b>33.2</b> Creating Missing Data</a></li>
+<li class="chapter" data-level="33.3" data-path="missing-data.html"><a href="missing-data.html#drop-missing-data"><i class="fa fa-check"></i><b>33.3</b> Drop Missing Data</a></li>
+<li class="chapter" data-level="33.4" data-path="missing-data.html"><a href="missing-data.html#keep-rows-at-threshold"><i class="fa fa-check"></i><b>33.4</b> Keep rows at Threshold</a></li>
+<li class="chapter" data-level="33.5" data-path="missing-data.html"><a href="missing-data.html#fill-missing-values"><i class="fa fa-check"></i><b>33.5</b> Fill Missing Values</a></li>
+</ul></li>
+<li class="chapter" data-level="34" data-path="done.html"><a href="done.html"><i class="fa fa-check"></i><b>34</b> DONE!</a></li>
+<li class="chapter" data-level="35" data-path="tidy-data.html"><a href="tidy-data.html"><i class="fa fa-check"></i><b>35</b> Tidy Data</a>
+<ul>
+<li class="chapter" data-level="35.1" data-path="tidy-data.html"><a href="tidy-data.html#introduction-3"><i class="fa fa-check"></i><b>35.1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="35.1.1" data-path="tidy-data.html"><a href="tidy-data.html#prerequisties"><i class="fa fa-check"></i><b>35.1.1</b> Prerequisties</a></li>
+<li class="chapter" data-level="35.1.2" data-path="tidy-data.html"><a href="tidy-data.html#exercises-2"><i class="fa fa-check"></i><b>35.1.2</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="35.2" data-path="tidy-data.html"><a href="tidy-data.html#spreading-and-gathering"><i class="fa fa-check"></i><b>35.2</b> Spreading and gathering</a>
+<ul>
+<li class="chapter" data-level="35.2.1" data-path="tidy-data.html"><a href="tidy-data.html#melt-gathering"><i class="fa fa-check"></i><b>35.2.1</b> Melt (Gathering)</a></li>
+</ul></li>
+<li class="chapter" data-level="35.3" data-path="tidy-data.html"><a href="tidy-data.html#pivot-spreading"><i class="fa fa-check"></i><b>35.3</b> Pivot (Spreading)</a>
+<ul>
+<li class="chapter" data-level="35.3.1" data-path="tidy-data.html"><a href="tidy-data.html#exercises-3"><i class="fa fa-check"></i><b>35.3.1</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="35.4" data-path="tidy-data.html"><a href="tidy-data.html#separating-and-uniting"><i class="fa fa-check"></i><b>35.4</b> Separating and uniting</a></li>
+<li class="chapter" data-level="35.5" data-path="tidy-data.html"><a href="tidy-data.html#separate"><i class="fa fa-check"></i><b>35.5</b> Separate</a>
+<ul>
+<li class="chapter" data-level="35.5.1" data-path="tidy-data.html"><a href="tidy-data.html#unite"><i class="fa fa-check"></i><b>35.5.1</b> Unite</a></li>
+<li class="chapter" data-level="35.5.2" data-path="tidy-data.html"><a href="tidy-data.html#exercises-4"><i class="fa fa-check"></i><b>35.5.2</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="35.6" data-path="tidy-data.html"><a href="tidy-data.html#missing-values"><i class="fa fa-check"></i><b>35.6</b> Missing Values</a>
+<ul>
+<li class="chapter" data-level="35.6.1" data-path="tidy-data.html"><a href="tidy-data.html#exercise-2"><i class="fa fa-check"></i><b>35.6.1</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="35.7" data-path="tidy-data.html"><a href="tidy-data.html#case-study"><i class="fa fa-check"></i><b>35.7</b> Case Study</a>
+<ul>
+<li class="chapter" data-level="35.7.1" data-path="tidy-data.html"><a href="tidy-data.html#exercises-5"><i class="fa fa-check"></i><b>35.7.1</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="35.8" data-path="tidy-data.html"><a href="tidy-data.html#non-tidy-data"><i class="fa fa-check"></i><b>35.8</b> Non-tidy data</a></li>
+</ul></li>
+<li class="chapter" data-level="36" data-path="operations.html"><a href="operations.html"><i class="fa fa-check"></i><b>36</b> Operations</a>
+<ul>
+<li class="chapter" data-level="36.1" data-path="operations.html"><a href="operations.html#stats"><i class="fa fa-check"></i><b>36.1</b> Stats</a></li>
+</ul></li>
+<li class="chapter" data-level="37" data-path="apply.html"><a href="apply.html"><i class="fa fa-check"></i><b>37</b> Apply</a></li>
+<li class="chapter" data-level="38" data-path="histogramming.html"><a href="histogramming.html"><i class="fa fa-check"></i><b>38</b> Histogramming</a></li>
+<li class="chapter" data-level="39" data-path="string-methods-1.html"><a href="string-methods-1.html"><i class="fa fa-check"></i><b>39</b> String Methods</a></li>
+<li class="chapter" data-level="40" data-path="merge.html"><a href="merge.html"><i class="fa fa-check"></i><b>40</b> Merge</a>
+<ul>
+<li class="chapter" data-level="40.1" data-path="merge.html"><a href="merge.html#concat"><i class="fa fa-check"></i><b>40.1</b> Concat</a></li>
+</ul></li>
+<li class="chapter" data-level="41" data-path="join.html"><a href="join.html"><i class="fa fa-check"></i><b>41</b> Join</a></li>
+<li class="chapter" data-level="42" data-path="append.html"><a href="append.html"><i class="fa fa-check"></i><b>42</b> Append</a></li>
+<li class="chapter" data-level="43" data-path="merging-joining-and-concatenating.html"><a href="merging-joining-and-concatenating.html"><i class="fa fa-check"></i><b>43</b> Merging, Joining, and Concatenating</a>
+<ul>
+<li class="chapter" data-level="43.1" data-path="merging-joining-and-concatenating.html"><a href="merging-joining-and-concatenating.html#create-dataframe-examples-using-list-comprehension"><i class="fa fa-check"></i><b>43.1</b> Create DataFrame Examples Using List Comprehension</a></li>
+<li class="chapter" data-level="43.2" data-path="merging-joining-and-concatenating.html"><a href="merging-joining-and-concatenating.html#concatenation"><i class="fa fa-check"></i><b>43.2</b> Concatenation</a></li>
+<li class="chapter" data-level="43.3" data-path="merging-joining-and-concatenating.html"><a href="merging-joining-and-concatenating.html#example-dataframes-with-keys"><i class="fa fa-check"></i><b>43.3</b> Example DataFrames with Keys</a></li>
+<li class="chapter" data-level="43.4" data-path="merging-joining-and-concatenating.html"><a href="merging-joining-and-concatenating.html#merging"><i class="fa fa-check"></i><b>43.4</b> Merging</a></li>
+<li class="chapter" data-level="43.5" data-path="merging-joining-and-concatenating.html"><a href="merging-joining-and-concatenating.html#joining"><i class="fa fa-check"></i><b>43.5</b> Joining</a></li>
+</ul></li>
+<li class="chapter" data-level="44" data-path="done-1.html"><a href="done-1.html"><i class="fa fa-check"></i><b>44</b> DONE</a></li>
+<li class="chapter" data-level="45" data-path="grouping.html"><a href="grouping.html"><i class="fa fa-check"></i><b>45</b> Grouping</a></li>
+<li class="chapter" data-level="46" data-path="groupby.html"><a href="groupby.html"><i class="fa fa-check"></i><b>46</b> Groupby</a>
+<ul>
+<li class="chapter" data-level="46.1" data-path="groupby.html"><a href="groupby.html#groupby-1"><i class="fa fa-check"></i><b>46.1</b> groupby()</a></li>
+<li class="chapter" data-level="46.2" data-path="groupby.html"><a href="groupby.html#groupby-and-aggregation-methods"><i class="fa fa-check"></i><b>46.2</b> Groupby and Aggregation Methods</a></li>
+<li class="chapter" data-level="46.3" data-path="groupby.html"><a href="groupby.html#groupby-describe-method"><i class="fa fa-check"></i><b>46.3</b> Groupby + describe method</a></li>
+<li class="chapter" data-level="46.4" data-path="groupby.html"><a href="groupby.html#groupby-describe-method-1"><i class="fa fa-check"></i><b>46.4</b> Groupby + describe method</a></li>
+<li class="chapter" data-level="46.5" data-path="groupby.html"><a href="groupby.html#groupby-describe-method-multiple-numeric-values"><i class="fa fa-check"></i><b>46.5</b> Groupby + describe method (multiple numeric values)</a></li>
+</ul></li>
+<li class="chapter" data-level="47" data-path="done-2.html"><a href="done-2.html"><i class="fa fa-check"></i><b>47</b> DONE</a></li>
+<li class="chapter" data-level="48" data-path="reshaping.html"><a href="reshaping.html"><i class="fa fa-check"></i><b>48</b> Reshaping</a>
+<ul>
+<li class="chapter" data-level="48.1" data-path="reshaping.html"><a href="reshaping.html#stack"><i class="fa fa-check"></i><b>48.1</b> Stack</a></li>
+<li class="chapter" data-level="48.2" data-path="reshaping.html"><a href="reshaping.html#removing-columns"><i class="fa fa-check"></i><b>48.2</b> Removing Columns</a></li>
+<li class="chapter" data-level="48.3" data-path="reshaping.html"><a href="reshaping.html#removedrop-data-for-real"><i class="fa fa-check"></i><b>48.3</b> Remove/Drop data (For real)</a></li>
+<li class="chapter" data-level="48.4" data-path="reshaping.html"><a href="reshaping.html#dropping-rows"><i class="fa fa-check"></i><b>48.4</b> Dropping rows</a></li>
+<li class="chapter" data-level="48.5" data-path="reshaping.html"><a href="reshaping.html#why-0-for-row-1-for-column"><i class="fa fa-check"></i><b>48.5</b> Why 0 for row; 1 for column</a></li>
+</ul></li>
+<li class="chapter" data-level="49" data-path="pivot-tables.html"><a href="pivot-tables.html"><i class="fa fa-check"></i><b>49</b> Pivot tables</a></li>
+<li class="chapter" data-level="50" data-path="time-series.html"><a href="time-series.html"><i class="fa fa-check"></i><b>50</b> Time Series</a></li>
+<li class="chapter" data-level="51" data-path="categoricals.html"><a href="categoricals.html"><i class="fa fa-check"></i><b>51</b> Categoricals</a></li>
+<li class="chapter" data-level="52" data-path="plotting.html"><a href="plotting.html"><i class="fa fa-check"></i><b>52</b> Plotting</a></li>
+<li class="chapter" data-level="53" data-path="getting-data-inout.html"><a href="getting-data-inout.html"><i class="fa fa-check"></i><b>53</b> Getting data in/out</a>
+<ul>
+<li class="chapter" data-level="53.1" data-path="getting-data-inout.html"><a href="getting-data-inout.html#csv"><i class="fa fa-check"></i><b>53.1</b> CSV</a></li>
+<li class="chapter" data-level="53.2" data-path="getting-data-inout.html"><a href="getting-data-inout.html#hdf5"><i class="fa fa-check"></i><b>53.2</b> HDF5</a></li>
+<li class="chapter" data-level="53.3" data-path="getting-data-inout.html"><a href="getting-data-inout.html#excel"><i class="fa fa-check"></i><b>53.3</b> Excel</a></li>
+</ul></li>
+<li class="chapter" data-level="54" data-path="data-input-and-output.html"><a href="data-input-and-output.html"><i class="fa fa-check"></i><b>54</b> Data Input and Output</a>
+<ul>
+<li class="chapter" data-level="54.1" data-path="data-input-and-output.html"><a href="data-input-and-output.html#csv-1"><i class="fa fa-check"></i><b>54.1</b> CSV</a>
+<ul>
+<li class="chapter" data-level="54.1.1" data-path="data-input-and-output.html"><a href="data-input-and-output.html#csv-input"><i class="fa fa-check"></i><b>54.1.1</b> CSV Input</a></li>
+<li class="chapter" data-level="54.1.2" data-path="data-input-and-output.html"><a href="data-input-and-output.html#csv-output"><i class="fa fa-check"></i><b>54.1.2</b> CSV Output</a></li>
+</ul></li>
+<li class="chapter" data-level="54.2" data-path="data-input-and-output.html"><a href="data-input-and-output.html#excel-1"><i class="fa fa-check"></i><b>54.2</b> Excel</a>
+<ul>
+<li class="chapter" data-level="54.2.1" data-path="data-input-and-output.html"><a href="data-input-and-output.html#excel-output"><i class="fa fa-check"></i><b>54.2.1</b> Excel Output</a></li>
+<li class="chapter" data-level="54.2.2" data-path="data-input-and-output.html"><a href="data-input-and-output.html#html-input"><i class="fa fa-check"></i><b>54.2.2</b> HTML Input</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="55" data-path="operations-1.html"><a href="operations-1.html"><i class="fa fa-check"></i><b>55</b> Operations</a>
+<ul>
+<li class="chapter" data-level="55.1" data-path="operations-1.html"><a href="operations-1.html#unique"><i class="fa fa-check"></i><b>55.1</b> Unique</a></li>
+<li class="chapter" data-level="55.2" data-path="operations-1.html"><a href="operations-1.html#select-data"><i class="fa fa-check"></i><b>55.2</b> Select Data</a></li>
+<li class="chapter" data-level="55.3" data-path="operations-1.html"><a href="operations-1.html#applying-functions"><i class="fa fa-check"></i><b>55.3</b> Applying Functions</a></li>
+<li class="chapter" data-level="55.4" data-path="operations-1.html"><a href="operations-1.html#columns"><i class="fa fa-check"></i><b>55.4</b> Columns</a></li>
+<li class="chapter" data-level="55.5" data-path="operations-1.html"><a href="operations-1.html#sort-and-order-dataframes"><i class="fa fa-check"></i><b>55.5</b> Sort and Order DataFrames</a></li>
+<li class="chapter" data-level="55.6" data-path="operations-1.html"><a href="operations-1.html#null-values"><i class="fa fa-check"></i><b>55.6</b> Null Values</a></li>
+</ul></li>
+<li class="chapter" data-level="56" data-path="sql.html"><a href="sql.html"><i class="fa fa-check"></i><b>56</b> SQL</a></li>
+<li class="chapter" data-level="57" data-path="pandas-basics.html"><a href="pandas-basics.html"><i class="fa fa-check"></i><b>57</b> Pandas Basics</a></li>
+<li class="chapter" data-level="58" data-path="why-learn-sql.html"><a href="why-learn-sql.html"><i class="fa fa-check"></i><b>58</b> Why Learn SQL?</a>
+<ul>
+<li class="chapter" data-level="58.1" data-path="why-learn-sql.html"><a href="why-learn-sql.html#what-is-sql-and-why-is-it-marketable"><i class="fa fa-check"></i><b>58.1</b> What Is SQL and Why Is It Marketable?</a></li>
+</ul></li>
+<li class="chapter" data-level="59" data-path="databases.html"><a href="databases.html"><i class="fa fa-check"></i><b>59</b> Databases</a>
+<ul>
+<li class="chapter" data-level="59.1" data-path="databases.html"><a href="databases.html#what-is-a-database"><i class="fa fa-check"></i><b>59.1</b> What Is a Database?</a></li>
+</ul></li>
+<li class="chapter" data-level="60" data-path="exploring-relational-databases.html"><a href="exploring-relational-databases.html"><i class="fa fa-check"></i><b>60</b> Exploring Relational Databases</a></li>
+<li class="chapter" data-level="61" data-path="why-separate-tables.html"><a href="why-separate-tables.html"><i class="fa fa-check"></i><b>61</b> Why Separate Tables?</a></li>
+<li class="chapter" data-level="62" data-path="sqlite.html"><a href="sqlite.html"><i class="fa fa-check"></i><b>62</b> SQLite</a>
+<ul>
+<li class="chapter" data-level="62.1" data-path="sqlite.html"><a href="sqlite.html#what-is-sqlite"><i class="fa fa-check"></i><b>62.1</b> What is SQLite?</a></li>
+</ul></li>
+<li class="chapter" data-level="63" data-path="using-sql-in-r-markdown.html"><a href="using-sql-in-r-markdown.html"><i class="fa fa-check"></i><b>63</b> Using SQL in R Markdown</a></li>
+<li class="chapter" data-level="64" data-path="select.html"><a href="select.html"><i class="fa fa-check"></i><b>64</b> SELECT</a>
+<ul>
+<li class="chapter" data-level="64.1" data-path="select.html"><a href="select.html#retrieving-data-with-sql"><i class="fa fa-check"></i><b>64.1</b> Retrieving Data with SQL</a></li>
+<li class="chapter" data-level="64.2" data-path="select.html"><a href="select.html#expression-in-select-statements"><i class="fa fa-check"></i><b>64.2</b> Expression in SELECT Statements</a></li>
+<li class="chapter" data-level="64.3" data-path="select.html"><a href="select.html#text-concatenation"><i class="fa fa-check"></i><b>64.3</b> Text Concatenation</a></li>
+<li class="chapter" data-level="64.4" data-path="select.html"><a href="select.html#summary"><i class="fa fa-check"></i><b>64.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="65" data-path="where.html"><a href="where.html"><i class="fa fa-check"></i><b>65</b> WHERE</a>
+<ul>
+<li class="chapter" data-level="65.1" data-path="where.html"><a href="where.html#filtering-records"><i class="fa fa-check"></i><b>65.1</b> Filtering Records</a></li>
+<li class="chapter" data-level="65.2" data-path="where.html"><a href="where.html#and-or-and-in-statements"><i class="fa fa-check"></i><b>65.2</b> AND, OR, and IN Statements</a></li>
+<li class="chapter" data-level="65.3" data-path="where.html"><a href="where.html#using-where-on-text"><i class="fa fa-check"></i><b>65.3</b> Using Where on Text</a></li>
+<li class="chapter" data-level="65.4" data-path="where.html"><a href="where.html#where-on-booleans"><i class="fa fa-check"></i><b>65.4</b> WHERE on Booleans</a></li>
+<li class="chapter" data-level="65.5" data-path="where.html"><a href="where.html#handling-null"><i class="fa fa-check"></i><b>65.5</b> Handling NULL</a></li>
+<li class="chapter" data-level="65.6" data-path="where.html"><a href="where.html#grouping-conditions"><i class="fa fa-check"></i><b>65.6</b> Grouping Conditions</a>
+<ul>
+<li class="chapter" data-level="65.6.1" data-path="where.html"><a href="where.html#preamble"><i class="fa fa-check"></i><b>65.6.1</b> PREAMBLE</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="66" data-path="group-by-and-order-by.html"><a href="group-by-and-order-by.html"><i class="fa fa-check"></i><b>66</b> GROUP BY and ORDER BY</a>
+<ul>
+<li class="chapter" data-level="66.1" data-path="group-by-and-order-by.html"><a href="group-by-and-order-by.html#grouping-records"><i class="fa fa-check"></i><b>66.1</b> Grouping Records</a></li>
+<li class="chapter" data-level="66.2" data-path="group-by-and-order-by.html"><a href="group-by-and-order-by.html#ordering-records"><i class="fa fa-check"></i><b>66.2</b> Ordering Records</a></li>
+<li class="chapter" data-level="66.3" data-path="group-by-and-order-by.html"><a href="group-by-and-order-by.html#aggregate-functions"><i class="fa fa-check"></i><b>66.3</b> Aggregate Functions</a></li>
+<li class="chapter" data-level="66.4" data-path="group-by-and-order-by.html"><a href="group-by-and-order-by.html#having"><i class="fa fa-check"></i><b>66.4</b> HAVING</a></li>
+<li class="chapter" data-level="66.5" data-path="group-by-and-order-by.html"><a href="group-by-and-order-by.html#getting-distinct-records"><i class="fa fa-check"></i><b>66.5</b> Getting Distinct Records</a></li>
+</ul></li>
+<li class="chapter" data-level="67" data-path="case-statements.html"><a href="case-statements.html"><i class="fa fa-check"></i><b>67</b> CASE Statements</a>
+<ul>
+<li class="chapter" data-level="67.1" data-path="case-statements.html"><a href="case-statements.html#grouping-case-statements"><i class="fa fa-check"></i><b>67.1</b> Grouping CASE Statements</a></li>
+<li class="chapter" data-level="67.2" data-path="case-statements.html"><a href="case-statements.html#the-zeronull-case-trick"><i class="fa fa-check"></i><b>67.2</b> The “Zero/Null” CASE Trick</a>
+<ul>
+<li class="chapter" data-level="67.2.1" data-path="case-statements.html"><a href="case-statements.html#preamble-1"><i class="fa fa-check"></i><b>67.2.1</b> PREAMBLE</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="68" data-path="join-1.html"><a href="join-1.html"><i class="fa fa-check"></i><b>68</b> JOIN</a>
+<ul>
+<li class="chapter" data-level="68.1" data-path="join-1.html"><a href="join-1.html#stitching-tables-together"><i class="fa fa-check"></i><b>68.1</b> Stitching Tables Together</a></li>
+<li class="chapter" data-level="68.2" data-path="join-1.html"><a href="join-1.html#inner-join"><i class="fa fa-check"></i><b>68.2</b> INNER JOIN</a></li>
+<li class="chapter" data-level="68.3" data-path="join-1.html"><a href="join-1.html#left-join"><i class="fa fa-check"></i><b>68.3</b> LEFT JOIN</a></li>
+<li class="chapter" data-level="68.4" data-path="join-1.html"><a href="join-1.html#joining-mutliple-tables"><i class="fa fa-check"></i><b>68.4</b> Joining Mutliple Tables</a></li>
+<li class="chapter" data-level="68.5" data-path="join-1.html"><a href="join-1.html#grouping-joins"><i class="fa fa-check"></i><b>68.5</b> Grouping JOINs</a></li>
+</ul></li>
+<li class="chapter" data-level="69" data-path="sql-basics.html"><a href="sql-basics.html"><i class="fa fa-check"></i><b>69</b> SQL Basics</a>
+<ul>
+<li class="chapter" data-level="69.1" data-path="sql-basics.html"><a href="sql-basics.html#lectures"><i class="fa fa-check"></i><b>69.1</b> Lectures</a></li>
+<li class="chapter" data-level="69.2" data-path="sql-basics.html"><a href="sql-basics.html#preamble-2"><i class="fa fa-check"></i><b>69.2</b> Preamble</a></li>
+</ul></li>
+<li class="chapter" data-level="70" data-path="midterm-practice.html"><a href="midterm-practice.html"><i class="fa fa-check"></i><b>70</b> Midterm Practice</a>
+<ul>
+<li class="chapter" data-level="70.1" data-path="midterm-practice.html"><a href="midterm-practice.html#question-1"><i class="fa fa-check"></i><b>70.1</b> Question 1:</a></li>
+<li class="chapter" data-level="70.2" data-path="midterm-practice.html"><a href="midterm-practice.html#question-2"><i class="fa fa-check"></i><b>70.2</b> Question 2:</a></li>
+<li class="chapter" data-level="70.3" data-path="midterm-practice.html"><a href="midterm-practice.html#question-prep"><i class="fa fa-check"></i><b>70.3</b> Question Prep</a></li>
+<li class="chapter" data-level="70.4" data-path="midterm-practice.html"><a href="midterm-practice.html#question-3"><i class="fa fa-check"></i><b>70.4</b> Question 3:</a></li>
+<li class="chapter" data-level="70.5" data-path="midterm-practice.html"><a href="midterm-practice.html#question-4"><i class="fa fa-check"></i><b>70.5</b> Question 4:</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Management</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="reshaping" class="section level1" number="48">
+<h1><span class="header-section-number">Section 48</span> Reshaping</h1>
+<div id="stack" class="section level2" number="48.1">
+<h2><span class="header-section-number">48.1</span> Stack</h2>
+<div class="sourceCode" id="cb851"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb851-1"><a href="reshaping.html#cb851-1" aria-hidden="true" tabindex="-1"></a>tuples <span class="op">=</span> <span class="bu">list</span>(<span class="bu">zip</span>(<span class="op">*</span>[[<span class="st">&#39;bar&#39;</span>, <span class="st">&#39;bar&#39;</span>, <span class="st">&#39;baz&#39;</span>, <span class="st">&#39;baz&#39;</span>, </span>
+<span id="cb851-2"><a href="reshaping.html#cb851-2" aria-hidden="true" tabindex="-1"></a>                     <span class="st">&#39;foo&#39;</span>, <span class="st">&#39;foo&#39;</span>, <span class="st">&#39;qux&#39;</span>, <span class="st">&#39;qux&#39;</span>],</span>
+<span id="cb851-3"><a href="reshaping.html#cb851-3" aria-hidden="true" tabindex="-1"></a>                    [<span class="st">&#39;one&#39;</span>, <span class="st">&#39;two&#39;</span>, <span class="st">&#39;one&#39;</span>, <span class="st">&#39;two&#39;</span>,</span>
+<span id="cb851-4"><a href="reshaping.html#cb851-4" aria-hidden="true" tabindex="-1"></a>                     <span class="st">&#39;one&#39;</span>, <span class="st">&#39;two&#39;</span>, <span class="st">&#39;one&#39;</span>, <span class="st">&#39;two&#39;</span>]])) </span></code></pre></div>
+<div class="sourceCode" id="cb852"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb852-1"><a href="reshaping.html#cb852-1" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> pd.MultiIndex.from_tuples(tuples, names<span class="op">=</span>[<span class="st">&#39;first&#39;</span>, <span class="st">&#39;second&#39;</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb853"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb853-1"><a href="reshaping.html#cb853-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(np.random.randn(<span class="dv">8</span>, <span class="dv">2</span>), index<span class="op">=</span>index, columns<span class="op">=</span>[<span class="st">&#39;A&#39;</span>, <span class="st">&#39;B&#39;</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb854"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb854-1"><a href="reshaping.html#cb854-1" aria-hidden="true" tabindex="-1"></a>df2 <span class="op">=</span> df[:<span class="dv">4</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb855"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb855-1"><a href="reshaping.html#cb855-1" aria-hidden="true" tabindex="-1"></a>df2</span></code></pre></div>
+<p>The <code>stack()</code> method “compresses” a level in the DataFrame’s columns.</p>
+<div class="sourceCode" id="cb856"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb856-1"><a href="reshaping.html#cb856-1" aria-hidden="true" tabindex="-1"></a>stacked <span class="op">=</span> df2.stack()</span></code></pre></div>
+<div class="sourceCode" id="cb857"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb857-1"><a href="reshaping.html#cb857-1" aria-hidden="true" tabindex="-1"></a>stacked</span></code></pre></div>
+<p>With a “stacked” DataFrame or Series (having a MultiIndex as the index), the inverse operation of stack() is unstack(), which by default unstacks the last level:</p>
+<div class="sourceCode" id="cb858"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb858-1"><a href="reshaping.html#cb858-1" aria-hidden="true" tabindex="-1"></a>stacked.unstack()</span></code></pre></div>
+<div class="sourceCode" id="cb859"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb859-1"><a href="reshaping.html#cb859-1" aria-hidden="true" tabindex="-1"></a>stacked.unstack(<span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb860"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb860-1"><a href="reshaping.html#cb860-1" aria-hidden="true" tabindex="-1"></a>stacked.unstack(<span class="dv">0</span>)</span>
+<span id="cb860-2"><a href="reshaping.html#cb860-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb860-3"><a href="reshaping.html#cb860-3" aria-hidden="true" tabindex="-1"></a><span class="co">## Creating New Columns</span></span></code></pre></div>
+<div class="sourceCode" id="cb861"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb861-1"><a href="reshaping.html#cb861-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">&#39;new&#39;</span>] <span class="op">=</span> df[<span class="st">&#39;A&#39;</span>] <span class="op">+</span> df[<span class="st">&#39;B&#39;</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb862"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb862-1"><a href="reshaping.html#cb862-1" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
+</div>
+<div id="removing-columns" class="section level2" number="48.2">
+<h2><span class="header-section-number">48.2</span> Removing Columns</h2>
+<div class="sourceCode" id="cb863"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb863-1"><a href="reshaping.html#cb863-1" aria-hidden="true" tabindex="-1"></a>df.drop(<span class="st">&#39;new&#39;</span>, axis<span class="op">=</span><span class="st">&#39;columns&#39;</span>) <span class="co"># could also use axis = 1</span></span></code></pre></div>
+<div class="sourceCode" id="cb864"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb864-1"><a href="reshaping.html#cb864-1" aria-hidden="true" tabindex="-1"></a>df <span class="co"># new is still there!!</span></span></code></pre></div>
+</div>
+<div id="removedrop-data-for-real" class="section level2" number="48.3">
+<h2><span class="header-section-number">48.3</span> Remove/Drop data (For real)</h2>
+<p>Use <code>inplace</code> to remove <strong>PERMENANTLY</strong></p>
+<div class="sourceCode" id="cb865"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb865-1"><a href="reshaping.html#cb865-1" aria-hidden="true" tabindex="-1"></a>df.drop(<span class="st">&#39;new&#39;</span>, axis<span class="op">=</span><span class="st">&#39;columns&#39;</span>, inplace<span class="op">=</span><span class="va">True</span>) </span></code></pre></div>
+</div>
+<div id="dropping-rows" class="section level2" number="48.4">
+<h2><span class="header-section-number">48.4</span> Dropping rows</h2>
+<p>Default drop is row (or use axis = 0)</p>
+<div class="sourceCode" id="cb866"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb866-1"><a href="reshaping.html#cb866-1" aria-hidden="true" tabindex="-1"></a>df.drop(<span class="st">&#39;second&#39;</span>, axis<span class="op">=</span><span class="st">&#39;rows&#39;</span>) </span></code></pre></div>
+</div>
+<div id="why-0-for-row-1-for-column" class="section level2" number="48.5">
+<h2><span class="header-section-number">48.5</span> Why 0 for row; 1 for column</h2>
+<div class="sourceCode" id="cb867"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb867-1"><a href="reshaping.html#cb867-1" aria-hidden="true" tabindex="-1"></a>df.shape <span class="co"># location 0 for row; 1 for column</span></span></code></pre></div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="done-2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="pivot-tables.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["data_management.pdf", "data_management.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

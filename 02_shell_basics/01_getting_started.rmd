@@ -1,0 +1,63 @@
+# Getting Started with the Command Line
+
+## Executing a Command-line Tool
+
+Now that you have a basic understanding of the environment, it is high time that you try out some commands. Type the following in your terminal (without the dollar sign) and press Enter:
+
+```{bash}
+pwd
+```
+
+This is as simple as it gets. You just executed a command that contained a single command-line tool. The command-line tool `pwd` prints the name of the directory where you currently are. By default, when you login, this is your home directory. You can view the contents of this directory with `ls`:
+
+```{bash}
+ls
+```
+
+**TODO: `mkdir` & `touch` & `echo` & `cat`**
+
+The command-line tool `cd`, which is a Bash builtin, allows you to navigate to a different directory:
+
+$ cd book/ch02/
+$ cd data
+$ pwd
+/home/vagrant/book/ch02/data
+$ cd ..
+$ pwd
+/home/vagrant/book/ch02/
+
+The part after `cd` specifies to which directory you want to navigate to. Values that come after the command are called command-line arguments or options. The two dots refer to the parent directory. Let’s try a different command:
+
+$ head -n 3 data/movies.txt
+Matrix
+Star Wars
+Home Alone
+Here we pass three command-line arguments to head (MacKenzie and Meyering 2012). The first one is an option. The second one is a value that belongs to the option. The third one is a filename. This particular command outputs the first three lines of file book/ch02/data/movies.txt.
+
+## Working with Files
+
+As data scientists, we work with a lot of data. This data is often stored in files. It is important to know how to work with files (and the directories they live in) on the command line. Every action that you can do using a graphical user interface, you can do with command-line tools (and much more). In this section I introduce the most important ones to create, move, copy, rename, and delete files and directories.
+
+You have already seen how we can create new files by redirecting the output with either > or >>. In case you need to move a file to a different directory you can use mv (Parker, MacKenzie, and Meyering 2012):
+
+$ mv hello.txt ~/book/ch02/data/
+You can also rename files with mv:
+
+$ cd data
+$ mv hello.txt bye.txt
+You can also rename or move entire directories. In case you no longer need a file, you delete (or remove) it with rm (Rubin et al. 2012):
+
+$ rm bye.txt
+In case you want to remove an entire directory with all its contents, specify the -r option, which stands for recursive:
+
+$ rm -r book/ch02/data/old
+In case you want to copy a file, use cp (Granlund, MacKenzie, and Meyering 2012). This is useful for creating backups:
+
+$ cp server.log server.log.bak
+You can create directories using mkdir (MacKenzie 2012):
+
+$ cd data
+$ mkdir logs
+Using the command-line tools to manage your files can be scary at first, because you have no graphical overview of the file system to provide immediate feedback.
+
+All of the above command-line tools accept the -v option, which stands for verbose, so that they output what’s going on. All but mkdir accept the -i option, which stands for interactive, and causes the tools to ask you for confirmation.

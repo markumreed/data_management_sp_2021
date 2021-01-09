@@ -3,4 +3,4 @@ delete_merged_file: true
 language:
   ui:
     chapter_name: "Section "
-rmd_subdir: ['sql_notes']
+rmd_subdir: ['00_python_basics','01_pandas_basics','02_shell_basics','03_sql_basics']
