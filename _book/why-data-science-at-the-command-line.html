@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Section 21 Operations | Data Management</title>
+  <title>Section 44 Why Data Science at the Command Line? | Data Management</title>
   <meta name="description" content="You’ll learn how to get data, get it into the most useful structure, transform it, visualize it and model it. In this course, you will find a practicum of skills for data science. You’ll learn how to clean data and draw plots—and many other things besides. These are the skills that allow data science to happen, and here you will find the best practices for doing each of these things. You’ll learn how to use the grammar of graphics, literate programming, and reproducible research to save time. You’ll also learn how to manage cognitive resources to facilitate discoveries when wrangling, visualizing and exploring data. This is a three-credit hour course." />
   <meta name="generator" content="bookdown 0.21.6 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Section 21 Operations | Data Management" />
+  <meta property="og:title" content="Section 44 Why Data Science at the Command Line? | Data Management" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Section 21 Operations | Data Management" />
+  <meta name="twitter:title" content="Section 44 Why Data Science at the Command Line? | Data Management" />
   
   <meta name="twitter:description" content="You’ll learn how to get data, get it into the most useful structure, transform it, visualize it and model it. In this course, you will find a practicum of skills for data science. You’ll learn how to clean data and draw plots—and many other things besides. These are the skills that allow data science to happen, and here you will find the best practices for doing each of these things. You’ll learn how to use the grammar of graphics, literate programming, and reproducible research to save time. You’ll also learn how to manage cognitive resources to facilitate discoveries when wrangling, visualizing and exploring data. This is a three-credit hour course." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="tidy-data.html"/>
-<link rel="next" href="apply.html"/>
+<link rel="prev" href="introduction-to-the-shell.html"/>
+<link rel="next" href="scrubbing-data.html"/>
 <script src="libs/header-attrs-2.6.4/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -645,156 +645,25 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="operations" class="section level1" number="21">
-<h1><span class="header-section-number">Section 21</span> Operations</h1>
-<div id="stats" class="section level2" number="21.1">
-<h2><span class="header-section-number">21.1</span> Stats</h2>
-<p>Operations in general <em>exclude</em> missing data.</p>
-<p>Performing a descriptive statistic:</p>
-<div class="sourceCode" id="cb761"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb761-1"><a href="operations.html#cb761-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb761-2"><a href="operations.html#cb761-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb761-3"><a href="operations.html#cb761-3" aria-hidden="true" tabindex="-1"></a>dates <span class="op">=</span> pd.date_range(<span class="st">&#39;20190101&#39;</span>,periods<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb761-4"><a href="operations.html#cb761-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(np.random.randn(<span class="dv">10</span>,<span class="dv">4</span>), </span>
-<span id="cb761-5"><a href="operations.html#cb761-5" aria-hidden="true" tabindex="-1"></a>                  index<span class="op">=</span>dates, </span>
-<span id="cb761-6"><a href="operations.html#cb761-6" aria-hidden="true" tabindex="-1"></a>                  columns<span class="op">=</span><span class="bu">list</span>(<span class="st">&#39;ABCD&#39;</span>))</span>
-<span id="cb761-7"><a href="operations.html#cb761-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb761-8"><a href="operations.html#cb761-8" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.reindex(index<span class="op">=</span>dates[<span class="dv">0</span>:<span class="dv">4</span>], columns<span class="op">=</span><span class="bu">list</span>(df.columns) <span class="op">+</span> [<span class="st">&#39;E&#39;</span>])</span>
-<span id="cb761-9"><a href="operations.html#cb761-9" aria-hidden="true" tabindex="-1"></a>df.loc[dates[<span class="dv">0</span>]:dates[<span class="dv">1</span>], <span class="st">&#39;E&#39;</span>] <span class="op">=</span> <span class="dv">1</span></span></code></pre></div>
-<div class="sourceCode" id="cb762"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb762-1"><a href="operations.html#cb762-1" aria-hidden="true" tabindex="-1"></a>df.head()</span></code></pre></div>
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>
-</th>
-<th>
-A
-</th>
-<th>
-B
-</th>
-<th>
-C
-</th>
-<th>
-D
-</th>
-<th>
-E
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>
-2019-01-01
-</th>
-<td>
--0.914745
-</td>
-<td>
--1.169413
-</td>
-<td>
-0.445567
-</td>
-<td>
--1.612202
-</td>
-<td>
-1.0
-</td>
-</tr>
-<tr>
-<th>
-2019-01-02
-</th>
-<td>
-1.382350
-</td>
-<td>
-1.083761
-</td>
-<td>
--1.132513
-</td>
-<td>
--0.282442
-</td>
-<td>
-1.0
-</td>
-</tr>
-<tr>
-<th>
-2019-01-03
-</th>
-<td>
--1.022387
-</td>
-<td>
-2.451375
-</td>
-<td>
-1.505668
-</td>
-<td>
-0.344774
-</td>
-<td>
-NaN
-</td>
-</tr>
-<tr>
-<th>
-2019-01-04
-</th>
-<td>
-0.907028
-</td>
-<td>
--0.532535
-</td>
-<td>
--0.730059
-</td>
-<td>
--0.608755
-</td>
-<td>
-NaN
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sourceCode" id="cb763"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb763-1"><a href="operations.html#cb763-1" aria-hidden="true" tabindex="-1"></a>df.mean()</span></code></pre></div>
-<pre><code>A    0.088062
-B    0.458297
-C    0.022166
-D   -0.539656
-E    1.000000
-dtype: float64</code></pre>
-<p>Same operation on the other axis:</p>
-<div class="sourceCode" id="cb765"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb765-1"><a href="operations.html#cb765-1" aria-hidden="true" tabindex="-1"></a>df.mean(axis<span class="op">=</span><span class="dv">1</span>)</span></code></pre></div>
-<pre><code>2019-01-01   -0.450158
-2019-01-02    0.410231
-2019-01-03    0.819858
-2019-01-04   -0.241081
-Freq: D, dtype: float64</code></pre>
+<div id="why-data-science-at-the-command-line" class="section level1" number="44">
+<h1><span class="header-section-number">Section 44</span> Why Data Science at the Command Line?</h1>
+<p>The command line has many great advantages that can really make you a more efficient and productive data scientist. Roughly grouping the advantages, the command line is: agile, augmenting, scalable, extensible, and ubiquitous.</p>
+<p>Define data science according to the following five steps:
+1. obtaining data,
+1. scrubbing data,
+1. exploring data,
+1. modeling data,
+1. interpreting data.</p>
+<p>Together, these steps form the OSEMN model (which is pronounced as awesome).</p>
+<div id="obtaining-data-1" class="section level2" number="44.1">
+<h2><span class="header-section-number">44.1</span> Obtaining Data</h2>
+<p>Without any data, there is little data science you can do. So the first step is the obtain data. Unless you are fortunate enough to already possess data, you may need to do one or more of the following:</p>
+<ul>
+<li>Download data from another location (e.g., a webpage or server)</li>
+<li>Query data from a database or API (e.g., MySQL or Twitter)</li>
+<li>Extract data from another file (e.g., an HTML file or spreadsheet)</li>
+<li>Generate data yourself (e.g., reading sensors or taking surveys)</li>
+</ul>
 </div>
 </div>
             </section>
@@ -802,8 +671,8 @@ Freq: D, dtype: float64</code></pre>
           </div>
         </div>
       </div>
-<a href="tidy-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="apply.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="introduction-to-the-shell.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="scrubbing-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

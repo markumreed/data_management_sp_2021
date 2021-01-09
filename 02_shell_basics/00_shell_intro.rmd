@@ -9,7 +9,14 @@ In this section you’ll learn:
 
 The command line has many great advantages that can really make you a more efficient and productive data scientist. Roughly grouping the advantages, the command line is: agile, augmenting, scalable, extensible, and ubiquitous.
 
-Define data science according to the following five steps: (1) obtaining data, (2) scrubbing data, (3) exploring data, (4) modeling data, and (5) interpreting data. Together, these steps form the OSEMN model (which is pronounced as awesome). 
+Define data science according to the following five steps: 
+1. obtaining data, 
+1. scrubbing data, 
+1. exploring data, 
+1. modeling data, 
+1. interpreting data. 
+
+Together, these steps form the OSEMN model (which is pronounced as awesome). 
 
 ## Obtaining Data
 
@@ -31,7 +38,7 @@ It is not uncommon that the obtained data has missing values, inconsistencies, e
 - Handling missing values
 - Converting data from one format to another
 
-# Exploring Data
+## Exploring Data
 
 Once you have scrubbed your data, you are ready to explore it. This is where it gets interesting because here you will get really into your data. You'll see how the command line can be used to:
 
@@ -39,11 +46,11 @@ Once you have scrubbed your data, you are ready to explore it. This is where it 
 - Derive statistics from your data
 - Create interesting visualizations
 
-# Modeling Data
+## Modeling Data
 
 If you want to explain the data or predict what will happen, you probably want to create a statistical model of your data. Techniques to create a model include clustering, classification, regression, and dimensionality reduction. The command line is not suitable for implementing a new model from scratch. It is, however, very useful to be able to build a model from the command line. 
 
-#  Interpreting Data
+##  Interpreting Data
 
 The final and perhaps most important step in the OSEMN model is interpreting data. This step involves:
 

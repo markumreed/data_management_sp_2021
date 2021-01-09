@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Section 21 Operations | Data Management</title>
+  <title>Section 47 Obtaining Data | Data Management</title>
   <meta name="description" content="You’ll learn how to get data, get it into the most useful structure, transform it, visualize it and model it. In this course, you will find a practicum of skills for data science. You’ll learn how to clean data and draw plots—and many other things besides. These are the skills that allow data science to happen, and here you will find the best practices for doing each of these things. You’ll learn how to use the grammar of graphics, literate programming, and reproducible research to save time. You’ll also learn how to manage cognitive resources to facilitate discoveries when wrangling, visualizing and exploring data. This is a three-credit hour course." />
   <meta name="generator" content="bookdown 0.21.6 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Section 21 Operations | Data Management" />
+  <meta property="og:title" content="Section 47 Obtaining Data | Data Management" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Section 21 Operations | Data Management" />
+  <meta name="twitter:title" content="Section 47 Obtaining Data | Data Management" />
   
   <meta name="twitter:description" content="You’ll learn how to get data, get it into the most useful structure, transform it, visualize it and model it. In this course, you will find a practicum of skills for data science. You’ll learn how to clean data and draw plots—and many other things besides. These are the skills that allow data science to happen, and here you will find the best practices for doing each of these things. You’ll learn how to use the grammar of graphics, literate programming, and reproducible research to save time. You’ll also learn how to manage cognitive resources to facilitate discoveries when wrangling, visualizing and exploring data. This is a three-credit hour course." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="tidy-data.html"/>
-<link rel="next" href="apply.html"/>
+<link rel="prev" href="getting-started-with-the-command-line.html"/>
+<link rel="next" href="reusable-command-line-tools.html"/>
 <script src="libs/header-attrs-2.6.4/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -645,156 +645,46 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="operations" class="section level1" number="21">
-<h1><span class="header-section-number">Section 21</span> Operations</h1>
-<div id="stats" class="section level2" number="21.1">
-<h2><span class="header-section-number">21.1</span> Stats</h2>
-<p>Operations in general <em>exclude</em> missing data.</p>
-<p>Performing a descriptive statistic:</p>
-<div class="sourceCode" id="cb761"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb761-1"><a href="operations.html#cb761-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb761-2"><a href="operations.html#cb761-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb761-3"><a href="operations.html#cb761-3" aria-hidden="true" tabindex="-1"></a>dates <span class="op">=</span> pd.date_range(<span class="st">&#39;20190101&#39;</span>,periods<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb761-4"><a href="operations.html#cb761-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(np.random.randn(<span class="dv">10</span>,<span class="dv">4</span>), </span>
-<span id="cb761-5"><a href="operations.html#cb761-5" aria-hidden="true" tabindex="-1"></a>                  index<span class="op">=</span>dates, </span>
-<span id="cb761-6"><a href="operations.html#cb761-6" aria-hidden="true" tabindex="-1"></a>                  columns<span class="op">=</span><span class="bu">list</span>(<span class="st">&#39;ABCD&#39;</span>))</span>
-<span id="cb761-7"><a href="operations.html#cb761-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb761-8"><a href="operations.html#cb761-8" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.reindex(index<span class="op">=</span>dates[<span class="dv">0</span>:<span class="dv">4</span>], columns<span class="op">=</span><span class="bu">list</span>(df.columns) <span class="op">+</span> [<span class="st">&#39;E&#39;</span>])</span>
-<span id="cb761-9"><a href="operations.html#cb761-9" aria-hidden="true" tabindex="-1"></a>df.loc[dates[<span class="dv">0</span>]:dates[<span class="dv">1</span>], <span class="st">&#39;E&#39;</span>] <span class="op">=</span> <span class="dv">1</span></span></code></pre></div>
-<div class="sourceCode" id="cb762"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb762-1"><a href="operations.html#cb762-1" aria-hidden="true" tabindex="-1"></a>df.head()</span></code></pre></div>
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<div id="obtaining-data-2" class="section level1" number="47">
+<h1><span class="header-section-number">Section 47</span> Obtaining Data</h1>
+<p>The Internet provides without a doubt the largest resource for data. This data is available in various forms, using various protocols. The command-line tool cURL <span class="citation">(<a href="#ref-curl" role="doc-biblioref"><strong>curl?</strong></a>)</span> can be considered the command line’s Swiss Army knife when it comes to downloading data from the Internet.</p>
+<p>When you access a URL, which stands for <em>uniform resource locator</em>, through your browser, the data that is being downloaded can be interpreted. For example, an HTML file is rendered as a website, an MP3 file may be automatically played, and a PDF file may be automatically downloaded or opened by a viewer. However, when cURL is used to access a URL, the data is downloaded as is printed to standard output. Other command-line tools may then be used to process this data further.</p>
+<p>The easiest invocation of cURL is to simply specify a URL as a command-line argument. For example, to download the book <em>Adventures of Huckleberry Finn</em> by Mark Twain from Project Gutenberg, we can run the following command:</p>
+<div class="sourceCode" id="cb969"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb969-1"><a href="obtaining-data-2.html#cb969-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> http://www.gutenberg.org/files/76/76-0.txt <span class="kw">|</span> <span class="fu">head</span> <span class="at">-n</span> 10</span></code></pre></div>
+<p>By default, cURL outputs a progress meter that shows how the download rate and the expected time of completion. If you are piping the output directly to another command-line tool, such as <code>head</code>, be sure to specify the <code>-s</code> command-line argument, which stands for <em>silent</em>, so that the progress meter is disabled. Compare, for example, the output with the following command:</p>
+<div class="sourceCode" id="cb970"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb970-1"><a href="obtaining-data-2.html#cb970-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> http://www.gutenberg.org/files/76/76-0.txt <span class="kw">|</span> <span class="fu">head</span> <span class="at">-n</span> 10</span></code></pre></div>
+<p>Note that the output of the second command, where we do not disable the progress meter, contains the unwanted text and even an error message. If you save the data to a file, then you do not need to necessarily specify the <code>-s</code> option:</p>
+<div class="sourceCode" id="cb971"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb971-1"><a href="obtaining-data-2.html#cb971-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> http://www.gutenberg.org/files/76/76-0.txt <span class="op">&gt;</span> data/finn.txt</span></code></pre></div>
+<p>You can also save the data by explicitly specifying the output file with the <code>-o</code> option:</p>
+<div class="sourceCode" id="cb972"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb972-1"><a href="obtaining-data-2.html#cb972-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> http://www.gutenberg.org/files/76/76-0.txt <span class="at">-o</span> data/finn.txt</span></code></pre></div>
+<p>When downloading data from the Internet, the URL will most likely use the protocols HTTP or HTTPS. To download from an FTP server, which stands for File Transfer Protocol, you use cURL in exactly the same way. When the URL is password protected, you can specify a username and a password as follows:</p>
+<div class="sourceCode" id="cb973"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb973-1"><a href="obtaining-data-2.html#cb973-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-u</span> username:password ftp://host/file</span></code></pre></div>
+<p>If the specified URL is a directory, <code>curl</code> will list the contents of that directory.</p>
+<p>When you access a shortened URL, such as the ones that start with <em><a href="http://bit.ly/" class="uri">http://bit.ly/</a></em> or <em><a href="http://t.co/" class="uri">http://t.co/</a></em>, your browser automatically redirects you to the correct location. With <code>curl</code>, however, you need to specify the <code>-L</code> or <code>--location</code> option in order to be redirected:</p>
+<div class="sourceCode" id="cb974"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb974-1"><a href="obtaining-data-2.html#cb974-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-L</span> j.mp/locatbbar</span></code></pre></div>
+<p>If you do not specify the <code>-L</code> or <code>--location</code> option, you may get something like:</p>
+<div class="sourceCode" id="cb975"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb975-1"><a href="obtaining-data-2.html#cb975-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> j.mp/locatbbar</span></code></pre></div>
+<p>By specifying the <code>-I</code> or <code>--head</code> option, <code>curl</code> fetches only the HTTP header of the response:</p>
+<div class="sourceCode" id="cb976"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb976-1"><a href="obtaining-data-2.html#cb976-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-I</span> j.mp/locatbbar</span></code></pre></div>
+<p>The first line indicates the HTTP status code, which is 301 (moved permanently) in this case. You can also see the location this URL redirects to: <a href="http://en.wikipedia.org/wiki/List_of_countries_and_territories_by_border/area_ratio" class="uri">http://en.wikipedia.org/wiki/List_of_countries_and_territories_by_border/area_ratio</a>. Inspecting the header and getting the status code is a useful debugging tool in case <code>curl</code> does not give you the expected result. Other common HTTP status codes include 404 (not found) and 403 (forbidden). This page lists all HTTP status codes: <a href="http://en.wikipedia.org/wiki/List_of_HTTP_status_codes" class="uri">http://en.wikipedia.org/wiki/List_of_HTTP_status_codes</a>.</p>
+<p>To conclude this section, cURL is a straight-forward command-line tool for downloading data from the Internet. Its three most common command-line arguments are <code>-s</code> to suppress the progress meter, <code>-u</code> to specify a username and password, and <code>-L</code> to automatically follow redirects. See its man page for more information.</p>
+<div id="calling-a-web-api" class="section level2" number="47.1">
+<h2><span class="header-section-number">47.1</span> Calling a Web API</h2>
+<p>In the previous section we explained how to download individual files from the Internet. Another way data can come from the Internet is through a web API, which stands for <em>Application Programming Interface</em>. The number of APIs that are being offered by organizations is growing at increasing rate, which means a lot of interesting data for us data scientists.</p>
+<p>Web APIs are not meant to be presented in nice layout, such as websites. Instead, most web APIs return data in a structured format, such as JSON or XML. Having data in a structured form has the advantage that the data can be easily processed by other tools, such as <code>jq</code>. Which can be downloaded <a href="https://stedolan.github.io/jq/">here</a>. For example, the API from <a href="https://randomuser.me" class="uri">https://randomuser.me</a> returns data in the following JSON structure.</p>
+<div class="sourceCode" id="cb977"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb977-1"><a href="obtaining-data-2.html#cb977-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> https://randomuser.me/api/1.2/ <span class="kw">|</span> <span class="ex">jq</span> .</span></code></pre></div>
+<p>The data is piped to a command-line tool <code>jq</code> in order to display it in a nice way.</p>
+<p>Some web APIs return data in a streaming manner. This means that once you connect to it, the data will continue to pour in forever. A well-known example is the Twitter “firehose,” which constantly streams all the tweets being sent around the world. Luckily, most command-line tools that we use also operate in a streaming matter, so that we also use this kind of data.</p>
+<p>Some APIs require you to log in using the OAuth protocol. There is a handy command-line tool called <code>curlicue</code> <span class="citation">(<a href="#ref-curlicue" role="doc-biblioref"><strong>curlicue?</strong></a>)</span> that assists in performing the so-called “OAuth dance.” Once this has been set up, it <code>curlicue</code> will call <code>curl</code> with the correct headers. First, you set things up once for a particular API with <code>curlicue-setup</code>, and then you can call that API using <code>curlicue</code>. For example, to use <code>curlicue</code> with the Twitter API you would run:</p>
+<div class="sourceCode" id="cb978"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb978-1"><a href="obtaining-data-2.html#cb978-1" aria-hidden="true" tabindex="-1"></a> <span class="ex">curlicue-setup</span> <span class="dt">\</span></span>
+<span id="cb978-2"><a href="obtaining-data-2.html#cb978-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> <span class="st">&#39;https://api.twitter.com/oauth/request_token&#39;</span> <span class="dt">\</span></span>
+<span id="cb978-3"><a href="obtaining-data-2.html#cb978-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> <span class="st">&#39;https://api.twitter.com/oauth/authorize?oauth_token=oauth_token&#39;</span> <span class="dt">\</span></span>
+<span id="cb978-4"><a href="obtaining-data-2.html#cb978-4" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> <span class="st">&#39;https://api.twitter.com/oauth/access_token&#39;</span> <span class="dt">\</span></span>
+<span id="cb978-5"><a href="obtaining-data-2.html#cb978-5" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> credentials</span>
+<span id="cb978-6"><a href="obtaining-data-2.html#cb978-6" aria-hidden="true" tabindex="-1"></a> <span class="ex">curlicue</span> <span class="at">-f</span> credentials <span class="dt">\</span></span>
+<span id="cb978-7"><a href="obtaining-data-2.html#cb978-7" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> <span class="st">&#39;https://api.twitter.com/1/statuses/home_timeline.xml&#39;</span></span></code></pre></div>
+<p>For more popular APIs, there are specialized command-line tools available. These are wrappers that provide a convenient way to connect to the API.</p>
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>
-</th>
-<th>
-A
-</th>
-<th>
-B
-</th>
-<th>
-C
-</th>
-<th>
-D
-</th>
-<th>
-E
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>
-2019-01-01
-</th>
-<td>
--0.914745
-</td>
-<td>
--1.169413
-</td>
-<td>
-0.445567
-</td>
-<td>
--1.612202
-</td>
-<td>
-1.0
-</td>
-</tr>
-<tr>
-<th>
-2019-01-02
-</th>
-<td>
-1.382350
-</td>
-<td>
-1.083761
-</td>
-<td>
--1.132513
-</td>
-<td>
--0.282442
-</td>
-<td>
-1.0
-</td>
-</tr>
-<tr>
-<th>
-2019-01-03
-</th>
-<td>
--1.022387
-</td>
-<td>
-2.451375
-</td>
-<td>
-1.505668
-</td>
-<td>
-0.344774
-</td>
-<td>
-NaN
-</td>
-</tr>
-<tr>
-<th>
-2019-01-04
-</th>
-<td>
-0.907028
-</td>
-<td>
--0.532535
-</td>
-<td>
--0.730059
-</td>
-<td>
--0.608755
-</td>
-<td>
-NaN
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sourceCode" id="cb763"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb763-1"><a href="operations.html#cb763-1" aria-hidden="true" tabindex="-1"></a>df.mean()</span></code></pre></div>
-<pre><code>A    0.088062
-B    0.458297
-C    0.022166
-D   -0.539656
-E    1.000000
-dtype: float64</code></pre>
-<p>Same operation on the other axis:</p>
-<div class="sourceCode" id="cb765"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb765-1"><a href="operations.html#cb765-1" aria-hidden="true" tabindex="-1"></a>df.mean(axis<span class="op">=</span><span class="dv">1</span>)</span></code></pre></div>
-<pre><code>2019-01-01   -0.450158
-2019-01-02    0.410231
-2019-01-03    0.819858
-2019-01-04   -0.241081
-Freq: D, dtype: float64</code></pre>
 </div>
 </div>
             </section>
@@ -802,8 +692,8 @@ Freq: D, dtype: float64</code></pre>
           </div>
         </div>
       </div>
-<a href="tidy-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="apply.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="getting-started-with-the-command-line.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="reusable-command-line-tools.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
